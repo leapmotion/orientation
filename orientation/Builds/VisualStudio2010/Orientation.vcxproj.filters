@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Finger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\CurlNoiseField.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VectorField.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Stroke.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ParticleSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ParticleController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\MSAFluidSolver3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ParticleDemoApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LeapListener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\MersenneTwister.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\HandController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Hand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\I18N.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\ParticleDemoApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ParticleSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ParticleController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\MSAFluidSolver3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\MersenneTwister.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\LeapListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\HandController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Hand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Finger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DataTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\CurlNoiseField.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FieldGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Stroke.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VectorField.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\SOP.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\TextStrings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\I18N.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\resources\leap-icon.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\resources\blur_frag.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\resources\blur_vert.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\resources\finger_frag.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\resources\finger_vert.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\resources\motion_frag.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\resources\pass_thru_vert.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\resources\glow.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\glow.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\resources\how.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\how.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\resources\how2.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\how2.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\leap-icon.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\resources\leap_motion_logo.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\leap_motion_logo.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\resources\plug-in-device-embedded.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\plug-in-device-embedded.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\resources\plug-in-device.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\plug-in-device.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\resources\what.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\what.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\resources\what2.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\what2.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\resources\where.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\where.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\resources\where2.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\where2.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\assets\fluid.ogg">
+      <Filter>Resource Files\Sounds</Filter>
+    </None>
+    <None Include="..\..\assets\glow.ogg">
+      <Filter>Resource Files\Sounds</Filter>
+    </None>
+    <None Include="..\..\assets\hand.ogg">
+      <Filter>Resource Files\Sounds</Filter>
+    </None>
+    <None Include="..\..\assets\rotate.ogg">
+      <Filter>Resource Files\Sounds</Filter>
+    </None>
+    <None Include="..\..\assets\wait.ogg">
+      <Filter>Resource Files\Sounds</Filter>
+    </None>
+    <None Include="..\..\assets\bass.ogg">
+      <Filter>Resource Files\Sounds</Filter>
+    </None>
+    <None Include="..\..\assets\drawing.ogg">
+      <Filter>Resource Files\Sounds</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{5F23DFF7-93F3-4200-A02E-33D963D58E33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{27291c78-fed0-4805-bdc7-17f99a761ec0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{c5848a3f-133a-4918-8535-fc30da76ea36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{e5a6040c-df89-47fa-82ee-6bcea29439c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images">
+      <UniqueIdentifier>{940eab42-cce8-4292-b040-07ddae8c0827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Sounds">
+      <UniqueIdentifier>{de657152-3c40-4406-81be-d031756f54e5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

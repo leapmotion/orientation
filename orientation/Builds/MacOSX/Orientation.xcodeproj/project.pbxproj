@@ -1,0 +1,761 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0091D8F90E81B9330029341E /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0091D8F80E81B9330029341E /* OpenGL.framework */; };
+		00B784B30FF439BC000DE1D7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784AF0FF439BC000DE1D7 /* Accelerate.framework */; };
+		00B784B40FF439BC000DE1D7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B00FF439BC000DE1D7 /* AudioToolbox.framework */; };
+		00B784B50FF439BC000DE1D7 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B10FF439BC000DE1D7 /* AudioUnit.framework */; };
+		00B784B60FF439BC000DE1D7 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B20FF439BC000DE1D7 /* CoreAudio.framework */; };
+		014A969E177C12EA008FC4B6 /* plug-in-device.png in Resources */ = {isa = PBXBuildFile; fileRef = 014A969D177C12EA008FC4B6 /* plug-in-device.png */; };
+		014A96A0177C1452008FC4B6 /* leap-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 014A969F177C1452008FC4B6 /* leap-icon.icns */; };
+		043B5CCE178CB7420048A3E1 /* Stroke.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 043B5CCD178CB7420048A3E1 /* Stroke.cpp */; };
+		043B5CD7178CB8480048A3E1 /* drawing.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 043B5CD5178CB8480048A3E1 /* drawing.ogg */; };
+		043B5CD8178CB8480048A3E1 /* glow.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 043B5CD6178CB8480048A3E1 /* glow.ogg */; };
+		049BE848176FE56300B35B88 /* libirrklang.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C00953176FD7D600559622 /* libirrklang.dylib */; };
+		049BE85C176FEF7800B35B88 /* blur_frag.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 049BE84B176FEF7800B35B88 /* blur_frag.glsl */; };
+		049BE85D176FEF7800B35B88 /* blur_vert.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 049BE84C176FEF7800B35B88 /* blur_vert.glsl */; };
+		049BE860176FEF7800B35B88 /* finger_frag.glsl in Sources */ = {isa = PBXBuildFile; fileRef = 049BE84F176FEF7800B35B88 /* finger_frag.glsl */; };
+		049BE861176FEF7800B35B88 /* finger_vert.glsl in Sources */ = {isa = PBXBuildFile; fileRef = 049BE850176FEF7800B35B88 /* finger_vert.glsl */; };
+		049BE862176FEF7800B35B88 /* glow.png in Resources */ = {isa = PBXBuildFile; fileRef = 049BE851176FEF7800B35B88 /* glow.png */; };
+		049BE864176FEF7800B35B88 /* leap_motion_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 049BE853176FEF7800B35B88 /* leap_motion_logo.png */; };
+		049BE865176FEF7800B35B88 /* motion_frag.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 049BE854176FEF7800B35B88 /* motion_frag.glsl */; };
+		049BE868176FEF7800B35B88 /* pass_thru_vert.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 049BE857176FEF7800B35B88 /* pass_thru_vert.glsl */; };
+		049BE86D176FF4A100B35B88 /* finger_frag.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 049BE84F176FEF7800B35B88 /* finger_frag.glsl */; };
+		049BE86E176FF4A100B35B88 /* finger_vert.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 049BE850176FEF7800B35B88 /* finger_vert.glsl */; };
+		04C00956176FD7D600559622 /* libirrklang.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C00953176FD7D600559622 /* libirrklang.dylib */; };
+		04C23E2E176FBE2F00D3FCEF /* CurlNoiseField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E1C176FBE2F00D3FCEF /* CurlNoiseField.cpp */; };
+		04C23E2F176FBE2F00D3FCEF /* Finger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E1D176FBE2F00D3FCEF /* Finger.cpp */; };
+		04C23E30176FBE2F00D3FCEF /* Globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E1E176FBE2F00D3FCEF /* Globals.cpp */; };
+		04C23E31176FBE2F00D3FCEF /* Hand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E1F176FBE2F00D3FCEF /* Hand.cpp */; };
+		04C23E32176FBE2F00D3FCEF /* HandController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E20176FBE2F00D3FCEF /* HandController.cpp */; };
+		04C23E33176FBE2F00D3FCEF /* LeapListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E21176FBE2F00D3FCEF /* LeapListener.cpp */; };
+		04C23E34176FBE2F00D3FCEF /* MersenneTwister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E22176FBE2F00D3FCEF /* MersenneTwister.cpp */; };
+		04C23E35176FBE2F00D3FCEF /* MSAFluidSolver3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E23176FBE2F00D3FCEF /* MSAFluidSolver3D.cpp */; };
+		04C23E36176FBE2F00D3FCEF /* ParticleController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E24176FBE2F00D3FCEF /* ParticleController.cpp */; };
+		04C23E37176FBE2F00D3FCEF /* ParticleDemoApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E25176FBE2F00D3FCEF /* ParticleDemoApp.cpp */; };
+		04C23E38176FBE2F00D3FCEF /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E26176FBE2F00D3FCEF /* ParticleSystem.cpp */; };
+		04C23E39176FBE2F00D3FCEF /* VectorField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E27176FBE2F00D3FCEF /* VectorField.cpp */; };
+		04F41A3F177257F0003EC24D /* bass.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 04A45D1A177254F100CFB646 /* bass.ogg */; };
+		04F41A41177257F0003EC24D /* fluid.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 04A45D1C177254F100CFB646 /* fluid.ogg */; };
+		04F41A42177257F0003EC24D /* hand.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 04A45D1D177254F100CFB646 /* hand.ogg */; };
+		04F41A43177257F0003EC24D /* rotate.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 04A45D1E177254F100CFB646 /* rotate.ogg */; };
+		04F41A44177257F0003EC24D /* wait.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 04A45D1F177254F100CFB646 /* wait.ogg */; };
+		4E43A7E117C6E831003BD14D /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E43A7C617C6E831003BD14D /* .keep */; };
+		4E43A7E317C6E831003BD14D /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E43A7CC17C6E831003BD14D /* .keep */; };
+		4E43A7E517C6E831003BD14D /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E43A7D217C6E831003BD14D /* .keep */; };
+		4E43A7E717C6E831003BD14D /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E43A7D817C6E831003BD14D /* .keep */; };
+		4E43A7E917C6E831003BD14D /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E43A7DE17C6E831003BD14D /* .keep */; };
+		4E43A7F717C6E83F003BD14D /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E43A7EE17C6E83F003BD14D /* .keep */; };
+		4E43A7F917C6E83F003BD14D /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E43A7F417C6E83F003BD14D /* .keep */; };
+		4ED3AF8A17C6D88D006DE51A /* I18N.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ED3AF8917C6D88D006DE51A /* I18N.cpp */; };
+		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
+		5323E6B60EAFCA7E003A9687 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B50EAFCA7E003A9687 /* QTKit.framework */; };
+		53E3CDFC0E86099300238D2B /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E3CDFB0E86099300238D2B /* Carbon.framework */; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		CF943E9317D54049004F7D30 /* libLeap.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = CF943E9217D54049004F7D30 /* libLeap.dylib */; };
+		CFE76ACB16CC66030093D4A0 /* libcinder.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFE76ACA16CC66030093D4A0 /* libcinder.a */; };
+		E1054D091688F838009EA48C /* libLeap.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1054D081688F838009EA48C /* libLeap.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CF0B328816B8943F00F25D08 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				CF943E9317D54049004F7D30 /* libLeap.dylib in CopyFiles */,
+				049BE848176FE56300B35B88 /* libirrklang.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0091D8F80E81B9330029341E /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		00B784AF0FF439BC000DE1D7 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		00B784B00FF439BC000DE1D7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		00B784B10FF439BC000DE1D7 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		00B784B20FF439BC000DE1D7 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		014A969D177C12EA008FC4B6 /* plug-in-device.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plug-in-device.png"; sourceTree = "<group>"; };
+		014A969F177C1452008FC4B6 /* leap-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "leap-icon.icns"; sourceTree = "<group>"; };
+		043B5CCC178CB73A0048A3E1 /* Stroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stroke.h; sourceTree = "<group>"; };
+		043B5CCD178CB7420048A3E1 /* Stroke.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stroke.cpp; sourceTree = "<group>"; };
+		043B5CD5178CB8480048A3E1 /* drawing.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = drawing.ogg; sourceTree = "<group>"; };
+		043B5CD6178CB8480048A3E1 /* glow.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = glow.ogg; sourceTree = "<group>"; };
+		049BE84B176FEF7800B35B88 /* blur_frag.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = blur_frag.glsl; sourceTree = "<group>"; };
+		049BE84C176FEF7800B35B88 /* blur_vert.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = blur_vert.glsl; sourceTree = "<group>"; };
+		049BE84F176FEF7800B35B88 /* finger_frag.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = finger_frag.glsl; sourceTree = "<group>"; };
+		049BE850176FEF7800B35B88 /* finger_vert.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = finger_vert.glsl; sourceTree = "<group>"; };
+		049BE851176FEF7800B35B88 /* glow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glow.png; sourceTree = "<group>"; };
+		049BE853176FEF7800B35B88 /* leap_motion_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leap_motion_logo.png; sourceTree = "<group>"; };
+		049BE854176FEF7800B35B88 /* motion_frag.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = motion_frag.glsl; sourceTree = "<group>"; };
+		049BE857176FEF7800B35B88 /* pass_thru_vert.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pass_thru_vert.glsl; sourceTree = "<group>"; };
+		04A45D1A177254F100CFB646 /* bass.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = bass.ogg; sourceTree = "<group>"; };
+		04A45D1C177254F100CFB646 /* fluid.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = fluid.ogg; sourceTree = "<group>"; };
+		04A45D1D177254F100CFB646 /* hand.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = hand.ogg; sourceTree = "<group>"; };
+		04A45D1E177254F100CFB646 /* rotate.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = rotate.ogg; sourceTree = "<group>"; };
+		04A45D1F177254F100CFB646 /* wait.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = wait.ogg; sourceTree = "<group>"; };
+		04C00950176FC44900559622 /* Leap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Leap.h; path = ../../../../LeapSDK/include/Leap.h; sourceTree = "<group>"; };
+		04C00953176FD7D600559622 /* libirrklang.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libirrklang.dylib; path = "${LIBRARIES_PATH}/irrKlang-1.4.0/bin/macosx-gcc/libirrklang.dylib"; sourceTree = "<absolute>"; };
+		04C23E0A176FBE2F00D3FCEF /* CurlNoiseField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurlNoiseField.h; sourceTree = "<group>"; };
+		04C23E0B176FBE2F00D3FCEF /* DataTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTypes.h; sourceTree = "<group>"; };
+		04C23E0C176FBE2F00D3FCEF /* FieldGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldGenerator.h; sourceTree = "<group>"; };
+		04C23E0D176FBE2F00D3FCEF /* Finger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Finger.h; sourceTree = "<group>"; };
+		04C23E0E176FBE2F00D3FCEF /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Globals.h; path = /Users/tombuilder/clients/orientation/include/Globals.h; sourceTree = "<absolute>"; };
+		04C23E0F176FBE2F00D3FCEF /* Hand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hand.h; sourceTree = "<group>"; };
+		04C23E10176FBE2F00D3FCEF /* HandController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HandController.h; sourceTree = "<group>"; };
+		04C23E11176FBE2F00D3FCEF /* LeapListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeapListener.h; sourceTree = "<group>"; };
+		04C23E12176FBE2F00D3FCEF /* MersenneTwister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MersenneTwister.h; sourceTree = "<group>"; };
+		04C23E13176FBE2F00D3FCEF /* MSAFluidSolver3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAFluidSolver3D.h; sourceTree = "<group>"; };
+		04C23E14176FBE2F00D3FCEF /* ParticleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleController.h; sourceTree = "<group>"; };
+		04C23E15176FBE2F00D3FCEF /* ParticleDemoApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleDemoApp.h; sourceTree = "<group>"; };
+		04C23E16176FBE2F00D3FCEF /* ParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleSystem.h; sourceTree = "<group>"; };
+		04C23E18176FBE2F00D3FCEF /* Resources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Resources.h; sourceTree = "<group>"; };
+		04C23E19176FBE2F00D3FCEF /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		04C23E1A176FBE2F00D3FCEF /* VectorField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VectorField.h; sourceTree = "<group>"; };
+		04C23E1C176FBE2F00D3FCEF /* CurlNoiseField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CurlNoiseField.cpp; sourceTree = "<group>"; };
+		04C23E1D176FBE2F00D3FCEF /* Finger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Finger.cpp; sourceTree = "<group>"; };
+		04C23E1E176FBE2F00D3FCEF /* Globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Globals.cpp; sourceTree = "<group>"; };
+		04C23E1F176FBE2F00D3FCEF /* Hand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hand.cpp; sourceTree = "<group>"; };
+		04C23E20176FBE2F00D3FCEF /* HandController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HandController.cpp; sourceTree = "<group>"; };
+		04C23E21176FBE2F00D3FCEF /* LeapListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LeapListener.cpp; sourceTree = "<group>"; };
+		04C23E22176FBE2F00D3FCEF /* MersenneTwister.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MersenneTwister.cpp; sourceTree = "<group>"; };
+		04C23E23176FBE2F00D3FCEF /* MSAFluidSolver3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MSAFluidSolver3D.cpp; sourceTree = "<group>"; };
+		04C23E24176FBE2F00D3FCEF /* ParticleController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleController.cpp; sourceTree = "<group>"; };
+		04C23E25176FBE2F00D3FCEF /* ParticleDemoApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleDemoApp.cpp; sourceTree = "<group>"; };
+		04C23E26176FBE2F00D3FCEF /* ParticleSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleSystem.cpp; sourceTree = "<group>"; };
+		04C23E27176FBE2F00D3FCEF /* VectorField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VectorField.cpp; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		4E43A7C717C6E831003BD14D /* de */ = {isa = PBXFileReference; lastKnownFileType = text; name = de; path = .keep; sourceTree = "<group>"; };
+		4E43A7CD17C6E831003BD14D /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = .keep; sourceTree = "<group>"; };
+		4E43A7D317C6E831003BD14D /* es */ = {isa = PBXFileReference; lastKnownFileType = text; name = es; path = .keep; sourceTree = "<group>"; };
+		4E43A7D917C6E831003BD14D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text; name = fr; path = .keep; sourceTree = "<group>"; };
+		4E43A7DF17C6E831003BD14D /* ja */ = {isa = PBXFileReference; lastKnownFileType = text; name = ja; path = .keep; sourceTree = "<group>"; };
+		4E43A7EF17C6E83F003BD14D /* pt */ = {isa = PBXFileReference; lastKnownFileType = text; name = pt; path = .keep; sourceTree = "<group>"; };
+		4E43A7F517C6E83F003BD14D /* zh */ = {isa = PBXFileReference; lastKnownFileType = text; name = zh; path = .keep; sourceTree = "<group>"; };
+		4ED3AF8817C6D87E006DE51A /* I18N.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = I18N.h; sourceTree = "<group>"; };
+		4ED3AF8917C6D88D006DE51A /* I18N.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = I18N.cpp; sourceTree = "<group>"; };
+		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
+		5323E6B50EAFCA7E003A9687 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
+		53E3CDFB0E86099300238D2B /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		8D1107320486CEB800E47090 /* Orientation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Orientation.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF943E9217D54049004F7D30 /* libLeap.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeap.dylib; path = ../../../LeapSDK/lib/libLeap.dylib; sourceTree = "<group>"; };
+		CFE76ACA16CC66030093D4A0 /* libcinder.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcinder.a; path = "${CINDER_PATH}/cinder_0.8.4/lib/libcinder.a"; sourceTree = "<absolute>"; };
+		E1054D081688F838009EA48C /* libLeap.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeap.dylib; path = ../../../../LeapSDK/lib/libLeap.dylib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				0091D8F90E81B9330029341E /* OpenGL.framework in Frameworks */,
+				53E3CDFC0E86099300238D2B /* Carbon.framework in Frameworks */,
+				5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */,
+				5323E6B60EAFCA7E003A9687 /* QTKit.framework in Frameworks */,
+				00B784B30FF439BC000DE1D7 /* Accelerate.framework in Frameworks */,
+				00B784B40FF439BC000DE1D7 /* AudioToolbox.framework in Frameworks */,
+				00B784B50FF439BC000DE1D7 /* AudioUnit.framework in Frameworks */,
+				00B784B60FF439BC000DE1D7 /* CoreAudio.framework in Frameworks */,
+				E1054D091688F838009EA48C /* libLeap.dylib in Frameworks */,
+				CFE76ACB16CC66030093D4A0 /* libcinder.a in Frameworks */,
+				04C00956176FD7D600559622 /* libirrklang.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		049BE84A176FEF7800B35B88 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				4E43A7ED17C6E83F003BD14D /* pt.lproj */,
+				4E43A7F317C6E83F003BD14D /* zh.lproj */,
+				4E43A7C517C6E831003BD14D /* de.lproj */,
+				4E43A7CB17C6E831003BD14D /* en.lproj */,
+				4E43A7D117C6E831003BD14D /* es.lproj */,
+				4E43A7D717C6E831003BD14D /* fr.lproj */,
+				4E43A7DD17C6E831003BD14D /* ja.lproj */,
+				014A969F177C1452008FC4B6 /* leap-icon.icns */,
+				014A969D177C12EA008FC4B6 /* plug-in-device.png */,
+				049BE84B176FEF7800B35B88 /* blur_frag.glsl */,
+				049BE84C176FEF7800B35B88 /* blur_vert.glsl */,
+				049BE84F176FEF7800B35B88 /* finger_frag.glsl */,
+				049BE850176FEF7800B35B88 /* finger_vert.glsl */,
+				049BE851176FEF7800B35B88 /* glow.png */,
+				049BE853176FEF7800B35B88 /* leap_motion_logo.png */,
+				049BE854176FEF7800B35B88 /* motion_frag.glsl */,
+				049BE857176FEF7800B35B88 /* pass_thru_vert.glsl */,
+			);
+			name = resources;
+			path = ../../resources;
+			sourceTree = "<group>";
+		};
+		04A45D19177254F100CFB646 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				043B5CD5178CB8480048A3E1 /* drawing.ogg */,
+				043B5CD6178CB8480048A3E1 /* glow.ogg */,
+				04A45D1A177254F100CFB646 /* bass.ogg */,
+				04A45D1C177254F100CFB646 /* fluid.ogg */,
+				04A45D1D177254F100CFB646 /* hand.ogg */,
+				04A45D1E177254F100CFB646 /* rotate.ogg */,
+				04A45D1F177254F100CFB646 /* wait.ogg */,
+			);
+			name = assets;
+			path = ../../assets;
+			sourceTree = "<group>";
+		};
+		04C0094F176FC44000559622 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				04C00950176FC44900559622 /* Leap.h */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
+		04C23E09176FBE2F00D3FCEF /* include */ = {
+			isa = PBXGroup;
+			children = (
+				4ED3AF8817C6D87E006DE51A /* I18N.h */,
+				043B5CCC178CB73A0048A3E1 /* Stroke.h */,
+				04C23E0A176FBE2F00D3FCEF /* CurlNoiseField.h */,
+				04C23E0B176FBE2F00D3FCEF /* DataTypes.h */,
+				04C23E0C176FBE2F00D3FCEF /* FieldGenerator.h */,
+				04C23E0D176FBE2F00D3FCEF /* Finger.h */,
+				04C23E0E176FBE2F00D3FCEF /* Globals.h */,
+				04C23E0F176FBE2F00D3FCEF /* Hand.h */,
+				04C23E10176FBE2F00D3FCEF /* HandController.h */,
+				04C23E11176FBE2F00D3FCEF /* LeapListener.h */,
+				04C23E12176FBE2F00D3FCEF /* MersenneTwister.h */,
+				04C23E13176FBE2F00D3FCEF /* MSAFluidSolver3D.h */,
+				04C23E14176FBE2F00D3FCEF /* ParticleController.h */,
+				04C23E15176FBE2F00D3FCEF /* ParticleDemoApp.h */,
+				04C23E16176FBE2F00D3FCEF /* ParticleSystem.h */,
+				04C23E18176FBE2F00D3FCEF /* Resources.h */,
+				04C23E19176FBE2F00D3FCEF /* Utils.h */,
+				04C23E1A176FBE2F00D3FCEF /* VectorField.h */,
+			);
+			name = include;
+			path = ../../include;
+			sourceTree = "<group>";
+		};
+		04C23E1B176FBE2F00D3FCEF /* src */ = {
+			isa = PBXGroup;
+			children = (
+				4ED3AF8917C6D88D006DE51A /* I18N.cpp */,
+				043B5CCD178CB7420048A3E1 /* Stroke.cpp */,
+				04C23E1C176FBE2F00D3FCEF /* CurlNoiseField.cpp */,
+				04C23E1D176FBE2F00D3FCEF /* Finger.cpp */,
+				04C23E1E176FBE2F00D3FCEF /* Globals.cpp */,
+				04C23E1F176FBE2F00D3FCEF /* Hand.cpp */,
+				04C23E20176FBE2F00D3FCEF /* HandController.cpp */,
+				04C23E21176FBE2F00D3FCEF /* LeapListener.cpp */,
+				04C23E22176FBE2F00D3FCEF /* MersenneTwister.cpp */,
+				04C23E23176FBE2F00D3FCEF /* MSAFluidSolver3D.cpp */,
+				04C23E24176FBE2F00D3FCEF /* ParticleController.cpp */,
+				04C23E25176FBE2F00D3FCEF /* ParticleDemoApp.cpp */,
+				04C23E26176FBE2F00D3FCEF /* ParticleSystem.cpp */,
+				04C23E27176FBE2F00D3FCEF /* VectorField.cpp */,
+			);
+			name = src;
+			path = ../../src;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				00B784AF0FF439BC000DE1D7 /* Accelerate.framework */,
+				00B784B00FF439BC000DE1D7 /* AudioToolbox.framework */,
+				00B784B10FF439BC000DE1D7 /* AudioUnit.framework */,
+				00B784B20FF439BC000DE1D7 /* CoreAudio.framework */,
+				5323E6B50EAFCA7E003A9687 /* QTKit.framework */,
+				5323E6B10EAFCA74003A9687 /* CoreVideo.framework */,
+				53E3CDFB0E86099300238D2B /* Carbon.framework */,
+				0091D8F80E81B9330029341E /* OpenGL.framework */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* Orientation.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* GpuPhysics */ = {
+			isa = PBXGroup;
+			children = (
+				CF943E9217D54049004F7D30 /* libLeap.dylib */,
+				04A45D19177254F100CFB646 /* assets */,
+				049BE84A176FEF7800B35B88 /* resources */,
+				04C0094F176FC44000559622 /* Utility */,
+				04C23E09176FBE2F00D3FCEF /* include */,
+				04C23E1B176FBE2F00D3FCEF /* src */,
+				E1AA716515797E5700D7BC83 /* libs */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = GpuPhysics;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4E43A7C517C6E831003BD14D /* de.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				4E43A7C617C6E831003BD14D /* .keep */,
+			);
+			path = de.lproj;
+			sourceTree = "<group>";
+		};
+		4E43A7CB17C6E831003BD14D /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				4E43A7CC17C6E831003BD14D /* .keep */,
+			);
+			path = en.lproj;
+			sourceTree = "<group>";
+		};
+		4E43A7D117C6E831003BD14D /* es.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				4E43A7D217C6E831003BD14D /* .keep */,
+			);
+			path = es.lproj;
+			sourceTree = "<group>";
+		};
+		4E43A7D717C6E831003BD14D /* fr.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				4E43A7D817C6E831003BD14D /* .keep */,
+			);
+			path = fr.lproj;
+			sourceTree = "<group>";
+		};
+		4E43A7DD17C6E831003BD14D /* ja.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				4E43A7DE17C6E831003BD14D /* .keep */,
+			);
+			path = ja.lproj;
+			sourceTree = "<group>";
+		};
+		4E43A7ED17C6E83F003BD14D /* pt.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				4E43A7EE17C6E83F003BD14D /* .keep */,
+			);
+			path = pt.lproj;
+			sourceTree = "<group>";
+		};
+		4E43A7F317C6E83F003BD14D /* zh.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				4E43A7F417C6E83F003BD14D /* .keep */,
+			);
+			path = zh.lproj;
+			sourceTree = "<group>";
+		};
+		E1AA716515797E5700D7BC83 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				04C00953176FD7D600559622 /* libirrklang.dylib */,
+				CFE76ACA16CC66030093D4A0 /* libcinder.a */,
+				E1054D081688F838009EA48C /* libLeap.dylib */,
+			);
+			name = libs;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* Orientation */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Orientation" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+				CF0B328816B8943F00F25D08 /* CopyFiles */,
+				049BE849176FE7AC00B35B88 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Orientation;
+			productInstallPath = "$(HOME)/Applications";
+			productName = GpuPhysics;
+			productReference = 8D1107320486CEB800E47090 /* Orientation.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+			};
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Orientation" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+				de_DE,
+				de,
+				en_US,
+				es_ES,
+				es,
+				fr_FR,
+				fr,
+				ja_JP,
+				ja,
+				pt_BR,
+				pt,
+				zh_CN,
+				zh,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* GpuPhysics */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* Orientation */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04F41A3F177257F0003EC24D /* bass.ogg in Resources */,
+				04F41A41177257F0003EC24D /* fluid.ogg in Resources */,
+				04F41A42177257F0003EC24D /* hand.ogg in Resources */,
+				04F41A43177257F0003EC24D /* rotate.ogg in Resources */,
+				04F41A44177257F0003EC24D /* wait.ogg in Resources */,
+				049BE86D176FF4A100B35B88 /* finger_frag.glsl in Resources */,
+				049BE86E176FF4A100B35B88 /* finger_vert.glsl in Resources */,
+				049BE85C176FEF7800B35B88 /* blur_frag.glsl in Resources */,
+				049BE85D176FEF7800B35B88 /* blur_vert.glsl in Resources */,
+				049BE862176FEF7800B35B88 /* glow.png in Resources */,
+				049BE864176FEF7800B35B88 /* leap_motion_logo.png in Resources */,
+				049BE865176FEF7800B35B88 /* motion_frag.glsl in Resources */,
+				049BE868176FEF7800B35B88 /* pass_thru_vert.glsl in Resources */,
+				014A969E177C12EA008FC4B6 /* plug-in-device.png in Resources */,
+				014A96A0177C1452008FC4B6 /* leap-icon.icns in Resources */,
+				043B5CD7178CB8480048A3E1 /* drawing.ogg in Resources */,
+				043B5CD8178CB8480048A3E1 /* glow.ogg in Resources */,
+				4E43A7E117C6E831003BD14D /* .keep in Resources */,
+				4E43A7E317C6E831003BD14D /* .keep in Resources */,
+				4E43A7E517C6E831003BD14D /* .keep in Resources */,
+				4E43A7E717C6E831003BD14D /* .keep in Resources */,
+				4E43A7E917C6E831003BD14D /* .keep in Resources */,
+				4E43A7F717C6E83F003BD14D /* .keep in Resources */,
+				4E43A7F917C6E83F003BD14D /* .keep in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		049BE849176FE7AC00B35B88 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "pwd\nls -la\ninstall_name_tool -change /usr/local/lib/libirrklang.dylib @loader_path/libirrklang.dylib \"${TARGET_BUILD_DIR}/${TARGET_NAME}.app/Contents/MacOS/${TARGET_NAME}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04C23E2E176FBE2F00D3FCEF /* CurlNoiseField.cpp in Sources */,
+				04C23E2F176FBE2F00D3FCEF /* Finger.cpp in Sources */,
+				04C23E30176FBE2F00D3FCEF /* Globals.cpp in Sources */,
+				04C23E31176FBE2F00D3FCEF /* Hand.cpp in Sources */,
+				04C23E32176FBE2F00D3FCEF /* HandController.cpp in Sources */,
+				04C23E33176FBE2F00D3FCEF /* LeapListener.cpp in Sources */,
+				04C23E34176FBE2F00D3FCEF /* MersenneTwister.cpp in Sources */,
+				04C23E35176FBE2F00D3FCEF /* MSAFluidSolver3D.cpp in Sources */,
+				04C23E36176FBE2F00D3FCEF /* ParticleController.cpp in Sources */,
+				04C23E37176FBE2F00D3FCEF /* ParticleDemoApp.cpp in Sources */,
+				04C23E38176FBE2F00D3FCEF /* ParticleSystem.cpp in Sources */,
+				04C23E39176FBE2F00D3FCEF /* VectorField.cpp in Sources */,
+				049BE860176FEF7800B35B88 /* finger_frag.glsl in Sources */,
+				049BE861176FEF7800B35B88 /* finger_vert.glsl in Sources */,
+				043B5CCE178CB7420048A3E1 /* Stroke.cpp in Sources */,
+				4ED3AF8A17C6D88D006DE51A /* I18N.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		4E43A7C617C6E831003BD14D /* .keep */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4E43A7C717C6E831003BD14D /* de */,
+			);
+			name = .keep;
+			sourceTree = "<group>";
+		};
+		4E43A7CC17C6E831003BD14D /* .keep */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4E43A7CD17C6E831003BD14D /* en */,
+			);
+			name = .keep;
+			sourceTree = "<group>";
+		};
+		4E43A7D217C6E831003BD14D /* .keep */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4E43A7D317C6E831003BD14D /* es */,
+			);
+			name = .keep;
+			sourceTree = "<group>";
+		};
+		4E43A7D817C6E831003BD14D /* .keep */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4E43A7D917C6E831003BD14D /* fr */,
+			);
+			name = .keep;
+			sourceTree = "<group>";
+		};
+		4E43A7DE17C6E831003BD14D /* .keep */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4E43A7DF17C6E831003BD14D /* ja */,
+			);
+			name = .keep;
+			sourceTree = "<group>";
+		};
+		4E43A7EE17C6E83F003BD14D /* .keep */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4E43A7EF17C6E83F003BD14D /* pt */,
+			);
+			name = .keep;
+			sourceTree = "<group>";
+		};
+		4E43A7F417C6E83F003BD14D /* .keep */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4E43A7F517C6E83F003BD14D /* zh */,
+			);
+			name = .keep;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				BOOST_PATH = "${LIBRARIES_PATH}/boost_1_51_0";
+				CINDER_PATH = "$(LIBRARIES_PATH)/cinder_0.8.4";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				EIGEN_PATH = "${LIBRARIES_PATH}/eigen-3.1.2";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Orientation_Prefix.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(BOOST_PATH)/include",
+					"$(CINDER_PATH)/include",
+					"$(EIGEN_PATH)/",
+					../../../LeapSDK/include,
+					"$(IRRKLANG_PATH)/include",
+				);
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				IRRKLANG_PATH = "${LIBRARIES_PATH}/irrKlang-1.4.0";
+				LIBRARIES_PATH = /opt/local/Libraries;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../LeapSDK/lib\"",
+					"\"$(CINDER_PATH)/lib\"",
+					"$(IRRKLANG_PATH)/bin/macosx-gcc/",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = (
+					"\"$(CINDER_PATH)/lib/libcinder_d.a\"",
+					"\"${CINDER_PATH}/lib/macosx/libboost_system.a\"",
+					"\"${CINDER_PATH}/lib/macosx/libboost_filesystem.a\"",
+				);
+				PRODUCT_NAME = Orientation;
+				VALID_ARCHS = i386;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				BOOST_PATH = "${LIBRARIES_PATH}/boost_1_51_0";
+				CINDER_PATH = "$(LIBRARIES_PATH)/cinder_0.8.4";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EIGEN_PATH = "${LIBRARIES_PATH}/eigen-3.1.2";
+				GCC_FAST_MATH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Orientation_Prefix.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(BOOST_PATH)/include",
+					"$(CINDER_PATH)/include",
+					"$(EIGEN_PATH)/",
+					../../../LeapSDK/include,
+					"$(IRRKLANG_PATH)/include",
+				);
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				IRRKLANG_PATH = "${LIBRARIES_PATH}/irrKlang-1.4.0";
+				LIBRARIES_PATH = /opt/local/Libraries;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../LeapSDK/lib\"",
+					"\"$(CINDER_PATH)/lib\"",
+					"$(IRRKLANG_PATH)/bin/macosx-gcc/",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = (
+					"\"${CINDER_PATH}/lib/libcinder.a\"",
+					"\"${BOOST_PATH}/lib/libboost_system.a\"",
+					"\"${BOOST_PATH}/lib/libboost_filesystem.a\"",
+				);
+				PRODUCT_NAME = Orientation;
+				STRIP_INSTALLED_PRODUCT = YES;
+				VALID_ARCHS = i386;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = i386;
+				BOOST_PATH = "//:configuration = Debug\nCINDER_PATH = /opt/local/Libraries/cinder_0.8.4\n\n//:configuration = Release\nCINDER_PATH = /opt/local/Libraries/cinder_0.8.4\n\n//:completeSettings = some\nCINDER_PATH\n";
+				CINDER_PATH = /opt/local/Libraries/cinder_0.8.4;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/Libraries/boost_1_51_0/include,
+					$CINDER_PATH/include,
+					../../include,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = ../../include;
+				jkjkjkk = "";
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = i386;
+				BOOST_PATH = "//:configuration = Debug\nCINDER_PATH = /opt/local/Libraries/cinder_0.8.4\n\n//:configuration = Release\nCINDER_PATH = /opt/local/Libraries/cinder_0.8.4\n\n//:completeSettings = some\nCINDER_PATH\n";
+				CINDER_PATH = /opt/local/Libraries/cinder_0.8.4;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/Libraries/boost_1_51_0/include,
+					$CINDER_PATH/include,
+					../../include,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = ../../include;
+				jkjkjkk = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Orientation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Orientation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
