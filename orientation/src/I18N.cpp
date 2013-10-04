@@ -21,7 +21,7 @@ std::string I18N::getUserLocale()
   }
   return "en";
 #elif _WIN32
-  const LCID lcid = GetUserDefaultLCID();
+  const LCID lcid = MAKELCID( GetUserDefaultUILanguage(), SORT_DEFAULT );
   char value[6];
   int len;
   std::string locale;

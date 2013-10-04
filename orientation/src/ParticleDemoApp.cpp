@@ -18,7 +18,7 @@ irrklang::ISound* ParticleDemoApp::createSoundResource(DataSourceRef ref, const 
   // Obtain the buffer backing the loaded resource:
   if ( m_soundEngine ) {
     auto& buf = ref->getBuffer();
-  
+
     // Attempt to load the stream from the buffer on the data source:
     auto ss = m_soundEngine->addSoundSourceFromMemory(
                                                       buf.getData(),
@@ -26,10 +26,10 @@ irrklang::ISound* ParticleDemoApp::createSoundResource(DataSourceRef ref, const 
                                                       name,
                                                       false
                                                       );
-  
+
     m_audioSourceRefs.push_back(ref);
     ss->setForcedStreamingThreshold(300000);
-  
+
     // Done loading the stream, return the source:
     return m_soundEngine->play2D(ss, true, true, true, irrklang::ESM_NO_STREAMING);
   }
@@ -97,7 +97,7 @@ void ParticleDemoApp::setup() {
     STARTUPINFO si = { sizeof(STARTUPINFO) };
     PROCESS_INFORMATION pi;
     CreateProcess(L"C:\\Windows\\System32\\cmd.exe", command, NULL, NULL, 0, 0, NULL, NULL, &si, &pi);
-            
+
     exit(0);
   }
 #endif
@@ -133,7 +133,7 @@ void ParticleDemoApp::setup() {
   m_glowTex = gl::Texture(loadImage(loadResource(RES_GLOW_PNG)));
   m_logoTex = gl::Texture(loadImage(loadResource(RES_LOGO_PNG)));
 #if _WIN32
-  if (isPongo()) {
+  if (isPongo()||isHOPS()) {
     m_plugInTex = gl::Texture(loadImage(loadResource(RES_PLUG_IN_PNG_PONGO)));
   } else {
     m_plugInTex = gl::Texture(loadImage(loadResource(RES_PLUG_IN_PNG)));
@@ -160,7 +160,7 @@ void ParticleDemoApp::setup() {
   m_motionFormat.setMinFilter(GL_NEAREST);
   m_motionFormat.setMagFilter(GL_NEAREST);
   m_motionFormat.setSamples(4);
-  
+
   // load shaders
   m_useFX = shouldUseFX(std::string((char*)glGetString(GL_VERSION)));
 
@@ -168,7 +168,7 @@ void ParticleDemoApp::setup() {
   // OSX uses a custom version of OpenGL 2.1 that supports FBOs.
   m_useFX = true;
 #endif
-  
+
   if (m_useFX) {
     try {
       m_shaderGlow = gl::GlslProg(loadResource(RES_GLOW_VERT), loadResource(RES_GLOW_FRAG));
@@ -287,18 +287,18 @@ void ParticleDemoApp::mouseDrag(MouseEvent event) {
   float dPhi = static_cast<float>(m_currentMousePos.y - m_previousMousePos.y)*CAMERA_SPEED;
 
   m_cameraTheta -= dTheta;
-	m_cameraPhi += dPhi;
+  m_cameraPhi += dPhi;
 
-	if (m_cameraTheta < 0.0f) {
+  if (m_cameraTheta < 0.0f) {
     m_cameraTheta += M_PI*2.f;
   }
-	if (m_cameraTheta >= M_PI*2.f) {
+  if (m_cameraTheta >= M_PI*2.f) {
     m_cameraTheta -= M_PI*2.f;
   }
-	if (m_cameraPhi < -M_PI*0.45f) {
+  if (m_cameraPhi < -M_PI*0.45f) {
     m_cameraPhi = -M_PI*0.45f;
   }
-	if (m_cameraPhi > M_PI*0.45f) {
+  if (m_cameraPhi > M_PI*0.45f) {
     m_cameraPhi = M_PI*0.45f;
   }
 }
@@ -394,6 +394,11 @@ bool ParticleDemoApp::shouldUseFX(const std::string& version_string) {
 
 void ParticleDemoApp::update() {
   static bool firstUpdate = true;
+
+  if (m_visualizerOnlyMode && firstUpdate) {
+    setAlwaysOnTop(true);
+  }
+
   if (firstUpdate && m_stage > STAGE_CONNECTING) {
     std::cout << "first update routine" << std::endl;
     if (!m_visualizerOnlyMode) {
@@ -408,7 +413,7 @@ void ParticleDemoApp::update() {
       std::cout << glGetString(GL_VERSION) << std::endl;
       std::cout << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
       std::cout << glGetString(GL_EXTENSIONS) << std::endl;
-      
+
       if (m_renderString == "fail") {
         setResolution(800, 600);
         std::cout << "trying to use 800x600" << std::endl;
@@ -470,6 +475,7 @@ void ParticleDemoApp::update() {
 }
 
 void ParticleDemoApp::drawScene() {
+
   gl::clear(Color(0, 0, 0));
 
   gl::enableAlphaBlending();
@@ -726,8 +732,11 @@ void ParticleDemoApp::setResolution(int width, int height) {
 void ParticleDemoApp::prepareSettings(cinder::app::AppBasic::Settings* settings) {
   const std::vector<std::string>& args = getArgs();
   m_visualizerOnlyMode = false;
+
   if (args.size() >= 2 && args[1] == "visualizer") {
     m_visualizerOnlyMode = true;
+    // forces window to start at top, disable later in update.
+    settings->setAlwaysOnTop(true);
   }
   getResolution(m_originalWidth, m_originalHeight);
   settings->setFrameRate(60.0f);
@@ -738,11 +747,11 @@ void ParticleDemoApp::prepareSettings(cinder::app::AppBasic::Settings* settings)
   } else {
     settings->setWindowSize(1024, 768);
   }
-	if (m_visualizerOnlyMode) {
-		settings->setTitle("Leap Motion Visualizer");
-	} else {
-		settings->setTitle("Leap Motion Orientation");
-	}
+  if (m_visualizerOnlyMode) {
+    settings->setTitle("Leap Motion Visualizer");
+  } else {
+    settings->setTitle("Leap Motion Orientation");
+  }
 }
 
 void ParticleDemoApp::updateDrawing(const Leap::Frame& frame) {
@@ -1180,10 +1189,10 @@ void ParticleDemoApp::updateCamera(double timeInStage) {
     const ci::Vec3f center = Vec3f(0.0f, -50.0f, 0.0f);
     m_camera.setPerspective(50.0f, aspect, 5.0f, 3000.0f);
     float dist = m_cameraZoom * (m_stage == STAGE_HANDS ? 800.0f : 400.0f);
-	  Vec3f eye;
-	  eye.x = cosf(m_cameraPhi) * sinf(m_cameraTheta) * dist;
-	  eye.y = sinf(m_cameraPhi) * dist;
-	  eye.z = cosf(m_cameraPhi) * cosf(m_cameraTheta) * dist;
+    Vec3f eye;
+    eye.x = cosf(m_cameraPhi) * sinf(m_cameraTheta) * dist;
+    eye.y = sinf(m_cameraPhi) * dist;
+    eye.z = cosf(m_cameraPhi) * cosf(m_cameraTheta) * dist;
     if (m_stage == STAGE_HANDS) {
       m_cameraPos = (eye + handCenter)/2.0f;
       m_cameraCenter = (center + handCenter)/2.0f;
@@ -1191,7 +1200,7 @@ void ParticleDemoApp::updateCamera(double timeInStage) {
       m_cameraPos = eye;
       m_cameraCenter = center;
     }
-	  m_camera.lookAt(m_cameraPos, m_cameraCenter, up);
+    m_camera.lookAt(m_cameraPos, m_cameraCenter, up);
   } else if (m_cameraMode == CAMERA_PERSP_ROTATING) {
     m_cameraCenter = Vec3f::zero();
     m_camera.setPerspective(50.0f, aspect, 5.0f, 3000.0f);
@@ -1216,7 +1225,7 @@ bool ParticleDemoApp::isPongo() {
 #if _WIN32
   std::string programDataPath = getenv("PROGRAMDATA");
   programDataPath.append("\\Leap Motion\\installtype");
-  
+
   std::ifstream installTypeFile(programDataPath, std::ios_base::in);
   if( !installTypeFile )
     return false;
@@ -1235,8 +1244,8 @@ bool ParticleDemoApp::isPongo() {
 bool ParticleDemoApp::isHOPS() {
 #if _WIN32
   std::string programDataPath = getenv("PROGRAMDATA");
-  programDataPath.append("installtype");
-  
+  programDataPath.append("\\Leap Motion\\installtype");
+
   std::ifstream installTypeFile(programDataPath, std::ios_base::in);
   if( !installTypeFile )
     return false;
@@ -1252,9 +1261,32 @@ bool ParticleDemoApp::isHOPS() {
 #endif
 }
 
-#if 1
-CINDER_APP_BASIC( ParticleDemoApp, RendererGl )
+#if _WIN32
+  //#pragma comment( linker, "/subsystem:\"console\" /entry:\"mainCRTStartup\"" )
 
+  void sandboxed_main() {
+    cinder::app::AppBasic::prepareLaunch();
+    cinder::app::AppBasic *app = new ParticleDemoApp;
+    cinder::app::Renderer *ren = new RendererGl;
+    cinder::app::AppBasic::executeLaunch( app, ren, "ParticleDemoApp");
+    cinder::app::AppBasic::cleanupLaunch();
+  }
+
+  LONG WINAPI HandleCrash(EXCEPTION_POINTERS* pException_) {
+     ::MessageBox(0, L"Orientation has crashed. Please make sure you have the latest graphics drivers installed.", L"Error", MB_OK);
+     return EXCEPTION_EXECUTE_HANDLER;
+  }
+
+  int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int nCmdShow) {
+    SetUnhandledExceptionFilter(HandleCrash);
+    sandboxed_main();
+    return 0;
+  }
+#else
+  CINDER_APP_BASIC( ParticleDemoApp, RendererGl )
+#endif
+
+  /*
 #else
 
 #pragma comment( linker, "/subsystem:\"console\" /entry:\"mainCRTStartup\"" )
@@ -1267,4 +1299,4 @@ int main( int argc, char * const argv[] ) {
   cinder::app::AppBasic::cleanupLaunch();
   return 0;
 }
-#endif
+*/
