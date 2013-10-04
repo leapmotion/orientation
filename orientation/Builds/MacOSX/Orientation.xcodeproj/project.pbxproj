@@ -53,14 +53,16 @@
 		4E43A7E917C6E831003BD14D /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E43A7DE17C6E831003BD14D /* .keep */; };
 		4E43A7F717C6E83F003BD14D /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E43A7EE17C6E83F003BD14D /* .keep */; };
 		4E43A7F917C6E83F003BD14D /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E43A7F417C6E83F003BD14D /* .keep */; };
+		4E4B579317FB447E00D4EF39 /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E4B578E17FB447E00D4EF39 /* .keep */; };
+		4E4B579417FB447E00D4EF39 /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E4B579117FB447E00D4EF39 /* .keep */; };
 		4ED3AF8A17C6D88D006DE51A /* I18N.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ED3AF8917C6D88D006DE51A /* I18N.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		5323E6B60EAFCA7E003A9687 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B50EAFCA7E003A9687 /* QTKit.framework */; };
 		53E3CDFC0E86099300238D2B /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E3CDFB0E86099300238D2B /* Carbon.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		CF943E9317D54049004F7D30 /* libLeap.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = CF943E9217D54049004F7D30 /* libLeap.dylib */; };
+		CF0B328B16B8946A00F25D08 /* libLeap.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1054D081688F838009EA48C /* libLeap.dylib */; };
 		CFE76ACB16CC66030093D4A0 /* libcinder.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFE76ACA16CC66030093D4A0 /* libcinder.a */; };
-		E1054D091688F838009EA48C /* libLeap.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1054D081688F838009EA48C /* libLeap.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
+		E1054D091688F838009EA48C /* libLeap.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1054D081688F838009EA48C /* libLeap.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -70,8 +72,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				CF943E9317D54049004F7D30 /* libLeap.dylib in CopyFiles */,
 				049BE848176FE56300B35B88 /* libirrklang.dylib in CopyFiles */,
+				CF0B328B16B8946A00F25D08 /* libLeap.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,7 +110,7 @@
 		04C23E0B176FBE2F00D3FCEF /* DataTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTypes.h; sourceTree = "<group>"; };
 		04C23E0C176FBE2F00D3FCEF /* FieldGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldGenerator.h; sourceTree = "<group>"; };
 		04C23E0D176FBE2F00D3FCEF /* Finger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Finger.h; sourceTree = "<group>"; };
-		04C23E0E176FBE2F00D3FCEF /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Globals.h; path = /Users/tombuilder/clients/orientation/include/Globals.h; sourceTree = "<absolute>"; };
+		04C23E0E176FBE2F00D3FCEF /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
 		04C23E0F176FBE2F00D3FCEF /* Hand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hand.h; sourceTree = "<group>"; };
 		04C23E10176FBE2F00D3FCEF /* HandController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HandController.h; sourceTree = "<group>"; };
 		04C23E11176FBE2F00D3FCEF /* LeapListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeapListener.h; sourceTree = "<group>"; };
@@ -143,13 +145,14 @@
 		4E43A7DF17C6E831003BD14D /* ja */ = {isa = PBXFileReference; lastKnownFileType = text; name = ja; path = .keep; sourceTree = "<group>"; };
 		4E43A7EF17C6E83F003BD14D /* pt */ = {isa = PBXFileReference; lastKnownFileType = text; name = pt; path = .keep; sourceTree = "<group>"; };
 		4E43A7F517C6E83F003BD14D /* zh */ = {isa = PBXFileReference; lastKnownFileType = text; name = zh; path = .keep; sourceTree = "<group>"; };
+		4E4B578F17FB447E00D4EF39 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text; name = zh_CN; path = .keep; sourceTree = "<group>"; };
+		4E4B579217FB447E00D4EF39 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text; name = zh_TW; path = .keep; sourceTree = "<group>"; };
 		4ED3AF8817C6D87E006DE51A /* I18N.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = I18N.h; sourceTree = "<group>"; };
 		4ED3AF8917C6D88D006DE51A /* I18N.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = I18N.cpp; sourceTree = "<group>"; };
 		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
 		5323E6B50EAFCA7E003A9687 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		53E3CDFB0E86099300238D2B /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* Orientation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Orientation.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CF943E9217D54049004F7D30 /* libLeap.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeap.dylib; path = ../../../LeapSDK/lib/libLeap.dylib; sourceTree = "<group>"; };
 		CFE76ACA16CC66030093D4A0 /* libcinder.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcinder.a; path = "${CINDER_PATH}/cinder_0.8.4/lib/libcinder.a"; sourceTree = "<absolute>"; };
 		E1054D081688F838009EA48C /* libLeap.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeap.dylib; path = ../../../../LeapSDK/lib/libLeap.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -180,6 +183,8 @@
 		049BE84A176FEF7800B35B88 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				4E4B578D17FB447E00D4EF39 /* zh_CN.lproj */,
+				4E4B579017FB447E00D4EF39 /* zh_TW.lproj */,
 				4E43A7ED17C6E83F003BD14D /* pt.lproj */,
 				4E43A7F317C6E83F003BD14D /* zh.lproj */,
 				4E43A7C517C6E831003BD14D /* de.lproj */,
@@ -310,7 +315,6 @@
 		29B97314FDCFA39411CA2CEA /* GpuPhysics */ = {
 			isa = PBXGroup;
 			children = (
-				CF943E9217D54049004F7D30 /* libLeap.dylib */,
 				04A45D19177254F100CFB646 /* assets */,
 				049BE84A176FEF7800B35B88 /* resources */,
 				04C0094F176FC44000559622 /* Utility */,
@@ -388,6 +392,22 @@
 			path = zh.lproj;
 			sourceTree = "<group>";
 		};
+		4E4B578D17FB447E00D4EF39 /* zh_CN.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				4E4B578E17FB447E00D4EF39 /* .keep */,
+			);
+			path = zh_CN.lproj;
+			sourceTree = "<group>";
+		};
+		4E4B579017FB447E00D4EF39 /* zh_TW.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				4E4B579117FB447E00D4EF39 /* .keep */,
+			);
+			path = zh_TW.lproj;
+			sourceTree = "<group>";
+		};
 		E1AA716515797E5700D7BC83 /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -448,6 +468,7 @@
 				pt,
 				zh_CN,
 				zh,
+				zh_TW,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* GpuPhysics */;
 			projectDirPath = "";
@@ -487,6 +508,8 @@
 				4E43A7E917C6E831003BD14D /* .keep in Resources */,
 				4E43A7F717C6E83F003BD14D /* .keep in Resources */,
 				4E43A7F917C6E83F003BD14D /* .keep in Resources */,
+				4E4B579317FB447E00D4EF39 /* .keep in Resources */,
+				4E4B579417FB447E00D4EF39 /* .keep in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -591,6 +614,22 @@
 			name = .keep;
 			sourceTree = "<group>";
 		};
+		4E4B578E17FB447E00D4EF39 /* .keep */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4E4B578F17FB447E00D4EF39 /* zh_CN */,
+			);
+			name = .keep;
+			sourceTree = "<group>";
+		};
+		4E4B579117FB447E00D4EF39 /* .keep */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4E4B579217FB447E00D4EF39 /* zh_TW */,
+			);
+			name = .keep;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -599,7 +638,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				BOOST_PATH = "${LIBRARIES_PATH}/boost_1_51_0";
-				CINDER_PATH = "$(LIBRARIES_PATH)/cinder_0.8.4";
+				CINDER_PATH = "${LIBRARIES_PATH}/cinder_0.8.4";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -616,17 +655,16 @@
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST_PATH)/include",
 					"$(CINDER_PATH)/include",
-					"$(EIGEN_PATH)/",
-					../../../LeapSDK/include,
+					../../include,
+					"$(EIGEN_PATH)",
 					"$(IRRKLANG_PATH)/include",
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				IRRKLANG_PATH = "${LIBRARIES_PATH}/irrKlang-1.4.0";
-				LIBRARIES_PATH = /opt/local/Libraries;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../LeapSDK/lib\"",
+					"\"$(SRCROOT)/../../../../LeapSDK/lib\"",
 					"\"$(CINDER_PATH)/lib\"",
 					"$(IRRKLANG_PATH)/bin/macosx-gcc/",
 				);
@@ -647,7 +685,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				BOOST_PATH = "${LIBRARIES_PATH}/boost_1_51_0";
-				CINDER_PATH = "$(LIBRARIES_PATH)/cinder_0.8.4";
+				CINDER_PATH = "${LIBRARIES_PATH}/cinder_0.8.4";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -665,17 +703,16 @@
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST_PATH)/include",
 					"$(CINDER_PATH)/include",
-					"$(EIGEN_PATH)/",
-					../../../LeapSDK/include,
+					../../include,
+					"$(EIGEN_PATH)",
 					"$(IRRKLANG_PATH)/include",
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				IRRKLANG_PATH = "${LIBRARIES_PATH}/irrKlang-1.4.0";
-				LIBRARIES_PATH = /opt/local/Libraries;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../LeapSDK/lib\"",
+					"\"$(SRCROOT)/../../../../LeapSDK/lib\"",
 					"\"$(CINDER_PATH)/lib\"",
 					"$(IRRKLANG_PATH)/bin/macosx-gcc/",
 				);
@@ -695,42 +732,38 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = i386;
-				BOOST_PATH = "//:configuration = Debug\nCINDER_PATH = /opt/local/Libraries/cinder_0.8.4\n\n//:configuration = Release\nCINDER_PATH = /opt/local/Libraries/cinder_0.8.4\n\n//:completeSettings = some\nCINDER_PATH\n";
-				CINDER_PATH = /opt/local/Libraries/cinder_0.8.4;
+				CINDER_PATH = "${LIBRARIES_PATH}/cinder_0.8.4";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					/opt/local/Libraries/boost_1_51_0/include,
+					$BOOST_PATH/include,
 					$CINDER_PATH/include,
 					../../include,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = ../../include;
-				jkjkjkk = "";
 			};
 			name = Debug;
 		};
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = i386;
-				BOOST_PATH = "//:configuration = Debug\nCINDER_PATH = /opt/local/Libraries/cinder_0.8.4\n\n//:configuration = Release\nCINDER_PATH = /opt/local/Libraries/cinder_0.8.4\n\n//:completeSettings = some\nCINDER_PATH\n";
-				CINDER_PATH = /opt/local/Libraries/cinder_0.8.4;
+				CINDER_PATH = "${LIBRARIES_PATH}/cinder_0.8.4";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					/opt/local/Libraries/boost_1_51_0/include,
+					$BOOST_PATH/include,
 					$CINDER_PATH/include,
 					../../include,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = ../../include;
-				jkjkjkk = "";
 			};
 			name = Release;
 		};
