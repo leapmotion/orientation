@@ -104,7 +104,7 @@
 		04A45D1D177254F100CFB646 /* hand.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = hand.ogg; sourceTree = "<group>"; };
 		04A45D1E177254F100CFB646 /* rotate.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = rotate.ogg; sourceTree = "<group>"; };
 		04A45D1F177254F100CFB646 /* wait.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = wait.ogg; sourceTree = "<group>"; };
-		04C00950176FC44900559622 /* Leap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Leap.h; path = ../../../../LeapSDK/include/Leap.h; sourceTree = "<group>"; };
+		04C00950176FC44900559622 /* Leap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Leap.h; path = ../../../LeapSDK/include/Leap.h; sourceTree = "<group>"; };
 		04C00953176FD7D600559622 /* libirrklang.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libirrklang.dylib; path = "${LIBRARIES_PATH}/irrKlang-1.4.0/bin/macosx-gcc/libirrklang.dylib"; sourceTree = "<absolute>"; };
 		04C23E0A176FBE2F00D3FCEF /* CurlNoiseField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurlNoiseField.h; sourceTree = "<group>"; };
 		04C23E0B176FBE2F00D3FCEF /* DataTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTypes.h; sourceTree = "<group>"; };
@@ -154,7 +154,7 @@
 		53E3CDFB0E86099300238D2B /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* Orientation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Orientation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFE76ACA16CC66030093D4A0 /* libcinder.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcinder.a; path = "${CINDER_PATH}/cinder_0.8.4/lib/libcinder.a"; sourceTree = "<absolute>"; };
-		E1054D081688F838009EA48C /* libLeap.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeap.dylib; path = ../../../../LeapSDK/lib/libLeap.dylib; sourceTree = "<group>"; };
+		E1054D081688F838009EA48C /* libLeap.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLeap.dylib; path = ../../../LeapSDK/lib/libLeap.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -664,7 +664,7 @@
 				IRRKLANG_PATH = "${LIBRARIES_PATH}/irrKlang-1.4.0";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../../LeapSDK/lib\"",
+					"\"$(SRCROOT)/../../../LeapSDK/lib\"",
 					"\"$(CINDER_PATH)/lib\"",
 					"$(IRRKLANG_PATH)/bin/macosx-gcc/",
 				);
@@ -712,7 +712,7 @@
 				IRRKLANG_PATH = "${LIBRARIES_PATH}/irrKlang-1.4.0";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../../LeapSDK/lib\"",
+					"\"$(SRCROOT)/../../../LeapSDK/lib\"",
 					"\"$(CINDER_PATH)/lib\"",
 					"$(IRRKLANG_PATH)/bin/macosx-gcc/",
 				);
