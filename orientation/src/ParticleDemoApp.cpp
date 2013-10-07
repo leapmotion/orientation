@@ -396,7 +396,7 @@ void ParticleDemoApp::update() {
   static bool firstUpdate = true;
 
   if (m_visualizerOnlyMode && firstUpdate) {
-    setAlwaysOnTop(true);
+    setAlwaysOnTop(false);
   }
 
   if (firstUpdate && m_stage > STAGE_CONNECTING) {
