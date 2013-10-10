@@ -134,8 +134,10 @@ void ParticleDemoApp::setup() {
   m_logoTex = gl::Texture(loadImage(loadResource(RES_LOGO_PNG)));
 #if _WIN32
   if (isPongo()||isHOPS()) {
+    // EVENT app was started with embedded Leap
     m_plugInTex = gl::Texture(loadImage(loadResource(RES_PLUG_IN_PNG_PONGO)));
   } else {
+    // EVENT app was started with Leap peripheral
     m_plugInTex = gl::Texture(loadImage(loadResource(RES_PLUG_IN_PNG)));
   }
 #else
@@ -266,6 +268,7 @@ void ParticleDemoApp::resize(ResizeEvent event) {
 void ParticleDemoApp::keyDown(KeyEvent event) {
   char key = event.getChar();
   if (key == 27) {
+    // EVENT user exited manually with ESC key
     quit();
   }
 }
@@ -397,6 +400,7 @@ void ParticleDemoApp::update() {
 
   if (m_visualizerOnlyMode && firstUpdate) {
     setAlwaysOnTop(false);
+    // EVENT app has begun in Visualizer mode (not Orientation)
   }
 
   if (firstUpdate && m_stage > STAGE_CONNECTING) {
@@ -433,6 +437,7 @@ void ParticleDemoApp::update() {
       hideCursor();
     }
     firstUpdate = false;
+    // EVENT app has begun in Orientation mode (not Visualizer)
 
     return; // don't run draw code until resize is called.
   } else if (m_stage > STAGE_WAITING && !m_visualizerOnlyMode) {
@@ -661,6 +666,7 @@ void ParticleDemoApp::shutdown() {
     setResolution(m_originalWidth, m_originalHeight);
   }
 #endif
+  // EVENT application is exiting in any way except a crash (total time spent is "ci::app::getElapsedSeconds()")
 }
 
 Renderer* ParticleDemoApp::prepareRenderer() {
@@ -861,6 +867,7 @@ void ParticleDemoApp::runDemoScript() {
                 && lastStage != STAGE_OUTRO
                 && lastStage != STAGE_DRAWING_TEXT;
     if (!getDemoStage(doLimit, accumTime, m_stage, fadeMult)) {
+      // EVENT orientation completed successfully (total amount of time spent was "curTime")
       quit();
     }
     accumTime += deltaTime;
@@ -871,6 +878,9 @@ void ParticleDemoApp::runDemoScript() {
   }
 
   if (m_stage != lastStage) {
+    if (lastStage > STAGE_WAITING) {
+      // EVENT stage changed (amount of time spent was "timeInStage" and current stage is "m_stage")
+    }
     timeInStage = 0;
   } else {
     timeInStage += deltaTime;
@@ -1274,6 +1284,7 @@ bool ParticleDemoApp::isHOPS() {
 
   LONG WINAPI HandleCrash(EXCEPTION_POINTERS* pException_) {
      ::MessageBox(0, L"Orientation has crashed. Please make sure you have the latest graphics drivers installed.", L"Error", MB_OK);
+      // EVENT crashed
      return EXCEPTION_EXECUTE_HANDLER;
   }
 
