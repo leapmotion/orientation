@@ -11,6 +11,73 @@
 #include <Windows.h>
 #endif
 
+#include <cinder/Url.h>
+#include <cinder/Base64.h>
+
+
+std::string transformBytes(const std::string& bytes)
+{
+  size_t n = bytes.size();
+  unsigned char mask[7] = {0xac, 0xd9, 0xc5, 0xb6, 0xeb, 0xf6, 0xbd};
+  std::string trans;
+
+  trans.reserve(n);
+  for (size_t i = 0; i < n; i++) {
+    trans.push_back(bytes[i] ^ mask[i % 7] ^ (i*101 & 0x7F));
+  }
+  return trans;
+}
+
+std::string getMixPanelToken()
+{
+#if IS_INTERNAL_BUILD == 1
+  //64a624e0f5fd5fec35dff6b08281664e
+  return transformBytes("\x9A\x88\xEE\xAF\xCD\xBB\x86\xDF\x97\xFD\xA2\xD8\xFF\xFA\xCF\xD1\xA6\xB6\x95\xEF\xBF\xD3\x95\xE6\xF6\x84\x8C\xAB\x96\x9E\xA7\xE8");
+#else
+  //77d363605f0470115eb82352f14b2981
+  return transformBytes("\x9B\x8B\xEB\xAA\xC9\xBC\xD5\xDF\xC4\xAE\xF4\x88\xFD\xAC\x9B\x83\xA0\xE6\x93\xB1\xEB\xD6\xC2\xE4\xA8\x87\x80\xF8\x92\x91\xAB\xBC");
+#endif
+}
+
+void SendMixPanelEvent(const std::string &eventName, const std::string &data = "")
+{
+  std::string json = "{ \"event\": \"" + eventName + "\", \"properties\": {";
+
+#ifdef _WIN32
+  static std::string distinct_id;
+  if( distinct_id.empty() )
+  {
+    HKEY key;
+    if( RegOpenKey(HKEY_LOCAL_MACHINE, TEXT("Software\\LeapMotion"), &key) == ERROR_SUCCESS )
+    {
+      char val[64];
+      val[0] = 0; //if we fail, make this a null string;
+      DWORD valLen = 64;
+      RegGetValue(key, NULL, TEXT("MixPanelGUID"), NULL, NULL, (LPBYTE)&val, &valLen);
+      distinct_id = std::string(val);
+    }
+  }
+
+  json.append("distinct_id\": \"" + distinct_id + "\",");
+#endif
+  
+  json.append("token\": \""+ getMixPanelToken() + "\"");
+
+  if( !data.empty() ) {
+    json.append(", " + data);
+  }
+
+  SendMixPanelJSON( json + "} }");
+}
+
+void SendMixPanelJSON(const std::string &jsonData)
+{
+  const std::string mpBaseURL("http://api.mixpanel.com/track/?data=");
+  std::string encodedData = cinder::toBase64(jsonData);
+  std::string requestString = mpBaseURL + encodedData;
+  cinder::IStreamUrl::create(cinder::Url(requestString));
+}
+
 const double ParticleDemoApp::FADE_TIME = Utils::TIME_BETWEEN_PEAKS;
 const double ParticleDemoApp::MAX_STROKE_TIME_LENGTH = 7.0;
 
@@ -135,9 +202,11 @@ void ParticleDemoApp::setup() {
 #if _WIN32
   if (isPongo()||isHOPS()) {
     // EVENT app was started with embedded Leap
+    SendMixPanelEvent("Orientation - App started (embedded)");
     m_plugInTex = gl::Texture(loadImage(loadResource(RES_PLUG_IN_PNG_PONGO)));
   } else {
     // EVENT app was started with Leap peripheral
+    SendMixPanelEvent("Orientation - App started (peripheral)");
     m_plugInTex = gl::Texture(loadImage(loadResource(RES_PLUG_IN_PNG)));
   }
 #else
@@ -269,6 +338,7 @@ void ParticleDemoApp::keyDown(KeyEvent event) {
   char key = event.getChar();
   if (key == 27) {
     // EVENT user exited manually with ESC key
+    SendMixPanelEvent("Orientation - User Exited (ESC)");
     quit();
   }
 }
@@ -401,6 +471,7 @@ void ParticleDemoApp::update() {
   if (m_visualizerOnlyMode && firstUpdate) {
     setAlwaysOnTop(false);
     // EVENT app has begun in Visualizer mode (not Orientation)
+    SendMixPanelEvent("Orientation - Visualizer mode");
   }
 
   if (firstUpdate && m_stage > STAGE_CONNECTING) {
@@ -438,6 +509,7 @@ void ParticleDemoApp::update() {
     }
     firstUpdate = false;
     // EVENT app has begun in Orientation mode (not Visualizer)
+    SendMixPanelEvent("Orientation - Orientation mode");
 
     return; // don't run draw code until resize is called.
   } else if (m_stage > STAGE_WAITING && !m_visualizerOnlyMode) {
@@ -667,6 +739,9 @@ void ParticleDemoApp::shutdown() {
   }
 #endif
   // EVENT application is exiting in any way except a crash (total time spent is "ci::app::getElapsedSeconds()")
+  std::stringstream extraData;
+  extraData << "\"Elapsed Time\": \"" << ci::app::getElapsedSeconds() << "\"";
+  SendMixPanelEvent("Orientation - Quit", extraData.str());
 }
 
 Renderer* ParticleDemoApp::prepareRenderer() {
@@ -868,6 +943,9 @@ void ParticleDemoApp::runDemoScript() {
                 && lastStage != STAGE_DRAWING_TEXT;
     if (!getDemoStage(doLimit, accumTime, m_stage, fadeMult)) {
       // EVENT orientation completed successfully (total amount of time spent was "curTime")
+      std::stringstream extraData;
+      extraData << "\"Elapsed Time\": \"" << ci::app::getElapsedSeconds() << "\"";
+      SendMixPanelEvent("Orientation - Completed Success", extraData.str());
       quit();
     }
     accumTime += deltaTime;
@@ -880,6 +958,10 @@ void ParticleDemoApp::runDemoScript() {
   if (m_stage != lastStage) {
     if (lastStage > STAGE_WAITING) {
       // EVENT stage changed (amount of time spent was "timeInStage" and current stage is "m_stage")
+      std::stringstream extraData;
+      extraData << "\"Elapsed Time\": \"" << timeInStage << "\",";
+      extraData << "\"New Stage\": \"" << m_stage << "\"";
+      SendMixPanelEvent("Orientation - Stage Changed", extraData.str());
     }
     timeInStage = 0;
   } else {
@@ -1285,6 +1367,7 @@ bool ParticleDemoApp::isHOPS() {
   LONG WINAPI HandleCrash(EXCEPTION_POINTERS* pException_) {
      ::MessageBox(0, L"Orientation has crashed. Please make sure you have the latest graphics drivers installed.", L"Error", MB_OK);
       // EVENT crashed
+      SendMixPanelEvent("Orientation - Crashed");
      return EXCEPTION_EXECUTE_HANDLER;
   }
 
