@@ -13,11 +13,13 @@ public:
   virtual void onFrame( const Leap::Controller& );
   bool WaitForFrame(Leap::Frame& curFrame, int millisecondsTimeout);
   bool IsConnected() const;
+  const std::string& GetDeviceID() const;
 private:
   bool m_isConnected;
   Leap::Frame m_frame;
   std::mutex m_mutex;
   std::condition_variable m_condition;
+  std::string m_deviceID;
 };
 
 #endif
