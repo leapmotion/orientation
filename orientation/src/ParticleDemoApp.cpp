@@ -792,12 +792,12 @@ void ParticleDemoApp::setResolution(int width, int height) {
 #else
   DEVMODE tempDM;
   DEVMODE mode;
-  int maxWidth = 0;
-  int maxHeight = 0;
+  std::size_t maxWidth = 0;
+  std::size_t maxHeight = 0;
   for (int i = 0; EnumDisplaySettings(0, i, &tempDM) != 0; i++) {
-    DWORD curWidth = tempDM.dmPelsWidth;
+	DWORD curWidth = tempDM.dmPelsWidth;
     DWORD curHeight = tempDM.dmPelsHeight;
-    if (tempDM.dmBitsPerPel >= 32 && curWidth <= width && (curWidth > maxWidth || (curWidth == maxWidth && curHeight > maxHeight)) && tempDM.dmBitsPerPel > 16) {
+    if (tempDM.dmBitsPerPel >= 32 && curWidth <= (std::size_t)width && (curWidth > maxWidth || (curWidth == maxWidth && curHeight > maxHeight)) && tempDM.dmBitsPerPel > 16) {
       mode = tempDM;
       maxWidth = curWidth;
       maxHeight = curHeight;
