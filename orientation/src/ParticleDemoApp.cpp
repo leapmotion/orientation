@@ -65,7 +65,7 @@ void SendMixPanelEvent(const std::string &eventName, const std::string &deviceID
     }
   }
 
-  json.append("distinct_id\": \"" + distinct_id + "\",");
+  json.append("\"distinct_id\": \"" + distinct_id + "\",");
 #elif __APPLE__
   if( distinct_id.empty() ) {
     ci::fs::path guidPath = boost::filesystem::path("/Library/Application Support/Leap Motion/mpguid");
@@ -74,13 +74,13 @@ void SendMixPanelEvent(const std::string &eventName, const std::string &deviceID
   }
 
   if( !distinct_id.empty() ) {
-    json.append("distinct_id\": \"" + distinct_id + "\",");
+    json.append("\"distinct_id\": \"" + distinct_id + "\",");
   }
 #endif
   
-  json.append("token\": \""+ getMixPanelToken() + "\"");
+  json.append("\"token\": \""+ getMixPanelToken() + "\",");
 
-  json.append("Device ID\": \"" + deviceID + "\"");
+  json.append("\"Device ID\": \"" + deviceID + "\"");
 
   if( !data.empty() ) {
     json.append(", " + data);
@@ -751,7 +751,7 @@ void ParticleDemoApp::shutdown() {
 #endif
   // EVENT application is exiting in any way except a crash (total time spent is "ci::app::getElapsedSeconds()")
   std::stringstream extraData;
-  extraData << "\"Elapsed Time\": \"" << ci::app::getElapsedSeconds() << "\"";
+  extraData << "\"Elapsed Time\": \"" << ci::app::getElapsedSeconds();
   SendMixPanelEvent("Orientation - Quit", m_listener->GetDeviceID(), extraData.str());
 }
 
@@ -955,7 +955,7 @@ void ParticleDemoApp::runDemoScript() {
     if (!getDemoStage(doLimit, accumTime, m_stage, fadeMult)) {
       // EVENT orientation completed successfully (total amount of time spent was "curTime")
       std::stringstream extraData;
-      extraData << "\"Elapsed Time\": \"" << ci::app::getElapsedSeconds() << "\"";
+      extraData << "\"Elapsed Time\": " << ci::app::getElapsedSeconds();
       SendMixPanelEvent("Orientation - Completed Success", m_listener->GetDeviceID(), extraData.str());
       quit();
     }
@@ -970,8 +970,8 @@ void ParticleDemoApp::runDemoScript() {
     if (lastStage > STAGE_WAITING) {
       // EVENT stage changed (amount of time spent was "timeInStage" and current stage is "m_stage")
       std::stringstream extraData;
-      extraData << "\"Elapsed Time\": \"" << timeInStage << "\",";
-      extraData << "\"New Stage\": \"" << m_stage << "\"";
+      extraData << "\"Elapsed Time\": " << timeInStage << ",";
+      extraData << "\"New Stage\": " << m_stage;
       SendMixPanelEvent("Orientation - Stage Changed", m_listener->GetDeviceID(), extraData.str());
     }
     timeInStage = 0;
