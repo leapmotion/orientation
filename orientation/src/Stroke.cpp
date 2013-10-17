@@ -42,11 +42,11 @@ void Stroke::draw(const ci::ColorA& color) const {
 }
 
 void Stroke::addPoint(const Vector3& point, const Vector3& viewDir, double curTime) {
-  static const double INTERP_INC = 1.0 / static_cast<double>(NUM_INTERP_POINTS);
+  static const float INTERP_INC = 1.0f / static_cast<float>(NUM_INTERP_POINTS);
   m_orig.push_back(point);
   m_times.push_back(curTime);
   if (m_orig.size() > 3) {
-    double mu = 0;
+    float mu = 0.0;
     int size = static_cast<int>(m_orig.size());
     for (int i=0; i<NUM_INTERP_POINTS; i++) {
       Vector3 result = Utils::interpolateCatmullRom<Vector3>(m_orig[size-4],
@@ -61,8 +61,8 @@ void Stroke::addPoint(const Vector3& point, const Vector3& viewDir, double curTi
                                                           mu);
       mu += INTERP_INC;
       Vector3 perp = (result - m_last).cross(viewDir).normalized();
-      m_interp1.push_back(result - (width/2.0)*perp);
-      m_interp2.push_back(result + (width/2.0)*perp);
+      m_interp1.push_back(result - static_cast<float>(width/2.0)*perp);
+      m_interp2.push_back(result + static_cast<float>(width/2.0)*perp);
       m_last = result;
     }
   } else {

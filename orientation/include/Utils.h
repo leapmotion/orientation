@@ -36,33 +36,33 @@ static void drawFrustum(const Leap::Device& device, float edgesAlpha, bool withP
   ci::ColorA outsideColor(0.0f, 0.0f, 0.0f, 0.0f);
   glPushMatrix();
 
-  double range = 1.0*device.range();
+  float range = 1.0f*device.range();
   double faceRange = 1.5*device.range();
   double shortRange = 0.01*device.range();
-  double x = std::tan(device.horizontalViewAngle() * 0.5);
-  double y = std::tan(device.verticalViewAngle() * 0.5);
+  float x = std::tan(device.horizontalViewAngle() * 0.5f);
+  float y = std::tan(device.verticalViewAngle() * 0.5f);
 
   Vector3 viewPoint(Vector3::Zero());
-  Vector3 upperLeft(x, 1.0, y);
-  Vector3 lowerLeft(x, 1.0, -y);
-  Vector3 upperRight(-x, 1.0, y);
-  Vector3 lowerRight(-x, 1.0, -y);
+  Vector3 upperLeft(x, 1.0f, y);
+  Vector3 lowerLeft(x, 1.0f, -y);
+  Vector3 upperRight(-x, 1.0f, y);
+  Vector3 lowerRight(-x, 1.0f, -y);
   Vector3 left = (upperLeft + lowerLeft)/2.0;
   Vector3 right = (upperRight + lowerRight)/2.0;
   Vector3 top = (upperLeft + upperRight)/2.0;
   Vector3 bottom = (lowerLeft + lowerRight)/2.0;
 
   static const int NUM_FACE_POINTS = 15;
-  static const double FACE_INCREMENT = 1.0 / static_cast<double>(NUM_FACE_POINTS);
+  static const float FACE_INCREMENT = 1.0f / static_cast<float>(NUM_FACE_POINTS);
   static const int NUM_LINE_POINTS = 50;
-  static const double LINE_INCREMENT = 1.0 / static_cast<double>(NUM_LINE_POINTS);
-  double blend;
+  static const float LINE_INCREMENT = 1.0f / static_cast<float>(NUM_LINE_POINTS);
+  float blend;
 
   // draw top face
   blend = 0;
   glBegin(GL_TRIANGLE_STRIP);
   for (int i=0; i<=NUM_FACE_POINTS; i++) {
-    Vector3 pos = blend*upperLeft + (1.0-blend)*upperRight;
+    Vector3 pos = blend*upperLeft + (1.0f-blend)*upperRight;
     ci::gl::color(centerColor);
     glVertex3d(shortRange*pos[0], shortRange*pos[1], shortRange*pos[2]);
     pos.normalize();
@@ -76,7 +76,7 @@ static void drawFrustum(const Leap::Device& device, float edgesAlpha, bool withP
   blend = 0;
   glBegin(GL_TRIANGLE_STRIP);
   for (int i=0; i<=NUM_FACE_POINTS; i++) {
-    Vector3 pos = blend*lowerLeft + (1.0-blend)*upperLeft;
+    Vector3 pos = blend*lowerLeft + (1.0f-blend)*upperLeft;
     ci::gl::color(centerColor);
     glVertex3d(shortRange*pos[0], shortRange*pos[1], shortRange*pos[2]);
     pos.normalize();
@@ -90,7 +90,7 @@ static void drawFrustum(const Leap::Device& device, float edgesAlpha, bool withP
   blend = 0;
   glBegin(GL_TRIANGLE_STRIP);
   for (int i=0; i<=NUM_FACE_POINTS; i++) {
-    Vector3 pos = blend*lowerRight + (1.0-blend)*lowerLeft;
+    Vector3 pos = blend*lowerRight + (1.0f-blend)*lowerLeft;
     ci::gl::color(centerColor);
     glVertex3d(shortRange*pos[0], shortRange*pos[1], shortRange*pos[2]);
     pos.normalize();
@@ -104,7 +104,7 @@ static void drawFrustum(const Leap::Device& device, float edgesAlpha, bool withP
   blend = 0;
   glBegin(GL_TRIANGLE_STRIP);
   for (int i=0; i<=NUM_FACE_POINTS; i++) {
-    Vector3 pos = blend*upperRight + (1.0-blend)*lowerRight;
+    Vector3 pos = blend*upperRight + (1.0f-blend)*lowerRight;
     ci::gl::color(centerColor);
     glVertex3d(shortRange*pos[0], shortRange*pos[1], shortRange*pos[2]);
     pos.normalize();
@@ -123,7 +123,7 @@ static void drawFrustum(const Leap::Device& device, float edgesAlpha, bool withP
     glBegin(GL_LINE_STRIP);
     glVertex3d(viewPoint[0], viewPoint[1], viewPoint[2]);
     for (int i=0; i<=NUM_LINE_POINTS; i++) {
-      Vector3 pos = blend*upperLeft + (1.0-blend)*upperRight;
+      Vector3 pos = blend*upperLeft + (1.0f-blend)*upperRight;
       pos = range * pos.normalized();
       glVertex3d(pos[0], pos[1], pos[2]);
       blend += LINE_INCREMENT;
@@ -135,7 +135,7 @@ static void drawFrustum(const Leap::Device& device, float edgesAlpha, bool withP
     glBegin(GL_LINE_STRIP);
     glVertex3d(viewPoint[0], viewPoint[1], viewPoint[2]);
     for (int i=0; i<=NUM_LINE_POINTS; i++) {
-      Vector3 pos = blend*lowerLeft + (1.0-blend)*upperLeft;
+      Vector3 pos = blend*lowerLeft + (1.0f-blend)*upperLeft;
       pos = range * pos.normalized();
       glVertex3d(pos[0], pos[1], pos[2]);
       blend += LINE_INCREMENT;
@@ -147,7 +147,7 @@ static void drawFrustum(const Leap::Device& device, float edgesAlpha, bool withP
     glBegin(GL_LINE_STRIP);
     glVertex3d(viewPoint[0], viewPoint[1], viewPoint[2]);
     for (int i=0; i<=NUM_LINE_POINTS; i++) {
-      Vector3 pos = blend*lowerRight + (1.0-blend)*lowerLeft;
+      Vector3 pos = blend*lowerRight + (1.0f-blend)*lowerLeft;
       pos = range * pos.normalized();
       glVertex3d(pos[0], pos[1], pos[2]);
       blend += LINE_INCREMENT;
@@ -159,7 +159,7 @@ static void drawFrustum(const Leap::Device& device, float edgesAlpha, bool withP
     glBegin(GL_LINE_STRIP);
     glVertex3d(viewPoint[0], viewPoint[1], viewPoint[2]);
     for (int i=0; i<=NUM_LINE_POINTS; i++) {
-      Vector3 pos = blend*upperRight + (1.0-blend)*lowerRight;
+      Vector3 pos = blend*upperRight + (1.0f-blend)*lowerRight;
       pos = range * pos.normalized();
       glVertex3d(pos[0], pos[1], pos[2]);
       blend += LINE_INCREMENT;
@@ -170,7 +170,7 @@ static void drawFrustum(const Leap::Device& device, float edgesAlpha, bool withP
     blend = 0;
     glBegin(GL_LINE_STRIP);
     for (int i=0; i<=NUM_LINE_POINTS; i++) {
-      Vector3 pos = blend*left + (1.0-blend)*right;
+      Vector3 pos = blend*left + (1.0f-blend)*right;
       pos = range * pos.normalized();
       glVertex3d(pos[0], pos[1], pos[2]);
       blend += LINE_INCREMENT;
@@ -181,7 +181,7 @@ static void drawFrustum(const Leap::Device& device, float edgesAlpha, bool withP
     blend = 0;
     glBegin(GL_LINE_STRIP);
     for (int i=0; i<=NUM_LINE_POINTS; i++) {
-      Vector3 pos = blend*top + (1.0-blend)*bottom;
+      Vector3 pos = blend*top + (1.0f-blend)*bottom;
       pos = range * pos.normalized();
       glVertex3d(pos[0], pos[1], pos[2]);
       blend += LINE_INCREMENT;
@@ -392,7 +392,7 @@ static void drawPointable(const Leap::Pointable& pointable, ci::Camera* cam, ci:
   Leap::Vector vel = pointable.tipVelocity();
   float touchDist = pointable.touchDistance();
 
-  float alpha = smootherStep(std::min(1.0f, pointable.timeVisible()/APPEAR_TIME));
+  float alpha = static_cast<float>(smootherStep(std::min(1.0f, pointable.timeVisible()/APPEAR_TIME)));
 
   ci::Vec3f right, up;
   cam->getBillboardVectors(&right, &up);
