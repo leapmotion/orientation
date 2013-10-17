@@ -73,7 +73,7 @@ private:
 
     // iterate through the strings and draw them on separate lines
     Vec2f curPos(centerX - curWidth/2.0f, centerY - height/2.0f);
-    for (int i=0; i<numStrings; i++) {
+    for (std::size_t i=0; i<numStrings; i++) {
 //    Cinder's ci::toUtf8() function doesn't work properly on Mac, use our own implementation:
       const std::string utf8str = convertWideStringToUTF8String(textStrings[i]);
       if (i == 0) {

@@ -389,7 +389,7 @@ void ParticleDemoApp::mouseDrag(MouseEvent event) {
 
 void ParticleDemoApp::mouseWheel(MouseEvent event) {
   float off = event.getWheelIncrement();
-  m_cameraZoom -= 0.1*event.getWheelIncrement();
+  m_cameraZoom -= 0.1f*event.getWheelIncrement();
   m_cameraZoom = std::min(1.9f, std::max(0.1f, m_cameraZoom));
 }
 
@@ -674,7 +674,7 @@ void ParticleDemoApp::draw() {
       m_shaderMotion.uniform("blurMult", m_blurMult);
 
       gl::color(Color::white());
-      gl::drawSolidRect(Rectf(0, height, width, 0));
+      gl::drawSolidRect(Rectf(0, static_cast<float>(height), static_cast<float>(width), 0));
 
       m_shaderMotion.unbind();
     }
@@ -730,10 +730,10 @@ void ParticleDemoApp::draw() {
     // draw our scene with the blurred version added as a blend
     gl::clear( Color::black() );
     gl::color(Color::white() );
-    gl::draw(buf3.getTexture(), Rectf(0, height, width, 0));
+    gl::draw(buf3.getTexture(), Rectf(0, static_cast<float>(height), static_cast<float>(width), 0));
 
     gl::enableAdditiveBlending();
-    gl::draw(m_fboGlow2.getTexture(), Rectf(0, height, width, 0));
+    gl::draw(m_fboGlow2.getTexture(), Rectf(0, static_cast<float>(height), static_cast<float>(width), 0));
     gl::disableAlphaBlending();
   } else {
     drawScene();
@@ -801,12 +801,12 @@ void ParticleDemoApp::setResolution(int width, int height) {
 #else
   DEVMODE tempDM;
   DEVMODE mode;
-  int maxWidth = 0;
-  int maxHeight = 0;
+  std::size_t maxWidth = 0;
+  std::size_t maxHeight = 0;
   for (int i = 0; EnumDisplaySettings(0, i, &tempDM) != 0; i++) {
-    DWORD curWidth = tempDM.dmPelsWidth;
+	DWORD curWidth = tempDM.dmPelsWidth;
     DWORD curHeight = tempDM.dmPelsHeight;
-    if (tempDM.dmBitsPerPel >= 32 && curWidth <= width && (curWidth > maxWidth || (curWidth == maxWidth && curHeight > maxHeight)) && tempDM.dmBitsPerPel > 16) {
+    if (tempDM.dmBitsPerPel >= 32 && curWidth <= (std::size_t)width && (curWidth > maxWidth || (curWidth == maxWidth && curHeight > maxHeight)) && tempDM.dmBitsPerPel > 16) {
       mode = tempDM;
       maxWidth = curWidth;
       maxHeight = curHeight;
@@ -1110,7 +1110,7 @@ void ParticleDemoApp::runDemoScript() {
     if (m_stage == STAGE_DRAWING) {
       static Utils::RollingMean<30> volSmoother;
       volSmoother.Update(static_cast<float>(activeStrokes.size()));
-      float mult = ci::math<float>::clamp(volSmoother.avg*0.6, 0.15f, 0.9f);
+      float mult = ci::math<float>::clamp(volSmoother.avg*0.6f, 0.15f, 0.9f);
       m_drawingLoop->setVolume(std::min(1.0f, 0.5f * fadeMult));
       m_glowLoop->setVolume(std::min(1.0f, fadeMult * mult));
     } else {
@@ -1153,7 +1153,7 @@ void ParticleDemoApp::setDemoCamera() {
 
 void ParticleDemoApp::drawDemoImage() {
   const ci::Vec2f center = getWindowCenter();
-  const float width = getWindowWidth();
+  const float width = (const float)getWindowWidth();
   if (m_curImageNum == IMAGE_PLUG_IN || m_curImageNum == IMAGE_LOGO) {
     // draw an actual texture
     float scale = 1.0f;
@@ -1181,11 +1181,11 @@ void ParticleDemoApp::drawDemoImage() {
     // draw a text string
     int highlightStart, numHighlightChars;
     if (m_curImageNum == IMAGE_WHERE) {
-      m_textStrings.drawWhereStrings(m_curImageAlpha, width, getWindowHeight());
+      m_textStrings.drawWhereStrings(m_curImageAlpha, width, (float)getWindowHeight());
     } else if (m_curImageNum == IMAGE_WHAT) {
-      m_textStrings.drawWhatStrings(m_curImageAlpha, width, getWindowHeight());
+      m_textStrings.drawWhatStrings(m_curImageAlpha, width, (float)getWindowHeight());
     } else if (m_curImageNum == IMAGE_HOW) {
-      m_textStrings.drawHowStrings(m_curImageAlpha, width, getWindowHeight());
+      m_textStrings.drawHowStrings(m_curImageAlpha, width, (float)getWindowHeight());
     } else {
       return;
     }
@@ -1257,7 +1257,7 @@ void ParticleDemoApp::updateCamera(double timeInStage) {
 
   double curTime = ci::app::getElapsedSeconds();
   if (m_curNumHands > 0) {
-    avgHandPosSmoother.Update(m_totalHandPos/m_curNumHands, curTime);
+    avgHandPosSmoother.Update(m_totalHandPos/static_cast<float>(m_curNumHands), curTime);
   } else {
     avgHandPosSmoother.Update(Vec3f::zero(), curTime);
   }
@@ -1278,7 +1278,7 @@ void ParticleDemoApp::updateCamera(double timeInStage) {
       float top = boxCenterY + halfWidth/aspect;
       m_orthoCamera.setOrtho(left, right, bottom, top, -3000.0f, 3000.0f);
     } else {
-      static const float ORTHO_WIDTH = ParticleController::VELFIELD_SCALE*ParticleController::FLUID_DIM/2.0;
+      static const float ORTHO_WIDTH = static_cast<float>(ParticleController::VELFIELD_SCALE*ParticleController::FLUID_DIM/2.0);
       static const float ORTHO_OFFSET = 30;
       float left = -ORTHO_WIDTH;
       float right = ORTHO_WIDTH;
@@ -1316,10 +1316,10 @@ void ParticleDemoApp::updateCamera(double timeInStage) {
     static const double AVG_CAM_HEIGHT = 175;
     static const double CAM_HEIGHT_RANGE = 75;
 
-    float camDist = AVG_CAM_DIST + (CAM_DIST_RANGE/2.0)*std::sin(timeInStage / CAM_DIST_TIME);
-    m_cameraPos.x = camDist*0.5*std::sin(timeInStage / ORBIT_TIME_X);
-    m_cameraPos.y = AVG_CAM_HEIGHT + (CAM_HEIGHT_RANGE/2.0)*std::sin(timeInStage / CAM_HEIGHT_TIME);
-    m_cameraPos.z = camDist*(0.2*std::sin(timeInStage / ORBIT_TIME_Z) + 0.8);
+    float camDist = static_cast<float>(AVG_CAM_DIST + (CAM_DIST_RANGE/2.0)*std::sin(timeInStage / CAM_DIST_TIME));
+    m_cameraPos.x = camDist*0.5f*static_cast<float>(std::sin(timeInStage / ORBIT_TIME_X));
+    m_cameraPos.y = static_cast<float>(AVG_CAM_HEIGHT + (CAM_HEIGHT_RANGE/2.0)*std::sin(timeInStage / CAM_HEIGHT_TIME));
+    m_cameraPos.z = camDist*(0.2f*static_cast<float>(std::sin(timeInStage / ORBIT_TIME_Z) + 0.8));
     m_camera.lookAt(m_cameraPos, m_cameraCenter, up);
   }
 }
