@@ -44,7 +44,9 @@ void SendMixPanelJSON(const std::string &jsonData)
   const std::string mpBaseURL("http://api.mixpanel.com/track/?data=");
   std::string encodedData = cinder::toBase64(jsonData);
   std::string requestString = mpBaseURL + encodedData;
-  cinder::IStreamUrl::create(cinder::Url(requestString));
+  try {
+    cinder::IStreamUrl::create(cinder::Url(requestString));
+  } catch(...) { }
 }
 
 void SendMixPanelEvent(const std::string &eventName, const std::string &deviceID, const std::string &data = "")
