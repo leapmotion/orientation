@@ -50,14 +50,13 @@ void SendMixPanelJSON(const std::string &jsonData)
 void SendMixPanelEvent(const std::string &eventName, const std::string &deviceID, const std::string &data = "")
 {
   std::string json = "{ \"event\": \"" + eventName + "\", \"properties\": {";
-
-#ifdef _WIN32
+  
   static std::string distinct_id;
-  if( distinct_id.empty() )
-  {
+#ifdef _WIN32
+  
+  if( distinct_id.empty() ) {
     HKEY key;
-    if( RegOpenKey(HKEY_LOCAL_MACHINE, TEXT("Software\\LeapMotion"), &key) == ERROR_SUCCESS )
-    {
+    if( RegOpenKey(HKEY_LOCAL_MACHINE, TEXT("Software\\LeapMotion"), &key) == ERROR_SUCCESS ) {
       char val[64];
       val[0] = 0; //if we fail, make this a null string;
       DWORD valLen = 64;
@@ -67,6 +66,16 @@ void SendMixPanelEvent(const std::string &eventName, const std::string &deviceID
   }
 
   json.append("distinct_id\": \"" + distinct_id + "\",");
+#elif __APPLE__
+  if( distinct_id.empty() ) {
+    ci::fs::path guidPath = boost::filesystem3::path("/Library/Application Support/Leap Motion/mpguid");
+    ci::IStreamFileRef guidFileStream = ci::loadFileStream(guidPath);
+    distinct_id = guidFileStream->readLine();
+  }
+
+  if( !distinct_id.empty() ) {
+    json.append("distinct_id\": \"" + distinct_id + "\",");
+  }
 #endif
   
   json.append("token\": \""+ getMixPanelToken() + "\"");
