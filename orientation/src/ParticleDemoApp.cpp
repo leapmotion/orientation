@@ -68,7 +68,7 @@ void SendMixPanelEvent(const std::string &eventName, const std::string &deviceID
   json.append("distinct_id\": \"" + distinct_id + "\",");
 #elif __APPLE__
   if( distinct_id.empty() ) {
-    ci::fs::path guidPath = boost::filesystem3::path("/Library/Application Support/Leap Motion/mpguid");
+    ci::fs::path guidPath = boost::filesystem::path("/Library/Application Support/Leap Motion/mpguid");
     ci::IStreamFileRef guidFileStream = ci::loadFileStream(guidPath);
     distinct_id = guidFileStream->readLine();
   }
