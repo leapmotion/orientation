@@ -354,6 +354,13 @@ void ParticleDemoApp::keyDown(KeyEvent event) {
     SendMixPanelEvent("Orientation - User Exited (ESC)", m_listener->GetDeviceID());
     quit();
   }
+#if _WIN32
+  if (event.isAltDown() && event.getCode() == KeyEvent::KEY_F4) {
+    // EVENT user exited manually with ALT+F4 key
+    SendMixPanelEvent("Orientation - User Exited (ESC)", m_listener->GetDeviceID());
+    quit();
+  }
+#endif
 }
 
 void ParticleDemoApp::mouseDown(MouseEvent event) {
