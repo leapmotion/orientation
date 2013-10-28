@@ -111,7 +111,7 @@ irrklang::ISound* ParticleDemoApp::createSoundResource(DataSourceRef ref, const 
     ss->setForcedStreamingThreshold(300000);
 
     // Done loading the stream, return the source:
-    return m_soundEngine->play2D(ss, true, true, true, irrklang::ESM_NO_STREAMING);
+    return m_soundEngine->play2D(ss, true, true, true, (bool)irrklang::ESM_NO_STREAMING);
   }
 
   return NULL;
