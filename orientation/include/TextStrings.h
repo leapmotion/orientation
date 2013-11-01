@@ -13,9 +13,11 @@ public:
 
   TextStrings() {
     std::string syslocale = I18N::getUserLocale();
-    //get first two characters of string e.g. returns 'en' for english, 'es' for spanish, 'de' for german etc
-    syslocale = syslocale.substr(0,2);
-    createStrings(syslocale); 
+    if (syslocale != "zh_TW") { // Special-case Traditional Chinese; Use whole locale
+      // Get first two characters of string e.g. returns 'en' for English, 'es' for Spanish, 'de' for German, etc.
+      syslocale = syslocale.substr(0,2);
+    }
+    createStrings(syslocale);
   }
 
   void drawWhereStrings(float alpha, float windowWidth, float windowHeight) const {
@@ -42,7 +44,7 @@ private:
       const std::wstring& titleString = textStrings[0];
       float length = static_cast<float>(titleString.size()); // Determine the number of characters in the title
 
-      if (locale == "ja" || locale == "zh") {
+      if (locale == "ja" || locale == "zh" || locale == "zh_TW") {
         length *= 2; // Assume the strings are using double width characters
       }
       length /= 20.0f; // Strings of length 20 would be nice width font size of 72, so adjust accordingly
@@ -68,10 +70,10 @@ private:
     const ci::ColorA lineColor(0.9f, 0.9f, 0.9f, alpha);
     const Vec2f instructionsOffset(15.0f * resScale, 0.0f);
     const float height = titleSize + (numStrings-1)*instructionsSize + numStrings*lineSpacing;
-    
+
     // iterate through the strings and draw them on separate lines
     Vec2f curPos(centerX - curWidth/2.0f, centerY - height/2.0f);
-    for (int i=0; i<numStrings; i++) {
+    for (std::size_t i=0; i<numStrings; i++) {
 //    Cinder's ci::toUtf8() function doesn't work properly on Mac, use our own implementation:
       const std::string utf8str = convertWideStringToUTF8String(textStrings[i]);
       if (i == 0) {
@@ -145,7 +147,7 @@ private:
     m_whatStrings.clear();
     m_howStrings.clear();
 
-   if (m_locale == "pt") {
+    if (m_locale == "pt") {
       m_whereStrings.push_back(L"Esse é o raio de visão...");
       m_whereStrings.push_back(L"para começar: mova sua mão sobre o dispositivo");
       m_whereStrings.push_back(L"para continuar: remova suas mãos");
@@ -156,7 +158,18 @@ private:
       m_howStrings.push_back(L"para desenhar: mova seu dedo para a frente");
       m_howStrings.push_back(L"para parar: mova seu dedo para trás");
       m_howStrings.push_back(L"para continuar: remova suas mãos");
-    
+    }
+    else if (m_locale == "es") {
+      m_whereStrings.push_back(L"Esto es donde lo ve...");
+      m_whereStrings.push_back(L"para comenzar: mueva su mano sobre el dispositivo");
+      m_whereStrings.push_back(L"para continuar: elimine sus manos");
+      m_whatStrings.push_back(L"Esto es lo que ve...");
+      m_whatStrings.push_back(L"para comenzar: mueva su mano sobre el dispositivo");
+      m_whatStrings.push_back(L"para continuar: elimine sus manos");
+      m_howStrings.push_back(L"Así es cómo dibuja...");
+      m_howStrings.push_back(L"para dibujar: mueva su dedo hacia adelante");
+      m_howStrings.push_back(L"para detener: mueva su dedo para atrás");
+      m_howStrings.push_back(L"para continuar: elimine sus manos");
     }
     else if (m_locale == "de") {
       m_whereStrings.push_back(L"Hier wird angezeigt, wo es sieht...");
@@ -169,7 +182,6 @@ private:
       m_howStrings.push_back(L"Zum Zeichnen: Finger vorbewegen");
       m_howStrings.push_back(L"Zum Stoppen: Finger zurückbewegen");
       m_howStrings.push_back(L"Zum Fortfahren: Hände entfernens");
-    
     }
     else if (m_locale == "fr") {
       m_whereStrings.push_back(L"Ceci est le point de vision...");
@@ -182,7 +194,6 @@ private:
       m_howStrings.push_back(L"Pour dessiner : déplacez votre doigt vers l'avant");
       m_howStrings.push_back(L"Pour arrêter : faites revenir votre doigt en arrière");
       m_howStrings.push_back(L"Pour poursuivre : retirez vos mains");
-    
     }
     else if (m_locale == "zh") {
       m_whereStrings.push_back(L"这是它所看到的空间...");
@@ -195,7 +206,18 @@ private:
       m_howStrings.push_back(L"下笔: 向前移动手指");
       m_howStrings.push_back(L"提笔: 往后移动手指");
       m_howStrings.push_back(L"继续: 移开手");
-    
+    }
+    else if (m_locale == "zh_TW") {
+      m_whereStrings.push_back(L"這是它所看到的空間...");
+      m_whereStrings.push_back(L"開始: 在設備上方揮手");
+      m_whereStrings.push_back(L"繼續: 移開手");
+      m_whatStrings.push_back(L"這是它所看到的內容...");
+      m_whatStrings.push_back(L"開始: 將手移動到設備上方");
+      m_whatStrings.push_back(L"繼續: 移開手");
+      m_howStrings.push_back(L"這是你作畫的方式...");
+      m_howStrings.push_back(L"下筆: 向前移動手指");
+      m_howStrings.push_back(L"提筆: 往後移動手指");
+      m_howStrings.push_back(L"繼續: 移開手");
     }
     else if (m_locale == "ja") {
       m_whereStrings.push_back(L"認識範囲を示します 。。。");
@@ -208,7 +230,6 @@ private:
       m_howStrings.push_back(L"描画するには：指を前に動かします");
       m_howStrings.push_back(L"停止するには：指を後ろに動かします");
       m_howStrings.push_back(L"続行するには：両手を引いて遠ざけます");
-    
     }
     else { //default to English
       m_whereStrings.push_back(L"this is where it sees...");

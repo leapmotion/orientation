@@ -21,10 +21,9 @@ std::string I18N::getUserLocale()
   }
   return "en";
 #elif _WIN32
-  const LCID lcid = GetUserDefaultLCID();
+  const LCID lcid = MAKELCID( GetUserDefaultUILanguage(), SORT_DEFAULT );
   char value[6];
   int len;
-  std::string locale;
 
   if ((len = GetLocaleInfoA(lcid, LOCALE_SNAME,
                             reinterpret_cast<LPSTR>(&value), sizeof(value))) > 0) {
@@ -52,7 +51,11 @@ std::string I18N::getUserLocale()
   if (value[len-1] == '\0') {
     len--;
   }
-  return std::string(value, len);
+  std::string locale(value, len);
+  if (locale == "zh_HK" || locale == "zh_MO") {
+    locale = "zh_TW";
+  }
+  return locale;
 #else
   const char* lang = getenv("LANG");
   if (lang) {

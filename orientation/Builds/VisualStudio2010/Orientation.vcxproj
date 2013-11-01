@@ -60,33 +60,18 @@
     <None Include="..\..\assets\rotate.ogg" />
     <None Include="..\..\assets\wait.ogg" />
     <None Include="..\..\resources\glow.png" />
-    <None Include="..\..\resources\how.png" />
-    <None Include="..\..\resources\how2.png" />
+    <None Include="..\..\resources\leap-icon.ico" />
     <None Include="..\..\resources\leap-icon.png" />
     <None Include="..\..\resources\leap_motion_logo.png" />
     <None Include="..\..\resources\plug-in-device-embedded.png" />
     <None Include="..\..\resources\plug-in-device.png" />
-    <None Include="..\..\resources\what.png" />
-    <None Include="..\..\resources\what2.png" />
-    <None Include="..\..\resources\where.png" />
-    <None Include="..\..\resources\where2.png" />
     <None Include="..\resources\blur_frag.glsl" />
     <None Include="..\resources\blur_vert.glsl" />
     <None Include="..\resources\finger_frag.glsl" />
     <None Include="..\resources\finger_vert.glsl" />
-    <None Include="..\resources\glow.png" />
-    <None Include="..\resources\how.png" />
-    <None Include="..\resources\how2.png" />
     <None Include="..\resources\leap-icon.ico" />
-    <None Include="..\resources\leap_motion_logo.png" />
     <None Include="..\resources\motion_frag.glsl" />
     <None Include="..\resources\pass_thru_vert.glsl" />
-    <None Include="..\resources\plug-in-device-embedded.png" />
-    <None Include="..\resources\plug-in-device.png" />
-    <None Include="..\resources\what.png" />
-    <None Include="..\resources\what2.png" />
-    <None Include="..\resources\where.png" />
-    <None Include="..\resources\where2.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{74202EDD-91D2-4D2A-B0B6-355CEB16E6BE}</ProjectGuid>
@@ -125,12 +110,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ExecutablePath>$(LIBRARIES_PATH)\irrKlang-pro-1.4.0\bin\win32-visualStudio;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>..\..\..\LeapSDK\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(LIBRARIES_PATH)\cinder_0.8.4\include;$(LIBRARIES_PATH)\irrKlang-pro-1.4.0\include;$(LIBRARIES_PATH)\cinder_0.8.4\boost;$(LIBRARIES_PATH)\eigen-3.1.2;..\..\include;..\..\..\LeapSDK\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(LIBRARIES_PATH)\cinder_0.8.4\include;$(LIBRARIES_PATH)\irrKlang-pro-1.4.0\include;$(LIBRARIES_PATH)\cinder_0.8.4\boost;$(LIBRARIES_PATH)\eigen-3.1.2;..\..\..\LeapSDK\include;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -142,11 +126,11 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>$(LIBRARIES_PATH)\cinder_0.8.4\include;$(LIBRARIES_PATH)\irrKlang-1.4.0\include;$(LIBRARIES_PATH)\cinder_0.8.4\boost;$(LIBRARIES_PATH)\eigen-3.1.2;..\..\include;..\..\..\LeapSDK\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(LIBRARIES_PATH)\cinder_0.8.4\include;$(LIBRARIES_PATH)\irrKlang-1.4.0\include;$(LIBRARIES_PATH)\cinder_0.8.4\boost;$(LIBRARIES_PATH)\eigen-3.1.2;..\..\..\LeapSDK\include;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>cinder_d.lib;Leapd.lib;glu32.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\LeapSDK\lib\x86;$(LIBRARIES_PATH)\cinder_0.8.4\lib;$(LIBRARIES_PATH)\irrKlang-pro-1.4.0\bin\win32-visualstudio_lib;$(LIBRARIES_PATH)\cinder_0.8.4\lib\msw</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\LeapSDK\lib\x86;$(LIBRARIES_PATH)\cinder_0.8.4\lib;$(LIBRARIES_PATH)\irrKlang-pro-1.4.0\bin\win32-visualstudio_lib;$(LIBRARIES_PATH)\cinder_0.8.4\lib\msw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -162,7 +146,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(LIBRARIES_PATH)\cinder_0.8.4\include;$(LIBRARIES_PATH)\irrKlang-pro-1.4.0\include;$(LIBRARIES_PATH)\cinder_0.8.4\boost;$(LIBRARIES_PATH)\eigen-3.1.2;..\..\..\LeapSDK\include;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
@@ -184,7 +168,7 @@
     <Link>
       <AdditionalDependencies>cinder.lib;Leap.lib;glu32.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\LeapSDK\lib\x86;$(LIBRARIES_PATH)\cinder_0.8.4\lib;$(LIBRARIES_PATH)\irrKlang-pro-1.4.0\bin\win32-visualstudio_lib;$(LIBRARIES_PATH)\cinder_0.8.4\lib\msw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>

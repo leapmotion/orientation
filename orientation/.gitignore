@@ -1,0 +1,4 @@
+Builds/*/Debug/
+Builds/*/Release/
+Builds/*/ipch/
+Builds/MacOSX/*.xcodeproj/xcuserdata/

@@ -128,69 +128,6 @@
     <None Include="..\resources\pass_thru_vert.glsl">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="..\resources\glow.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\..\resources\glow.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\resources\how.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\..\resources\how.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\resources\how2.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\..\resources\how2.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\..\resources\leap-icon.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\resources\leap_motion_logo.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\..\resources\leap_motion_logo.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\resources\plug-in-device-embedded.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\..\resources\plug-in-device-embedded.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\resources\plug-in-device.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\..\resources\plug-in-device.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\resources\what.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\..\resources\what.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\resources\what2.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\..\resources\what2.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\resources\where.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\..\resources\where.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\resources\where2.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="..\..\resources\where2.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
     <None Include="..\..\assets\fluid.ogg">
       <Filter>Resource Files\Sounds</Filter>
     </None>
@@ -211,6 +148,24 @@
     </None>
     <None Include="..\..\assets\drawing.ogg">
       <Filter>Resource Files\Sounds</Filter>
+    </None>
+    <None Include="..\..\resources\glow.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\leap_motion_logo.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\leap-icon.ico">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\leap-icon.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\plug-in-device.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\plug-in-device-embedded.png">
+      <Filter>Resource Files\Images</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

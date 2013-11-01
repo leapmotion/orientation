@@ -21,6 +21,19 @@ void LeapListener::onDisconnect(const Leap::Controller& controller) {
 
 void LeapListener::onFrame(const Leap::Controller& controller) {
   std::lock_guard<std::mutex> lock(m_mutex);
+  if (m_deviceID.empty()) {
+    if (!controller.devices().isEmpty()) {
+      std::string fullString = controller.devices()[0].toString();
+      // the string from the API also has some extra text on it, so just retrieve the actual ID
+      // keep this in sync with whatever DeviceImplementation::toString() does
+      size_t pos = fullString.find(": ");
+      if (pos == std::string::npos) {
+        m_deviceID = fullString;
+      } else {
+        m_deviceID = fullString.substr(pos + 2);
+      }
+    }
+  }
   m_isConnected = true;
   m_frame = controller.frame();
   m_condition.notify_all();
@@ -38,4 +51,8 @@ bool LeapListener::WaitForFrame(Leap::Frame& curFrame, int millisecondsTimeout) 
 
 bool LeapListener::IsConnected() const {
   return m_isConnected;
+}
+
+const std::string& LeapListener::GetDeviceID() const {
+  return m_deviceID;
 }
