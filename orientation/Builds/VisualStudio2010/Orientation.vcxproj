@@ -168,7 +168,7 @@
     <Link>
       <AdditionalDependencies>cinder.lib;Leap.lib;glu32.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\LeapSDK\lib\x86;$(LIBRARIES_PATH)\cinder_0.8.4\lib;$(LIBRARIES_PATH)\irrKlang-pro-1.4.0\bin\win32-visualstudio_lib;$(LIBRARIES_PATH)\cinder_0.8.4\lib\msw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
