@@ -1171,6 +1171,7 @@ void ParticleDemoApp::drawDemoImage() {
       scale = 0.75f;
       tex = &m_plugInTex;
     } else {
+      scale = 0.7f;
       scale = 0.85f;
       tex = &m_logoTex;
     }
