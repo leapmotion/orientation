@@ -132,6 +132,7 @@ ParticleDemoApp::ParticleDemoApp()
     exit(0);
   }
 #endif
+  m_skipStage = -1;
 }
 
 void ParticleDemoApp::setup() {
@@ -361,6 +362,15 @@ void ParticleDemoApp::keyDown(KeyEvent event) {
     quit();
   }
 #endif
+
+  if (!m_skipQueued
+    && m_stage != m_skipStage
+    && m_stage != STAGE_WAITING
+    && m_stage != STAGE_BEGIN
+    && m_stage != STAGE_OUTRO) {
+    m_skipQueued = true;
+    m_skipStage = m_stage;
+  }
 }
 
 void ParticleDemoApp::mouseDown(MouseEvent event) {
@@ -492,6 +502,7 @@ void ParticleDemoApp::update() {
     setAlwaysOnTop(false);
     // EVENT app has begun in Visualizer mode (not Orientation)
     SendMixPanelEvent("Orientation - Visualizer mode", m_listener->GetDeviceID());
+    firstUpdate = false;
   }
 
   if (firstUpdate && m_stage > STAGE_CONNECTING) {
@@ -526,10 +537,11 @@ void ParticleDemoApp::update() {
       setFullScreen(true);
 #endif
       hideCursor();
+
+      // EVENT app has begun in Orientation mode (not Visualizer)
+      SendMixPanelEvent("Orientation - Orientation mode", m_listener->GetDeviceID());
     }
     firstUpdate = false;
-    // EVENT app has begun in Orientation mode (not Visualizer)
-    SendMixPanelEvent("Orientation - Orientation mode", m_listener->GetDeviceID());
 
     return; // don't run draw code until resize is called.
   } else if (m_stage > STAGE_WAITING && !m_visualizerOnlyMode) {
@@ -596,6 +608,7 @@ void ParticleDemoApp::drawScene() {
   glEnd();
 
   drawDemoImage();
+  drawContinueImage();
 
   setDemoCamera();
 
@@ -944,6 +957,8 @@ void ParticleDemoApp::drawDrawing() const {
   }
 }
 
+#define ANY_KEY_DELAY 6.0f
+
 void ParticleDemoApp::runDemoScript() {
   static double accumTime = ci::app::getElapsedSeconds();
   static double lastTime = ci::app::getElapsedSeconds();
@@ -954,16 +969,15 @@ void ParticleDemoApp::runDemoScript() {
 
   static int lastStage = -1;
   static double timeInStage = 0;
-  float fadeMult;
+  float fadeMult, imageFadeMult, continueFadeMult;
+  bool doLimit = false;
   if (m_listener->IsConnected()) {
-    bool doLimit = (curTime - m_lastActivityTime) < 0.25
+    doLimit = (curTime - m_lastActivityTime) < 0.25
+                && m_stage != m_skipStage
                 && lastStage != STAGE_WAITING
-                && lastStage != STAGE_WHERE_TEXT
-                && lastStage != STAGE_HAND_TEXT
                 && lastStage != STAGE_BEGIN
-                && lastStage != STAGE_OUTRO
-                && lastStage != STAGE_DRAWING_TEXT;
-    if (!getDemoStage(doLimit, accumTime, m_stage, fadeMult)) {
+                && lastStage != STAGE_OUTRO;
+    if (!getDemoStage(doLimit, accumTime, m_stage, fadeMult, imageFadeMult, continueFadeMult)) {
       // EVENT orientation completed successfully (total amount of time spent was "curTime")
       std::stringstream extraData;
       extraData << "\"Elapsed Time\": " << ci::app::getElapsedSeconds();
@@ -975,6 +989,8 @@ void ParticleDemoApp::runDemoScript() {
     accumTime = 0;
     m_stage = STAGE_CONNECTING;
     fadeMult = 1.0f;
+    imageFadeMult = 1.0f;
+    continueFadeMult = 0.0f;
   }
 
   if (m_stage != lastStage) {
@@ -986,6 +1002,7 @@ void ParticleDemoApp::runDemoScript() {
       SendMixPanelEvent("Orientation - Stage Changed", m_listener->GetDeviceID(), extraData.str());
     }
     timeInStage = 0;
+    m_lastActivityTime = curTime;
   } else {
     timeInStage += deltaTime;
   }
@@ -1008,25 +1025,30 @@ void ParticleDemoApp::runDemoScript() {
     fadeSmoother.Update(0.0f, curTime);
     fadeMult = 1.0f;
     m_glowContrast = 0.0f;
+    imageFadeMult = 1.0f;
+    continueFadeMult = 0.0f;
   } else if (m_stage == STAGE_WAITING) {
     fadeSmoother.Update(0.0f, curTime);
     fadeMult = 0.0f;
     m_glowContrast = 0.0f;
+    imageFadeMult = 0.0f;
+    continueFadeMult = 0.0f;
   } else {
     fadeSmoother.Update(fadeMult, curTime);
     fadeMult = fadeSmoother.Mean();
     m_glowContrast = 1.2f;
   }
 
+  const float sinceActivityMult = static_cast<float>(Utils::smootherStep(ci::math<double>::clamp((curTime-1.5 - m_lastActivityTime)/5.0)));
+  continueFadeMult = timeInStage < ANY_KEY_DELAY ? 0.0f : std::max(continueFadeMult, std::min(1.0f-imageFadeMult, sinceActivityMult));
+
   m_draw3DScene = !(m_stage == STAGE_CONNECTING)
                && !(m_stage == STAGE_WAITING)
                && !(m_stage == STAGE_BEGIN)
-               && !(m_stage == STAGE_OUTRO)
-               && !(m_stage == STAGE_WHERE_TEXT)
-               && !(m_stage == STAGE_HAND_TEXT)
-               && !(m_stage == STAGE_DRAWING_TEXT);
+               && !(m_stage == STAGE_OUTRO);
   m_curFadeMult = fadeMult;
-  m_curImageAlpha = static_cast<float>(fadeMult);
+  m_curImageAlpha = m_visualizerOnlyMode ? 0.0f : static_cast<float>(imageFadeMult);
+  m_curContinueAlpha = m_visualizerOnlyMode ? 0.0f : static_cast<float>(continueFadeMult);
 
   // decide what to draw based on what stage we're in
   if (m_stage >= STAGE_HANDS) {
@@ -1056,24 +1078,25 @@ void ParticleDemoApp::runDemoScript() {
   }
 
   // set image depending on stage
+  m_curContinueNum = -1;
   if (m_stage == STAGE_CONNECTING) {
     m_curImageNum = IMAGE_PLUG_IN;
   } else if (m_stage == STAGE_BEGIN) {
     m_curImageNum = IMAGE_LOGO;
-  } else if (m_stage == STAGE_WHERE_TEXT) {
+  } else if (m_stage == STAGE_INTRO) {
     m_curImageNum = IMAGE_WHERE;
-  } else if (m_stage == STAGE_INTRO || m_stage == STAGE_3D) {
-    m_curImageNum = IMAGE_NONE;
+    m_curContinueNum = IMAGE_CONTINUE;
+  } else if (m_stage == STAGE_3D) {
+    m_curImageNum = IMAGE_WHERE_3D;
+    m_curContinueNum = IMAGE_CONTINUE;
   } else if (m_stage == STAGE_HANDS) {
-    m_curImageNum = IMAGE_NONE;
+    m_curImageNum = IMAGE_WHAT;
+    m_curContinueNum = IMAGE_CONTINUE;
   } else if (m_stage == STAGE_DRAWING) {
-    m_curImageNum = IMAGE_NONE;
+    m_curImageNum = IMAGE_HOW;
+    m_curContinueNum = IMAGE_FINISH;
   } else if (m_stage == STAGE_OUTRO) {
     m_curImageNum = IMAGE_LOGO;
-  } else if (m_stage == STAGE_HAND_TEXT) {
-    m_curImageNum = IMAGE_WHAT;
-  } else if (m_stage == STAGE_DRAWING_TEXT) {
-    m_curImageNum = IMAGE_HOW;
   }
 
   // modify bass loop
@@ -1174,7 +1197,6 @@ void ParticleDemoApp::drawDemoImage() {
       tex = &m_plugInTex;
     } else {
       scale = 0.7f;
-      scale = 0.85f;
       tex = &m_logoTex;
     }
 
@@ -1191,9 +1213,10 @@ void ParticleDemoApp::drawDemoImage() {
     glDisable(GL_TEXTURE_2D);
   } else {
     // draw a text string
-    int highlightStart, numHighlightChars;
     if (m_curImageNum == IMAGE_WHERE) {
       m_textStrings.drawWhereStrings(m_curImageAlpha, width, (float)getWindowHeight());
+    } else if (m_curImageNum == IMAGE_WHERE_3D) {
+      m_textStrings.drawWhere3DStrings(m_curImageAlpha, width, (float)getWindowHeight());
     } else if (m_curImageNum == IMAGE_WHAT) {
       m_textStrings.drawWhatStrings(m_curImageAlpha, width, (float)getWindowHeight());
     } else if (m_curImageNum == IMAGE_HOW) {
@@ -1204,7 +1227,19 @@ void ParticleDemoApp::drawDemoImage() {
   }
 }
 
-bool ParticleDemoApp::getDemoStage(bool limitStage, double& curTime, int& stage, float& fadeMult) {
+void ParticleDemoApp::drawContinueImage() {
+  const ci::Vec2f center = getWindowCenter();
+  const float width = (const float)getWindowWidth();
+  if (m_curContinueNum == IMAGE_CONTINUE) {
+    m_textStrings.drawContinueString(m_curContinueAlpha, width, (float)getWindowHeight());
+  } else if (m_curContinueNum == IMAGE_FINISH) {
+    m_textStrings.drawFinishString(m_curContinueAlpha, width, (float)getWindowHeight());
+  } else {
+    return;
+  }
+}
+
+bool ParticleDemoApp::getDemoStage(bool limitStage, double& curTime, int& stage, float& fadeMult, float& imageFadeMult, float& continueFadeMult) {
   static bool loaded = false;
   static double stageTimes[NUM_STAGES];
 
@@ -1214,10 +1249,8 @@ bool ParticleDemoApp::getDemoStage(bool limitStage, double& curTime, int& stage,
       stageTimes[STAGE_CONNECTING] = 0.001;
       stageTimes[STAGE_WAITING] = 0;
       stageTimes[STAGE_BEGIN] = 0;
-      stageTimes[STAGE_WHERE_TEXT] = 0;
       stageTimes[STAGE_INTRO] = 0;
       stageTimes[STAGE_3D] = 0;
-      stageTimes[STAGE_HAND_TEXT] = 0;
       stageTimes[STAGE_HANDS] = 99999999999;
       stageTimes[STAGE_DRAWING] = 0;
       stageTimes[STAGE_OUTRO] = 0;
@@ -1225,13 +1258,10 @@ bool ParticleDemoApp::getDemoStage(bool limitStage, double& curTime, int& stage,
       stageTimes[STAGE_CONNECTING] = 0.001;
       stageTimes[STAGE_WAITING] = 2;
       stageTimes[STAGE_BEGIN] = 2*FADE_TIME;
-      stageTimes[STAGE_WHERE_TEXT] = 3*FADE_TIME;
-      stageTimes[STAGE_INTRO] = 15;
-      stageTimes[STAGE_3D] = 15;
-      stageTimes[STAGE_HAND_TEXT] = 3*FADE_TIME;
-      stageTimes[STAGE_HANDS] = 15;
-      stageTimes[STAGE_DRAWING_TEXT] = 3*FADE_TIME;
-      stageTimes[STAGE_DRAWING] = 15;
+      stageTimes[STAGE_INTRO] = 99999999999;
+      stageTimes[STAGE_3D] = 99999999999;
+      stageTimes[STAGE_HANDS] = 99999999999;
+      stageTimes[STAGE_DRAWING] = 99999999999;
       stageTimes[STAGE_OUTRO] = 2*FADE_TIME;
     }
     loaded = true;
@@ -1244,6 +1274,14 @@ bool ParticleDemoApp::getDemoStage(bool limitStage, double& curTime, int& stage,
     if (totalTime > curTime) {
       stage = i;
       double curStageTime = curTime - (totalTime - stageTimes[i]);
+      imageFadeMult = 1.0f - static_cast<float>(Utils::smootherStep(ci::math<double>::clamp(fabs(curStageTime - 1.5*FADE_TIME)/FADE_TIME)));
+      continueFadeMult = 1.0f - static_cast<float>(Utils::smootherStep(ci::math<double>::clamp(fabs((curStageTime-ANY_KEY_DELAY) - 1.5*FADE_TIME)/FADE_TIME)));
+
+      if (m_skipQueued) {
+        curTime = totalTime - FADE_TIME;
+        m_skipQueued = false;
+      }
+
       if (curStageTime < FADE_TIME) {
         fadeMult = static_cast<float>(Utils::smootherStep(curStageTime/FADE_TIME));
       } else if (stageTimes[i] - curStageTime < FADE_TIME) {
@@ -1319,19 +1357,27 @@ void ParticleDemoApp::updateCamera(double timeInStage) {
   } else if (m_cameraMode == CAMERA_PERSP_ROTATING) {
     m_cameraCenter = Vec3f::zero();
     m_camera.setPerspective(50.0f, aspect, 5.0f, 3000.0f);
-    static const double ORBIT_TIME_X = 4.2;
-    static const double ORBIT_TIME_Z = 5.5;
-    static const double CAM_DIST_TIME = 3.1;
-    static const double CAM_HEIGHT_TIME = 2.5;
-    static const double AVG_CAM_DIST = 650;
-    static const double CAM_DIST_RANGE = 50;
-    static const double AVG_CAM_HEIGHT = 175;
-    static const double CAM_HEIGHT_RANGE = 75;
 
-    float camDist = static_cast<float>(AVG_CAM_DIST + (CAM_DIST_RANGE/2.0)*std::sin(timeInStage / CAM_DIST_TIME));
-    m_cameraPos.x = camDist*0.5f*static_cast<float>(std::sin(timeInStage / ORBIT_TIME_X));
-    m_cameraPos.y = static_cast<float>(AVG_CAM_HEIGHT + (CAM_HEIGHT_RANGE/2.0)*std::sin(timeInStage / CAM_HEIGHT_TIME));
-    m_cameraPos.z = camDist*(0.2f*static_cast<float>(std::sin(timeInStage / ORBIT_TIME_Z) + 0.8));
+    static const double CAM_DIST_TIME = 7.0;
+    static const double START_DIST = 700.0;
+    static const double END_DIST = 1000.0;
+
+    static const double ORBIT_TIME_X = 4.1;
+    static const double ORBIT_TIME_Y = 5.3;
+    static const double ORBIT_TIME_Z = 6.5;
+    static const double MOVEMENT_RANGE_X = 150;
+    static const double MOVEMENT_RANGE_Y = 50;
+    static const double MOVEMENT_RANGE_Z = 50;
+
+    static const Vector3 MOVEMENT_DIRECTION = Vector3(0.15, 0, 1).normalized();
+    double progress = ci::math<double>::clamp(timeInStage / CAM_DIST_TIME);
+    progress = Utils::smootherStep(1.0 - progress*progress);
+
+    float camDist = static_cast<float>(progress*(END_DIST - START_DIST) + START_DIST);
+    m_cameraPos.x = camDist*MOVEMENT_DIRECTION.x() + static_cast<float>(MOVEMENT_RANGE_X*std::sin(timeInStage / ORBIT_TIME_X));
+    m_cameraPos.y = camDist*MOVEMENT_DIRECTION.y() + static_cast<float>(MOVEMENT_RANGE_Y*std::sin(timeInStage / ORBIT_TIME_Y));
+    m_cameraPos.z = camDist*MOVEMENT_DIRECTION.z() + static_cast<float>(MOVEMENT_RANGE_Z*std::sin(timeInStage / ORBIT_TIME_Z));
+
     m_camera.lookAt(m_cameraPos, m_cameraCenter, up);
   }
 }

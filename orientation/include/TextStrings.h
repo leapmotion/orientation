@@ -21,18 +21,27 @@ public:
   }
 
   void drawWhereStrings(float alpha, float windowWidth, float windowHeight) const {
-    drawStrings(alpha, windowWidth, windowHeight, m_whereStrings, m_locale);
+    drawStrings(alpha, windowWidth, windowHeight, windowHeight/10.0f, m_whereStrings, m_locale);
+  }
+  void drawWhere3DStrings(float alpha, float windowWidth, float windowHeight) const {
+    drawStrings(alpha, windowWidth, windowHeight, windowHeight/10.0f, m_where3DStrings, m_locale);
   }
   void drawWhatStrings(float alpha, float windowWidth, float windowHeight) const {
-    drawStrings(alpha, windowWidth, windowHeight, m_whatStrings, m_locale);
+    drawStrings(alpha, windowWidth, windowHeight, windowHeight/10.0f, m_whatStrings, m_locale);
   }
   void drawHowStrings(float alpha, float windowWidth, float windowHeight) const {
-    drawStrings(alpha, windowWidth, windowHeight, m_howStrings, m_locale);
+    drawStrings(alpha, windowWidth, windowHeight, windowHeight/10.0f, m_howStrings, m_locale);
+  }
+  void drawContinueString(float alpha, float windowWidth, float windowHeight) const {
+    drawStrings(alpha, windowWidth, windowHeight, windowHeight - windowHeight/20.0f, m_continueString, m_locale, 0.35f);
+  }
+  void drawFinishString(float alpha, float windowWidth, float windowHeight) const {
+    drawStrings(alpha, windowWidth, windowHeight, windowHeight - windowHeight/20.0f, m_finishString, m_locale, 0.35f);
   }
 
 private:
 
-  static void drawStrings(float alpha, float windowWidth, float windowHeight, const std::vector<std::wstring>& textStrings, const std::string& locale) {
+  static void drawStrings(float alpha, float windowWidth, float windowHeight, float drawY, const std::vector<std::wstring>& textStrings, const std::string& locale, float textScale = 1.0f) {
     static const float DESIRED_INSTRUCTIONS_SIZE = 24.0f;
     static const float DESIRED_WIDTH = 1000.0f;
 
@@ -52,15 +61,15 @@ private:
         titleScale = length; // Don't go beyond 72
       }
     }
-    const float DESIRED_TITLE_SIZE = 72.0f/titleScale;
+    const float DESIRED_TITLE_SIZE = 60.0f/titleScale;
 
     // set a bunch of constants
     const float centerX = windowWidth/2.0f;
     const float centerY = windowHeight/2.0f;
     const float resScale = windowWidth / DESIRED_WIDTH;
     const float curWidth = 0.55f * windowWidth;
-    const float titleSize = DESIRED_TITLE_SIZE * resScale;
-    const float instructionsSize = DESIRED_INSTRUCTIONS_SIZE * resScale;
+    const float titleSize = textScale * DESIRED_TITLE_SIZE * resScale;
+    const float instructionsSize = textScale * DESIRED_INSTRUCTIONS_SIZE * resScale;
     const float lineSpacing = 2.0f * resScale;
     const float rectangleHeight = 3.0f * resScale;
     const Font titleFont("Arial", titleSize);
@@ -68,28 +77,21 @@ private:
     const ci::ColorA titleColor(0.9f, 0.9f, 0.9f, alpha);
     const ci::ColorA instructionsColor(0.9f, 0.9f, 0.9f, alpha);
     const ci::ColorA lineColor(0.9f, 0.9f, 0.9f, alpha);
-    const Vec2f instructionsOffset(15.0f * resScale, 0.0f);
+    const Vec2f instructionsOffset(0.0f, 0.0f);
     const float height = titleSize + (numStrings-1)*instructionsSize + numStrings*lineSpacing;
 
     // iterate through the strings and draw them on separate lines
-    Vec2f curPos(centerX - curWidth/2.0f, centerY - height/2.0f);
+    Vec2f curPos(centerX, drawY);
     for (std::size_t i=0; i<numStrings; i++) {
 //    Cinder's ci::toUtf8() function doesn't work properly on Mac, use our own implementation:
       const std::string utf8str = convertWideStringToUTF8String(textStrings[i]);
       if (i == 0) {
         // draw the title string
-        ci::gl::drawString(utf8str, curPos, titleColor, titleFont);
+        ci::gl::drawStringCentered(utf8str, curPos, titleColor, titleFont);
         curPos += Vec2f(0, titleSize);
-
-        // draw a rectangle underneath the title
-        gl::color(lineColor);
-        const Rectf r(centerX - curWidth/2.0f, curPos.y - rectangleHeight - 3.0f*lineSpacing, centerX + curWidth/2.0f, curPos.y - 3.0f*lineSpacing);
-        curPos += Vec2f(0, rectangleHeight);
-        ci::gl::drawSolidRect(r);
-        curPos += Vec2f(0, lineSpacing);
       } else {
         // draw the instruction strings
-        ci::gl::drawString(utf8str, curPos + instructionsOffset, instructionsColor, instructionsFont);
+        ci::gl::drawStringCentered(utf8str, curPos + instructionsOffset, instructionsColor, instructionsFont);
         curPos += Vec2f(0, instructionsSize);
         curPos += Vec2f(0, lineSpacing);
       }
@@ -232,22 +234,25 @@ private:
       m_howStrings.push_back(L"続行するには：両手を引いて遠ざけます");
     }
     else { //default to English
-      m_whereStrings.push_back(L"this is where it sees...");
-      m_whereStrings.push_back(L"to begin: wave hand over device");
-      m_whereStrings.push_back(L"to continue: remove hands");
-      m_whatStrings.push_back(L"this is what it sees...");
-      m_whatStrings.push_back(L"to begin: move hand over device");
-      m_whatStrings.push_back(L"to continue: remove hands");
-      m_howStrings.push_back(L"this is how you draw...");
-      m_howStrings.push_back(L"to draw: move finger forward");
-      m_howStrings.push_back(L"to stop: move finger back");
-      m_howStrings.push_back(L"to continue: remove hands");
+      m_whereStrings.push_back(L"This is where it sees");
+      m_whereStrings.push_back(L"Wave your hands above the device");
+      m_where3DStrings.push_back(L"Explore the space");
+      m_whatStrings.push_back(L"This is what it sees");
+      m_whatStrings.push_back(L"Move hand over the device");
+      m_howStrings.push_back(L"This is how you draw");
+      m_howStrings.push_back(L"To draw: move finger forward");
+      m_howStrings.push_back(L"To stop: move finger back");
+      m_continueString.push_back(L"Press any key to continue");
+      m_finishString.push_back(L"Press any key to finish");
     }
   }
 
   std::vector<std::wstring> m_whereStrings;
+  std::vector<std::wstring> m_where3DStrings;
   std::vector<std::wstring> m_whatStrings;
   std::vector<std::wstring> m_howStrings;
+  std::vector<std::wstring> m_continueString;
+  std::vector<std::wstring> m_finishString;
 
   std::string m_locale;
 
