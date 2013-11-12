@@ -14,8 +14,9 @@
 #include <cinder/Url.h>
 #include <cinder/Base64.h>
 
+static bool DISABLE_MIXPANEL = false;
 
-std::string transformBytes(const std::string& bytes)
+static std::string transformBytes(const std::string& bytes)
 {
   size_t n = bytes.size();
   unsigned char mask[7] = {0xac, 0xd9, 0xc5, 0xb6, 0xeb, 0xf6, 0xbd};
@@ -28,7 +29,7 @@ std::string transformBytes(const std::string& bytes)
   return trans;
 }
 
-std::string getMixPanelToken()
+static std::string getMixPanelToken()
 {
 #if DEBUG
   //64a624e0f5fd5fec35dff6b08281664e
@@ -39,7 +40,7 @@ std::string getMixPanelToken()
 #endif
 }
 
-void SendMixPanelJSON(const std::string &jsonData)
+static void SendMixPanelJSON(const std::string &jsonData)
 {
   const std::string mpBaseURL("http://api.mixpanel.com/track/?data=");
   std::string encodedData = cinder::toBase64(jsonData);
@@ -49,8 +50,12 @@ void SendMixPanelJSON(const std::string &jsonData)
   } catch(...) { }
 }
 
-void SendMixPanelEvent(const std::string &eventName, const std::string &deviceID, const std::string &data = "")
+static void SendMixPanelEvent(const std::string &eventName, const std::string &deviceID, const std::string &data = "")
 {
+  if (DISABLE_MIXPANEL) {
+    return;
+  }
+
   std::string json = "{ \"event\": \"" + eventName + "\", \"properties\": {";
   
   static std::string distinct_id;
@@ -308,6 +313,8 @@ void ParticleDemoApp::setup() {
   std::cout << glGetString(GL_EXTENSIONS) << std::endl;
 
   m_renderString = parseRenderString(std::string((char*)glGetString(GL_RENDERER)));
+
+  DISABLE_MIXPANEL = m_visualizerOnlyMode;
 }
 
 void ParticleDemoApp::resize(ResizeEvent event) {
