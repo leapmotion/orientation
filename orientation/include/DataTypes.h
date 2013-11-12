@@ -51,6 +51,7 @@ typedef float MATH_TYPE;
 typedef Eigen::Matrix<MATH_TYPE, 3, 3> Matrix3x3;
 
 // vectors
+typedef Eigen::Matrix<MATH_TYPE, 2, 1> Vector2;
 typedef Eigen::Matrix<MATH_TYPE, 3, 1> Vector3;
 typedef Eigen::Matrix<MATH_TYPE, 4, 1> Vector4;
 

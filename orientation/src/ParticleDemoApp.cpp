@@ -612,10 +612,12 @@ void ParticleDemoApp::drawScene() {
   }
 
   if (m_draw3DScene && !m_leap.devices().isEmpty()) {
+    const bool pulsing = (!m_visualizerOnlyMode && m_stage != STAGE_DRAWING);
     glPushMatrix();
     glTranslated(offset.x(), offset.y(), offset.z());
-    Utils::drawFrustum(m_leap.devices()[0], m_frustumLinesAlpha, (!m_visualizerOnlyMode && m_stage != STAGE_DRAWING));
+    Utils::drawFrustum(m_leap.devices()[0], m_frustumLinesAlpha, pulsing);
     Utils::drawDevice();
+    Utils::drawDeviceSurface(pulsing);
     glPopMatrix();
   }
 
@@ -868,7 +870,7 @@ void ParticleDemoApp::updateDrawing(const Leap::Frame& frame) {
   // update strokes or create new ones
   for (int i=0; i<fingers.count(); i++) {
     int id = fingers[i].id();
-    Vector3 tipPos = fingers[i].stabilizedTipPosition().toVector3<Vector3>();
+    Vector3 tipPos = fingers[i].tipPosition().toVector3<Vector3>();
     if (fingers[i].touchZone() == Leap::Pointable::ZONE_TOUCHING) {
       std::map<int, Stroke>::iterator it = activeStrokes.find(id);
       if (it == activeStrokes.end()) {
