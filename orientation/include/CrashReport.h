@@ -21,3 +21,9 @@ private:
   google_breakpad::ExceptionHandler* m_ExceptionHandler;
 #endif
 };
+
+#if USE_CRASH_REPORTING
+#else
+inline CrashReport::CrashReport() {}
+inline CrashReport::~CrashReport() {}
+#endif

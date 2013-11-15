@@ -14,6 +14,8 @@
 #include <cinder/Url.h>
 #include <cinder/Base64.h>
 
+#include "CrashReport.h"
+
 static bool DISABLE_MIXPANEL = false;
 
 static std::string transformBytes(const std::string& bytes)
@@ -1433,6 +1435,8 @@ bool ParticleDemoApp::isHOPS() {
   //#pragma comment( linker, "/subsystem:\"console\" /entry:\"mainCRTStartup\"" )
 
   void sandboxed_main() {
+    CrashReport cr;
+
     cinder::app::AppBasic::prepareLaunch();
     cinder::app::AppBasic *app = new ParticleDemoApp;
     cinder::app::Renderer *ren = new RendererGl;
@@ -1453,7 +1457,19 @@ bool ParticleDemoApp::isHOPS() {
     return 0;
   }
 #else
-  CINDER_APP_BASIC( ParticleDemoApp, RendererGl )
+  //CINDER_APP_BASIC( ParticleDemoApp, RendererGl )
+
+  int main( int argc, char * const argv[] ) {
+    CrashReport cr;
+
+    cinder::app::AppBasic::prepareLaunch();
+    cinder::app::AppBasic *app = new ParticleDemoApp;
+    cinder::app::Renderer *ren = new RendererGl;
+    cinder::app::AppBasic::executeLaunch( app, ren, "ParticleDemoApp", argc, argv );
+    cinder::app::AppBasic::cleanupLaunch();
+
+    return 0;
+  }
 #endif
 
   /*

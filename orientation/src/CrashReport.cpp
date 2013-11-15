@@ -192,9 +192,4 @@ CrashReport::~CrashReport()
   delete m_ExceptionHandler;
 }
 
-#else
-
-CrashReport::CrashReport() {}
-CrashReport::~CrashReport() {}
-
 #endif
