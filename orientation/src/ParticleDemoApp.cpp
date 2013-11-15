@@ -400,16 +400,16 @@ void ParticleDemoApp::mouseDrag(MouseEvent event) {
   m_cameraPhi += dPhi;
 
   if (m_cameraTheta < 0.0f) {
-    m_cameraTheta += M_PI*2.f;
+    m_cameraTheta += static_cast<float>(M_PI*2);
   }
-  if (m_cameraTheta >= M_PI*2.f) {
-    m_cameraTheta -= M_PI*2.f;
+  if (m_cameraTheta >= static_cast<float>(M_PI*2)) {
+    m_cameraTheta -= static_cast<float>(M_PI*2);
   }
-  if (m_cameraPhi < -M_PI*0.45f) {
-    m_cameraPhi = -M_PI*0.45f;
+  if (m_cameraPhi < -static_cast<float>(M_PI*0.45)) {
+    m_cameraPhi = -static_cast<float>(M_PI*0.45);
   }
-  if (m_cameraPhi > M_PI*0.45f) {
-    m_cameraPhi = M_PI*0.45f;
+  if (m_cameraPhi > static_cast<float>(M_PI*0.45)) {
+    m_cameraPhi = static_cast<float>(M_PI*0.45);
   }
 }
 
@@ -1027,7 +1027,7 @@ void ParticleDemoApp::runDemoScript() {
   float exponent = TARGET_FRAME_RATE / fps;
   m_blurMult = 1.0f - std::pow(1.0f - targetMult, exponent);
 
-  static Utils::TimedMean<float> fadeSmoother(0.33);
+  static Utils::TimedMean<float> fadeSmoother(0.33f);
   if (m_stage == STAGE_CONNECTING) {
     fadeSmoother.Update(0.0f, curTime);
     fadeMult = 1.0f;
@@ -1376,7 +1376,7 @@ void ParticleDemoApp::updateCamera(double timeInStage) {
     static const double MOVEMENT_RANGE_Y = 50;
     static const double MOVEMENT_RANGE_Z = 50;
 
-    static const Vector3 MOVEMENT_DIRECTION = Vector3(0.15, 0, 1).normalized();
+    static const Vector3 MOVEMENT_DIRECTION = Vector3(0.15f, 0.0f, 1.0f).normalized();
     double progress = ci::math<double>::clamp(timeInStage / CAM_DIST_TIME);
     progress = Utils::smootherStep(1.0 - progress*progress);
 

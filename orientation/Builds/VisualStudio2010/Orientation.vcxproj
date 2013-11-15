@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\CrashReport.h" />
     <ClInclude Include="..\..\include\CurlNoiseField.h" />
     <ClInclude Include="..\..\include\DataTypes.h" />
     <ClInclude Include="..\..\include\FieldGenerator.h" />
@@ -33,6 +34,7 @@
     <ClInclude Include="..\..\include\VectorField.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\CrashReport.cpp" />
     <ClCompile Include="..\..\src\CurlNoiseField.cpp" />
     <ClCompile Include="..\..\src\Finger.cpp" />
     <ClCompile Include="..\..\src\Globals.cpp" />
@@ -114,8 +116,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(LIBRARIES_PATH)\cinder_0.8.4\include;$(LIBRARIES_PATH)\irrKlang-pro-1.4.0\include;$(LIBRARIES_PATH)\cinder_0.8.4\boost;$(LIBRARIES_PATH)\eigen-3.1.2;..\..\..\LeapSDK\include;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(LIBRARIES_PATH)\cinder_0.8.4\include;$(LIBRARIES_PATH)\irrKlang-pro-1.4.0\include;$(LIBRARIES_PATH)\cinder_0.8.4\boost;$(LIBRARIES_PATH)\eigen-3.1.2;$(LIBRARIES_PATH)\breakpad-0.1\include;..\..\..\LeapSDK\include;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>USE_CRASH_REPORTING;WIN32;_CRT_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -129,15 +131,15 @@
       <AdditionalIncludeDirectories>$(LIBRARIES_PATH)\cinder_0.8.4\include;$(LIBRARIES_PATH)\irrKlang-1.4.0\include;$(LIBRARIES_PATH)\cinder_0.8.4\boost;$(LIBRARIES_PATH)\eigen-3.1.2;..\..\..\LeapSDK\include;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>cinder_d.lib;Leapd.lib;glu32.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\LeapSDK\lib\x86;$(LIBRARIES_PATH)\cinder_0.8.4\lib;$(LIBRARIES_PATH)\irrKlang-pro-1.4.0\bin\win32-visualstudio_lib;$(LIBRARIES_PATH)\cinder_0.8.4\lib\msw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cinder_d.lib;Leapd.lib;glu32.lib;irrKlang.lib;libbreakpad.a;exception_handler.lib;common.lib;crash_generation_client.lib;crash_report_sender.lib;processor_bits.lib;userenv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\LeapSDK\lib\x86;$(LIBRARIES_PATH)\cinder_0.8.4\lib;$(LIBRARIES_PATH)\irrKlang-pro-1.4.0\bin\win32-visualstudio_lib;$(LIBRARIES_PATH)\cinder_0.8.4\lib\msw;$(LIBRARIES_PATH)\breakpad-0.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
-      <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>LIBCMT;msvcprt</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y ..\..\..\LeapSDK\lib\x86\Leapd.dll "$(OutDir)\"</Command>
@@ -145,8 +147,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(LIBRARIES_PATH)\cinder_0.8.4\include;$(LIBRARIES_PATH)\irrKlang-pro-1.4.0\include;$(LIBRARIES_PATH)\cinder_0.8.4\boost;$(LIBRARIES_PATH)\eigen-3.1.2;..\..\..\LeapSDK\include;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(LIBRARIES_PATH)\cinder_0.8.4\include;$(LIBRARIES_PATH)\irrKlang-pro-1.4.0\include;$(LIBRARIES_PATH)\cinder_0.8.4\boost;$(LIBRARIES_PATH)\eigen-3.1.2;$(LIBRARIES_PATH)\breakpad-0.1\include;..\..\..\LeapSDK\include;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>USE_CRASH_REPORTING;WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
@@ -166,8 +168,8 @@
       <AdditionalIncludeDirectories>$(LIBRARIES_PATH)\cinder_0.8.4\include;$(LIBRARIES_PATH)\irrKlang-1.4.0\include;$(LIBRARIES_PATH)\cinder_0.8.4\boost;$(LIBRARIES_PATH)\eigen-3.1.2;..\..\..\LeapSDK\include;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>cinder.lib;Leap.lib;glu32.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\LeapSDK\lib\x86;$(LIBRARIES_PATH)\cinder_0.8.4\lib;$(LIBRARIES_PATH)\irrKlang-pro-1.4.0\bin\win32-visualstudio_lib;$(LIBRARIES_PATH)\cinder_0.8.4\lib\msw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cinder.lib;Leap.lib;glu32.lib;irrKlang.lib;libbreakpad.a;exception_handler.lib;common.lib;crash_generation_client.lib;crash_report_sender.lib;processor_bits.lib;userenv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\LeapSDK\lib\x86;$(LIBRARIES_PATH)\cinder_0.8.4\lib;$(LIBRARIES_PATH)\irrKlang-pro-1.4.0\bin\win32-visualstudio_lib;$(LIBRARIES_PATH)\cinder_0.8.4\lib\msw;$(LIBRARIES_PATH)\breakpad-0.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
@@ -178,7 +180,7 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
-      <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>LIBCMT;msvcprt</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y ..\..\..\LeapSDK\lib\x86\Leap.dll "$(OutDir)\"</Command>
