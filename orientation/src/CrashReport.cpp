@@ -158,7 +158,7 @@ static int GetFilesInDirectory(const std::string& path, std::vector<std::string>
   return static_cast<int>(filenames.size());
 }
 
-CrashReport::CrashReport() : m_ExceptionHandler(nullptr)
+CrashReport::CrashReport() : m_ExceptionHandler(NULL)
 {
   const std::string dump_path = GetDumpPath("");
   std::vector<std::string> files;
@@ -171,16 +171,16 @@ CrashReport::CrashReport() : m_ExceptionHandler(nullptr)
     int callback_context = 0;
 #if _WIN32
     std::wstring dump_path_wide(dump_path.begin(), dump_path.end());
-    m_ExceptionHandler = new google_breakpad::ExceptionHandler(dump_path_wide, nullptr,
+    m_ExceptionHandler = new google_breakpad::ExceptionHandler(dump_path_wide, NULL,
                                                                CrashReportCallbacks::MDCallback, &callback_context,
                                                                google_breakpad::ExceptionHandler::HANDLER_ALL);
 #elif __APPLE__
-    m_ExceptionHandler = new google_breakpad::ExceptionHandler(dump_path, nullptr,
+    m_ExceptionHandler = new google_breakpad::ExceptionHandler(dump_path, NULL,
                                                                CrashReportCallbacks::MDCallback, &callback_context,
-                                                               true, nullptr);
+                                                               true, NULL);
 #else
     google_breakpad::MinidumpDescriptor descriptor(dump_path.c_str());
-    m_ExceptionHandler = new google_breakpad::ExceptionHandler(descriptor, nullptr,
+    m_ExceptionHandler = new google_breakpad::ExceptionHandler(descriptor, NULL,
                                                                CrashReportCallbacks::MDCallback, &callback_context,
                                                                true, -1);
 #endif
