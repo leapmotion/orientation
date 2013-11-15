@@ -119,10 +119,10 @@ static std::string GetUserPath(const std::string& filename) {
 
 static std::string GetDumpPath(const std::string& filename) {
 #ifdef _WIN32
-  TCHAR pathBuf[1024];
+  CHAR pathBuf[1024];
   DWORD count = 1024;
   std::stringstream ss;
-  if (GetAllUsersProfileDirectory(pathBuf, &count)) {
+  if (GetAllUsersProfileDirectoryA(pathBuf, &count)) {
     ss << pathBuf << PATH_SEPARATOR << "Leap Motion" << PATH_SEPARATOR;
   }
   std::string curPath = ss.str();
