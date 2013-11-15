@@ -48,6 +48,7 @@
 		04F41A44177257F0003EC24D /* wait.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 04A45D1F177254F100CFB646 /* wait.ogg */; };
 		246476411835E4DC008B68DE /* Breakpad.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 246476401835E4DC008B68DE /* Breakpad.framework */; };
 		246476451835E604008B68DE /* CrashReport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 246476441835E604008B68DE /* CrashReport.cpp */; };
+		2464764C1836AC67008B68DE /* Breakpad.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 246476471835E6CE008B68DE /* Breakpad.framework */; };
 		4E43A7E117C6E831003BD14D /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E43A7C617C6E831003BD14D /* .keep */; };
 		4E43A7E317C6E831003BD14D /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E43A7CC17C6E831003BD14D /* .keep */; };
 		4E43A7E517C6E831003BD14D /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E43A7D217C6E831003BD14D /* .keep */; };
@@ -68,6 +69,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		2464764B1836AC4E008B68DE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2464764C1836AC67008B68DE /* Breakpad.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CF0B328816B8943F00F25D08 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -138,11 +149,11 @@
 		04C23E27176FBE2F00D3FCEF /* VectorField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VectorField.cpp; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		246476401835E4DC008B68DE /* Breakpad.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Breakpad.framework; path = "../../../../../../opt/local/Libraries/breakpad-0.1/lib/Breakpad.framework"; sourceTree = "<group>"; };
-		246476421835E550008B68DE /* breakpadUtilities.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = breakpadUtilities.dylib; path = "../../../../../../opt/local/Libraries/breakpad-0.1/lib/breakpadUtilities.dylib"; sourceTree = "<group>"; };
+		246476401835E4DC008B68DE /* Breakpad.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Breakpad.framework; path = "${LIBRARIES_PATH}/breakpad-0.1/lib/Breakpad.framework"; sourceTree = "<group>"; };
+		246476421835E550008B68DE /* breakpadUtilities.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = breakpadUtilities.dylib; path = "${LIBRARIES_PATH}/breakpad-0.1/lib/breakpadUtilities.dylib"; sourceTree = "<group>"; };
 		246476441835E604008B68DE /* CrashReport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CrashReport.cpp; sourceTree = "<group>"; };
 		246476461835E60C008B68DE /* CrashReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashReport.h; sourceTree = "<group>"; };
-		246476471835E6CE008B68DE /* Breakpad.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Breakpad.framework; path = "../../../../../../opt/local/Libraries/breakpad-0.1/lib/Breakpad.framework"; sourceTree = "<group>"; };
+		246476471835E6CE008B68DE /* Breakpad.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Breakpad.framework; path = "${LIBRARIES_PATH}/breakpad-0.1/lib/Breakpad.framework"; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		4E43A7C717C6E831003BD14D /* de */ = {isa = PBXFileReference; lastKnownFileType = text; name = de; path = .keep; sourceTree = "<group>"; };
@@ -442,6 +453,7 @@
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				CF0B328816B8943F00F25D08 /* CopyFiles */,
+				2464764B1836AC4E008B68DE /* CopyFiles */,
 				049BE849176FE7AC00B35B88 /* ShellScript */,
 			);
 			buildRules = (
@@ -660,8 +672,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				EIGEN_PATH = "${LIBRARIES_PATH}/eigen-3.1.2";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(LIBRARIES_PATH)/breakpad-0.1/lib",
-					"/opt/local/Libraries/breakpad-0.1/lib",
+					"$(LIBRARIES_PATH)/breakpad-0.1/lib"
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
@@ -714,8 +725,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EIGEN_PATH = "${LIBRARIES_PATH}/eigen-3.1.2";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(LIBRARIES_PATH)/breakpad-0.1/lib",
-					"/opt/local/Libraries/breakpad-0.1/lib",
+					"$(LIBRARIES_PATH)/breakpad-0.1/lib"
 				);
 				GCC_FAST_MATH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
