@@ -372,6 +372,12 @@ void ParticleDemoApp::keyDown(KeyEvent event) {
   }
 #endif
 
+  // vulcan death grip to throw NPE and test crash dump.
+  if (event.isAltDown() && event.isShiftDown() && event.isControlDown() && event.isMetaDown() && event.getCode() == KeyEvent::KEY_BREAK)
+  {
+    reinterpret_cast<int*>(NULL)[0]++;
+  }
+
   if (!m_skipQueued
     && m_stage != m_skipStage
     && m_stage != STAGE_WAITING
