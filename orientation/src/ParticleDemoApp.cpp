@@ -373,7 +373,7 @@ void ParticleDemoApp::keyDown(KeyEvent event) {
 #endif
 
   // vulcan death grip to throw NPE and test crash dump.
-  if (event.isAltDown() && event.isShiftDown() && event.isControlDown() && event.isMetaDown() && event.getCode() == KeyEvent::KEY_BREAK)
+  if (event.isAltDown() && event.isShiftDown() && event.isControlDown() && event.getCode() == KeyEvent::KEY_DOWN)
   {
     reinterpret_cast<int*>(NULL)[0]++;
   }
