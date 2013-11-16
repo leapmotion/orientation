@@ -1056,8 +1056,13 @@ void ParticleDemoApp::runDemoScript() {
                && !(m_stage == STAGE_BEGIN)
                && !(m_stage == STAGE_OUTRO);
   m_curFadeMult = fadeMult;
-  m_curImageAlpha = m_visualizerOnlyMode ? 0.0f : static_cast<float>(imageFadeMult);
-  m_curContinueAlpha = m_visualizerOnlyMode ? 0.0f : static_cast<float>(continueFadeMult);
+  m_curImageAlpha = static_cast<float>(imageFadeMult);
+  m_curContinueAlpha = static_cast<float>(continueFadeMult);
+
+  if (m_visualizerOnlyMode && m_stage > STAGE_CONNECTING) {
+    m_curImageAlpha = 0.0f;
+    m_curContinueAlpha = 0.0f;
+  }
 
   // decide what to draw based on what stage we're in
   if (m_stage >= STAGE_HANDS) {
