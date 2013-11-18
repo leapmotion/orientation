@@ -221,10 +221,14 @@ void ParticleDemoApp::setup() {
   m_glowTex = gl::Texture(loadImage(loadResource(RES_GLOW_PNG)));
   m_logoTex = gl::Texture(loadImage(loadResource(RES_LOGO_PNG)));
 #if _WIN32
-  if (isPongo()||isHOPS()) {
+  if (isPongo()) {
     // EVENT app was started with embedded Leap
     SendMixPanelEvent("Orientation - App started (embedded)", m_listener->GetDeviceID());
     m_plugInTex = gl::Texture(loadImage(loadResource(RES_PLUG_IN_PNG_PONGO)));
+  } else if (isHOPS()) {
+    // EVENT app was started with embedded Leap
+    SendMixPanelEvent("Orientation - App started (embedded)", m_listener->GetDeviceID());
+    m_plugInTex = gl::Texture(loadImage(loadResource(RES_PLUG_IN_PNG_HOPS)));
   } else {
     // EVENT app was started with Leap peripheral
     SendMixPanelEvent("Orientation - App started (peripheral)", m_listener->GetDeviceID());

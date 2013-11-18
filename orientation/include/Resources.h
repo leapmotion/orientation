@@ -13,7 +13,8 @@
 #define RES_MOTION_VERT   CINDER_RESOURCE( ../resources/, pass_thru_vert.glsl, 160, GLSL )
 #define RES_LOGO_PNG      CINDER_RESOURCE( ../resources/, leap_motion_logo.png, 164, IMAGE )
 #define RES_PLUG_IN_PNG CINDER_RESOURCE( ../resources/, plug-in-device.png, 165, IMAGE)
-#define RES_PLUG_IN_PNG_PONGO CINDER_RESOURCE( ../resources/, plug-in-device-embedded.png, 169, IMAGE)
+#define RES_PLUG_IN_PNG_PONGO CINDER_RESOURCE( ../resources/, plug-in-device-pongo.png, 166, IMAGE)
+#define RES_PLUG_IN_PNG_HOPS CINDER_RESOURCE( ../resources/, plug-in-device-hops.png, 167, IMAGE)
 
 #define RES_BASS_OGG CINDER_RESOURCE( ../assets/, bass.ogg, 169, OGG )
 #define RES_DRAWING_OGG CINDER_RESOURCE( ../assets/, drawing.ogg, 170, OGG )
