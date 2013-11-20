@@ -47,6 +47,9 @@ static bool MDCallback(const wchar_t* dump_dir, const wchar_t* minidump_id,
 
   std::wcout << "fatal error, crash minidump saved to " << path << "\n";
 
+  // CallExtraHandler() is null-safe
+  reinterpret_cast<CrashReport*>(context)->CallExtraHandler();
+
   return true;
 }
 #elif __APPLE__
@@ -60,6 +63,9 @@ static bool MDCallback(const char *dump_dir, const char *file_name,
 
   std::cout << "fatal error, crash minidump saved to " << path << "\n";
 
+  // CallExtraHandler() is null-safe
+  reinterpret_cast<CrashReport*>(context)->CallExtraHandler();
+
   return true;
 }
 #else
@@ -69,6 +75,9 @@ static bool MDCallback(const google_breakpad::MinidumpDescriptor& descriptor,
   string path(descriptor.path());
 
   std::cout << "fatal error, crash minidump saved to " << path << "\n";
+
+  // CallExtraHandler() is null-safe
+  reinterpret_cast<CrashReport*>(context)->CallExtraHandler();
 
   return true;
 }
@@ -158,7 +167,9 @@ static int GetFilesInDirectory(const std::string& path, std::vector<std::string>
   return static_cast<int>(filenames.size());
 }
 
-CrashReport::CrashReport() : m_ExceptionHandler(NULL)
+CrashReport::CrashReport( ExtraHandler extraHandler ) 
+  : m_ExceptionHandler(NULL),
+    m_ExtraHandler( extraHandler )
 {
   const std::string dump_path = GetDumpPath("");
   std::vector<std::string> files;
@@ -168,20 +179,19 @@ CrashReport::CrashReport() : m_ExceptionHandler(NULL)
     std::cout << "At least 10 *.dmp files found under " << dump_path << "\n";
     std::cout << "Will not save more automated crash dumps until these are cleaned up.\n";
   } else {
-    int callback_context = 0;
 #if _WIN32
     std::wstring dump_path_wide(dump_path.begin(), dump_path.end());
     m_ExceptionHandler = new google_breakpad::ExceptionHandler(dump_path_wide, NULL,
-                                                               CrashReportCallbacks::MDCallback, &callback_context,
+                                                               CrashReportCallbacks::MDCallback, this,
                                                                google_breakpad::ExceptionHandler::HANDLER_ALL);
 #elif __APPLE__
     m_ExceptionHandler = new google_breakpad::ExceptionHandler(dump_path, NULL,
-                                                               CrashReportCallbacks::MDCallback, &callback_context,
+                                                               CrashReportCallbacks::MDCallback, this,
                                                                true, NULL);
 #else
     google_breakpad::MinidumpDescriptor descriptor(dump_path.c_str());
     m_ExceptionHandler = new google_breakpad::ExceptionHandler(descriptor, NULL,
-                                                               CrashReportCallbacks::MDCallback, &callback_context,
+                                                               CrashReportCallbacks::MDCallback, this,
                                                                true, -1);
 #endif
   }

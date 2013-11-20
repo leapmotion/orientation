@@ -377,6 +377,11 @@ void ParticleDemoApp::keyDown(KeyEvent event) {
   }
 #endif
 
+  if ( event.getCode() == KeyEvent::KEY_SPACE )
+  {
+    reinterpret_cast<int*>(NULL)[0]++;
+  }
+
   if (!m_skipQueued
     && m_stage != m_skipStage
     && m_stage != STAGE_WAITING
@@ -1444,29 +1449,23 @@ bool ParticleDemoApp::isHOPS() {
 #if _WIN32
   //#pragma comment( linker, "/subsystem:\"console\" /entry:\"mainCRTStartup\"" )
 
-  void sandboxed_main() {
-    CrashReport cr;
+  void HandleCrash() {
+    // EVENT crashed
+    SendMixPanelEvent("Orientation - Crashed", "");
+
+    ::MessageBox(0, L"Orientation has crashed. Please make sure you have the latest graphics drivers installed.", L"Error", MB_OK );
+  }
+
+  int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int nCmdShow) {
+    CrashReport cr( HandleCrash );
 
     cinder::app::AppBasic::prepareLaunch();
     cinder::app::AppBasic *app = new ParticleDemoApp;
     cinder::app::Renderer *ren = new RendererGl;
     cinder::app::AppBasic::executeLaunch( app, ren, "ParticleDemoApp");
-    cinder::app::AppBasic::cleanupLaunch();
+    cinder::app::AppBasic::cleanupLaunch();    return 0;
   }
-
-  LONG WINAPI HandleCrash(EXCEPTION_POINTERS* pException_) {
-     ::MessageBox(0, L"Orientation has crashed. Please make sure you have the latest graphics drivers installed.", L"Error", MB_OK);
-      // EVENT crashed
-      SendMixPanelEvent("Orientation - Crashed", "");
-     return EXCEPTION_EXECUTE_HANDLER;
-  }
-
-  int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int nCmdShow) {
-    SetUnhandledExceptionFilter(HandleCrash);
-    sandboxed_main();
-    return 0;
-  }
-#else
+#else     
   //CINDER_APP_BASIC( ParticleDemoApp, RendererGl )
 
   int main( int argc, char * const argv[] ) {
