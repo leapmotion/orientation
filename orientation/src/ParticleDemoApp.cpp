@@ -139,6 +139,7 @@ ParticleDemoApp::ParticleDemoApp()
     exit(0);
   }
 #endif
+  m_stage = STAGE_WAITING;
   m_skipStage = -1;
 }
 

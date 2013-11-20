@@ -69,7 +69,8 @@
     <None Include="..\..\resources\leap-icon.ico" />
     <None Include="..\..\resources\leap-icon.png" />
     <None Include="..\..\resources\leap_motion_logo.png" />
-    <None Include="..\..\resources\plug-in-device-embedded.png" />
+    <None Include="..\..\resources\plug-in-device-hops.png" />
+    <None Include="..\..\resources\plug-in-device-pongo.png" />
     <None Include="..\..\resources\plug-in-device.png" />
     <None Include="..\resources\blur_frag.glsl" />
     <None Include="..\resources\blur_vert.glsl" />
@@ -145,7 +146,7 @@
       <AdditionalIncludeDirectories>$(LIBRARIES_PATH)\cinder_0.8.4\include;$(LIBRARIES_PATH)\irrKlang-1.4.0\include;$(LIBRARIES_PATH)\cinder_0.8.4\boost;$(LIBRARIES_PATH)\eigen-3.1.2;..\..\..\LeapSDK\include;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>cinder_d.lib;Leapd.lib;glu32.lib;irrKlang.lib;libbreakpad.a;exception_handler.lib;common.lib;crash_generation_client.lib;crash_report_sender.lib;processor_bits.lib;userenv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cinder_d.lib;Leapd.lib;glu32.lib;irrKlang.lib;common.lib;exception_handler.lib;crash_generation_client.lib;userenv.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\LeapSDK\lib\x86;$(LIBRARIES_PATH)\cinder_0.8.4\lib;$(LIBRARIES_PATH)\irrKlang-pro-1.4.0\bin\win32-visualstudio_lib;$(LIBRARIES_PATH)\cinder_0.8.4\lib\msw;$(LIBRARIES_PATH)\breakpad-0.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>

@@ -170,7 +170,10 @@
     <None Include="..\..\resources\plug-in-device.png">
       <Filter>Resource Files\Images</Filter>
     </None>
-    <None Include="..\..\resources\plug-in-device-embedded.png">
+    <None Include="..\..\resources\plug-in-device-hops.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\plug-in-device-pongo.png">
       <Filter>Resource Files\Images</Filter>
     </None>
   </ItemGroup>
