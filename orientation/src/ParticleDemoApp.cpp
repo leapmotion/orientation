@@ -377,11 +377,6 @@ void ParticleDemoApp::keyDown(KeyEvent event) {
   }
 #endif
 
-  if ( event.getCode() == KeyEvent::KEY_SPACE )
-  {
-    reinterpret_cast<int*>(NULL)[0]++;
-  }
-
   if (!m_skipQueued
     && m_stage != m_skipStage
     && m_stage != STAGE_WAITING
