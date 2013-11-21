@@ -434,7 +434,10 @@ std::string ParticleDemoApp::parseRenderString(const std::string& render_string)
       break;
     }
   }
-  assert(it != render_string.end());
+  if (it == render_string.end()) {
+    std::cout << render_string << std::endl;
+    return "mid-resolution";
+  }
   int model_number = atoi(render_string.substr(it - render_string.begin()).c_str());
   if (render_string.find("Intel HD") != std::string::npos) {
     return "fail";
