@@ -9,6 +9,7 @@
 #ifdef _WIN32
 #include "SOP.hpp"
 #include <Windows.h>
+#include <WinInet.h>
 #endif
 
 #include <cinder/Url.h>
@@ -17,6 +18,33 @@
 #include "CrashReport.h"
 
 static bool DISABLE_MIXPANEL = false;
+
+static bool HasInternetConnection()
+{
+  // to help prevent mangle sets of events coming in to mix panel
+  // we mark an internet connection available only until the first connectivity check fails.
+  // so on first call we'll check - if that fails no mixpanel events are sent for the session.
+  // if we lose connection in the middle we stop trying to send events thereafter.
+  // we can't prevent data sets from missing the ends due to disconnection
+  // but we can prevent them from missing the begginning due to late connection
+  // by just ditching the entire thing.
+  static bool s_bHasConnection = true;
+
+  if ( s_bHasConnection ) {
+#ifdef _WIN32
+    DWORD stateFlags = 0;
+    if ( InternetGetConnectedState(&stateFlags, 0) ) {
+      if ( !(stateFlags & (INTERNET_CONNECTION_MODEM | INTERNET_CONNECTION_OFFLINE)) ) {
+        s_bHasConnection = true;
+      } else {
+        s_bHasConnection = false;
+      }
+    }
+#endif
+  }
+
+  return s_bHasConnection;
+}
 
 static std::string transformBytes(const std::string& bytes)
 {
@@ -58,11 +86,17 @@ static void SendMixPanelEvent(const std::string &eventName, const std::string &d
     return;
   }
 
+  // don't try to send if we don't have a working internet connection.
+  // on windows this can pop the dialup/create network connection dialog.
+  if ( !HasInternetConnection() ) {
+    return;
+  }
+
   std::string json = "{ \"event\": \"" + eventName + "\", \"properties\": {";
   
   static std::string distinct_id;
+
 #ifdef _WIN32
-  
   if( distinct_id.empty() ) {
     HKEY key;
     if( RegOpenKey(HKEY_LOCAL_MACHINE, TEXT("Software\\LeapMotion"), &key) == ERROR_SUCCESS ) {
