@@ -34,7 +34,7 @@ inline void CrashReport::CallExtraHandler() const {
   } 
 }
 #else
-inline CrashReport::CrashReport() {}
+inline CrashReport::CrashReport(ExtraHandler) {}
 inline CrashReport::~CrashReport() {}
 inline void CrashReport::CallExtraHandler() const {}
 #endif

@@ -1478,16 +1478,15 @@ bool ParticleDemoApp::isHOPS() {
 #endif
 }
 
+void HandleCrash() {
+  SendMixPanelEvent("Orientation - Crashed", "");
+#if _WIN32
+  ::MessageBox(0, L"Orientation has crashed. Please make sure you have the latest graphics drivers installed.", L"Error", MB_OK );
+#endif
+}
+
 #if _WIN32
   //#pragma comment( linker, "/subsystem:\"console\" /entry:\"mainCRTStartup\"" )
-
-  void HandleCrash() {
-    // EVENT crashed
-    SendMixPanelEvent("Orientation - Crashed", "");
-
-    ::MessageBox(0, L"Orientation has crashed. Please make sure you have the latest graphics drivers installed.", L"Error", MB_OK );
-  }
-
   int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int nCmdShow) {
     CrashReport cr( HandleCrash );
 
@@ -1501,7 +1500,7 @@ bool ParticleDemoApp::isHOPS() {
   //CINDER_APP_BASIC( ParticleDemoApp, RendererGl )
 
   int main( int argc, char * const argv[] ) {
-    CrashReport cr;
+    CrashReport cr( HandleCrash );
 
     cinder::app::AppBasic::prepareLaunch();
     cinder::app::AppBasic *app = new ParticleDemoApp;
