@@ -1011,6 +1011,7 @@ void ParticleDemoApp::drawDrawing() const {
 #define ANY_KEY_DELAY 6.0f
 
 void ParticleDemoApp::runDemoScript() {
+  static int connectCountDown = 10;
   static double accumTime = ci::app::getElapsedSeconds();
   static double lastTime = ci::app::getElapsedSeconds();
 
@@ -1037,8 +1038,15 @@ void ParticleDemoApp::runDemoScript() {
     }
     accumTime += deltaTime;
   } else {
+    if ( lastStage == -1 && connectCountDown > 0 )
+    {
+      connectCountDown--;
+    }
+    else
+    {
+      m_stage = STAGE_CONNECTING;
+    }
     accumTime = 0;
-    m_stage = STAGE_CONNECTING;
     fadeMult = 1.0f;
     imageFadeMult = 1.0f;
     continueFadeMult = 0.0f;
