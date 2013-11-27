@@ -158,7 +158,8 @@ irrklang::ISound* ParticleDemoApp::createSoundResource(DataSourceRef ref, const 
   return NULL;
 };
 
-ParticleDemoApp::ParticleDemoApp()
+ParticleDemoApp::ParticleDemoApp() :
+  m_soundEngine(NULL)
 {
 #ifdef _WIN32
   // prevents multiple instances of a Windows application from
@@ -317,7 +318,10 @@ void ParticleDemoApp::setup() {
   m_particleController = new ParticleController();
 
   // set up sounds
+#ifndef _DEBUG
+  // error LNK2001: unresolved external symbol "__declspec(dllimport) class irrklang::ISoundEngine * __cdecl irrklang::createIrrKlangDevice(enum irrklang::E_SOUND_OUTPUT_DRIVER,int,char const *,char const *)" (__imp_?createIrrKlangDevice@irrklang@@YAPAVISoundEngine@1@W4E_SOUND_OUTPUT_DRIVER@1@HPBD1@Z)
   m_soundEngine = irrklang::createIrrKlangDevice();
+#endif
   if (!m_soundEngine) {
     std::cout << "Error loading sound engine" << std::endl;
     //quit();
