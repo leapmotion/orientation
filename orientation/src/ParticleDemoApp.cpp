@@ -9,13 +9,44 @@
 #ifdef _WIN32
 #include "SOP.hpp"
 #include <Windows.h>
+#include <WinInet.h>
 #endif
 
 #include <cinder/Url.h>
 #include <cinder/Base64.h>
 
+#include "CrashReport.h"
 
-std::string transformBytes(const std::string& bytes)
+static bool DISABLE_MIXPANEL = false;
+
+static bool HasInternetConnection()
+{
+  // to help prevent mangle sets of events coming in to mix panel
+  // we mark an internet connection available only until the first connectivity check fails.
+  // so on first call we'll check - if that fails no mixpanel events are sent for the session.
+  // if we lose connection in the middle we stop trying to send events thereafter.
+  // we can't prevent data sets from missing the ends due to disconnection
+  // but we can prevent them from missing the begginning due to late connection
+  // by just ditching the entire thing.
+  static bool s_bHasConnection = true;
+
+  if ( s_bHasConnection ) {
+#ifdef _WIN32
+    DWORD stateFlags = 0;
+    if ( InternetGetConnectedState(&stateFlags, 0) ) {
+      if ( !(stateFlags & (INTERNET_CONNECTION_MODEM | INTERNET_CONNECTION_OFFLINE)) ) {
+        s_bHasConnection = true;
+      } else {
+        s_bHasConnection = false;
+      }
+    }
+#endif
+  }
+
+  return s_bHasConnection;
+}
+
+static std::string transformBytes(const std::string& bytes)
 {
   size_t n = bytes.size();
   unsigned char mask[7] = {0xac, 0xd9, 0xc5, 0xb6, 0xeb, 0xf6, 0xbd};
@@ -28,7 +59,7 @@ std::string transformBytes(const std::string& bytes)
   return trans;
 }
 
-std::string getMixPanelToken()
+static std::string getMixPanelToken()
 {
 #if DEBUG
   //64a624e0f5fd5fec35dff6b08281664e
@@ -39,7 +70,7 @@ std::string getMixPanelToken()
 #endif
 }
 
-void SendMixPanelJSON(const std::string &jsonData)
+static void SendMixPanelJSON(const std::string &jsonData)
 {
   const std::string mpBaseURL("http://api.mixpanel.com/track/?data=");
   std::string encodedData = cinder::toBase64(jsonData);
@@ -49,13 +80,23 @@ void SendMixPanelJSON(const std::string &jsonData)
   } catch(...) { }
 }
 
-void SendMixPanelEvent(const std::string &eventName, const std::string &deviceID, const std::string &data = "")
+static void SendMixPanelEvent(const std::string &eventName, const std::string &deviceID, const std::string &data = "")
 {
+  if (DISABLE_MIXPANEL) {
+    return;
+  }
+
+  // don't try to send if we don't have a working internet connection.
+  // on windows this can pop the dialup/create network connection dialog.
+  if ( !HasInternetConnection() ) {
+    return;
+  }
+
   std::string json = "{ \"event\": \"" + eventName + "\", \"properties\": {";
   
   static std::string distinct_id;
+
 #ifdef _WIN32
-  
   if( distinct_id.empty() ) {
     HKEY key;
     if( RegOpenKey(HKEY_LOCAL_MACHINE, TEXT("Software\\LeapMotion"), &key) == ERROR_SUCCESS ) {
@@ -117,7 +158,8 @@ irrklang::ISound* ParticleDemoApp::createSoundResource(DataSourceRef ref, const 
   return NULL;
 };
 
-ParticleDemoApp::ParticleDemoApp()
+ParticleDemoApp::ParticleDemoApp() :
+  m_soundEngine(NULL)
 {
 #ifdef _WIN32
   // prevents multiple instances of a Windows application from
@@ -132,6 +174,8 @@ ParticleDemoApp::ParticleDemoApp()
     exit(0);
   }
 #endif
+  m_stage = STAGE_WAITING;
+  m_skipStage = -1;
 }
 
 void ParticleDemoApp::setup() {
@@ -213,10 +257,14 @@ void ParticleDemoApp::setup() {
   m_glowTex = gl::Texture(loadImage(loadResource(RES_GLOW_PNG)));
   m_logoTex = gl::Texture(loadImage(loadResource(RES_LOGO_PNG)));
 #if _WIN32
-  if (isPongo()||isHOPS()) {
+  if (isPongo()) {
     // EVENT app was started with embedded Leap
     SendMixPanelEvent("Orientation - App started (embedded)", m_listener->GetDeviceID());
     m_plugInTex = gl::Texture(loadImage(loadResource(RES_PLUG_IN_PNG_PONGO)));
+  } else if (isHOPS()) {
+    // EVENT app was started with embedded Leap
+    SendMixPanelEvent("Orientation - App started (embedded)", m_listener->GetDeviceID());
+    m_plugInTex = gl::Texture(loadImage(loadResource(RES_PLUG_IN_PNG_HOPS)));
   } else {
     // EVENT app was started with Leap peripheral
     SendMixPanelEvent("Orientation - App started (peripheral)", m_listener->GetDeviceID());
@@ -270,7 +318,10 @@ void ParticleDemoApp::setup() {
   m_particleController = new ParticleController();
 
   // set up sounds
+#ifndef _DEBUG
+  // error LNK2001: unresolved external symbol "__declspec(dllimport) class irrklang::ISoundEngine * __cdecl irrklang::createIrrKlangDevice(enum irrklang::E_SOUND_OUTPUT_DRIVER,int,char const *,char const *)" (__imp_?createIrrKlangDevice@irrklang@@YAPAVISoundEngine@1@W4E_SOUND_OUTPUT_DRIVER@1@HPBD1@Z)
   m_soundEngine = irrklang::createIrrKlangDevice();
+#endif
   if (!m_soundEngine) {
     std::cout << "Error loading sound engine" << std::endl;
     //quit();
@@ -307,6 +358,8 @@ void ParticleDemoApp::setup() {
   std::cout << glGetString(GL_EXTENSIONS) << std::endl;
 
   m_renderString = parseRenderString(std::string((char*)glGetString(GL_RENDERER)));
+
+  DISABLE_MIXPANEL = m_visualizerOnlyMode;
 }
 
 void ParticleDemoApp::resize(ResizeEvent event) {
@@ -354,6 +407,22 @@ void ParticleDemoApp::keyDown(KeyEvent event) {
     SendMixPanelEvent("Orientation - User Exited (ESC)", m_listener->GetDeviceID());
     quit();
   }
+#if _WIN32
+  if (event.isAltDown() && event.getCode() == KeyEvent::KEY_F4) {
+    // EVENT user exited manually with ALT+F4 key
+    SendMixPanelEvent("Orientation - User Exited (ESC)", m_listener->GetDeviceID());
+    quit();
+  }
+#endif
+
+  if (!m_skipQueued
+    && m_stage != m_skipStage
+    && m_stage != STAGE_WAITING
+    && m_stage != STAGE_BEGIN
+    && m_stage != STAGE_OUTRO) {
+    m_skipQueued = true;
+    m_skipStage = m_stage;
+  }
 }
 
 void ParticleDemoApp::mouseDown(MouseEvent event) {
@@ -376,16 +445,16 @@ void ParticleDemoApp::mouseDrag(MouseEvent event) {
   m_cameraPhi += dPhi;
 
   if (m_cameraTheta < 0.0f) {
-    m_cameraTheta += M_PI*2.f;
+    m_cameraTheta += static_cast<float>(M_PI*2);
   }
-  if (m_cameraTheta >= M_PI*2.f) {
-    m_cameraTheta -= M_PI*2.f;
+  if (m_cameraTheta >= static_cast<float>(M_PI*2)) {
+    m_cameraTheta -= static_cast<float>(M_PI*2);
   }
-  if (m_cameraPhi < -M_PI*0.45f) {
-    m_cameraPhi = -M_PI*0.45f;
+  if (m_cameraPhi < -static_cast<float>(M_PI*0.45)) {
+    m_cameraPhi = -static_cast<float>(M_PI*0.45);
   }
-  if (m_cameraPhi > M_PI*0.45f) {
-    m_cameraPhi = M_PI*0.45f;
+  if (m_cameraPhi > static_cast<float>(M_PI*0.45)) {
+    m_cameraPhi = static_cast<float>(M_PI*0.45);
   }
 }
 
@@ -403,7 +472,10 @@ std::string ParticleDemoApp::parseRenderString(const std::string& render_string)
       break;
     }
   }
-  assert(it != render_string.end());
+  if (it == render_string.end()) {
+    std::cout << render_string << std::endl;
+    return "mid-resolution";
+  }
   int model_number = atoi(render_string.substr(it - render_string.begin()).c_str());
   if (render_string.find("Intel HD") != std::string::npos) {
     return "fail";
@@ -485,6 +557,7 @@ void ParticleDemoApp::update() {
     setAlwaysOnTop(false);
     // EVENT app has begun in Visualizer mode (not Orientation)
     SendMixPanelEvent("Orientation - Visualizer mode", m_listener->GetDeviceID());
+    firstUpdate = false;
   }
 
   if (firstUpdate && m_stage > STAGE_CONNECTING) {
@@ -519,10 +592,11 @@ void ParticleDemoApp::update() {
       setFullScreen(true);
 #endif
       hideCursor();
+
+      // EVENT app has begun in Orientation mode (not Visualizer)
+      SendMixPanelEvent("Orientation - Orientation mode", m_listener->GetDeviceID());
     }
     firstUpdate = false;
-    // EVENT app has begun in Orientation mode (not Visualizer)
-    SendMixPanelEvent("Orientation - Orientation mode", m_listener->GetDeviceID());
 
     return; // don't run draw code until resize is called.
   } else if (m_stage > STAGE_WAITING && !m_visualizerOnlyMode) {
@@ -589,6 +663,7 @@ void ParticleDemoApp::drawScene() {
   glEnd();
 
   drawDemoImage();
+  drawContinueImage();
 
   setDemoCamera();
 
@@ -605,10 +680,12 @@ void ParticleDemoApp::drawScene() {
   }
 
   if (m_draw3DScene && !m_leap.devices().isEmpty()) {
+    const bool pulsing = (!m_visualizerOnlyMode && m_stage != STAGE_DRAWING);
     glPushMatrix();
     glTranslated(offset.x(), offset.y(), offset.z());
-    Utils::drawFrustum(m_leap.devices()[0], m_frustumLinesAlpha, (!m_visualizerOnlyMode && m_stage != STAGE_DRAWING));
+    Utils::drawFrustum(m_leap.devices()[0], m_frustumLinesAlpha, pulsing);
     Utils::drawDevice();
+    Utils::drawDeviceSurface(pulsing);
     glPopMatrix();
   }
 
@@ -861,7 +938,7 @@ void ParticleDemoApp::updateDrawing(const Leap::Frame& frame) {
   // update strokes or create new ones
   for (int i=0; i<fingers.count(); i++) {
     int id = fingers[i].id();
-    Vector3 tipPos = fingers[i].stabilizedTipPosition().toVector3<Vector3>();
+    Vector3 tipPos = fingers[i].tipPosition().toVector3<Vector3>();
     if (fingers[i].touchZone() == Leap::Pointable::ZONE_TOUCHING) {
       std::map<int, Stroke>::iterator it = activeStrokes.find(id);
       if (it == activeStrokes.end()) {
@@ -935,7 +1012,10 @@ void ParticleDemoApp::drawDrawing() const {
   }
 }
 
+#define ANY_KEY_DELAY 6.0f
+
 void ParticleDemoApp::runDemoScript() {
+  static int connectCountDown = 10;
   static double accumTime = ci::app::getElapsedSeconds();
   static double lastTime = ci::app::getElapsedSeconds();
 
@@ -945,16 +1025,15 @@ void ParticleDemoApp::runDemoScript() {
 
   static int lastStage = -1;
   static double timeInStage = 0;
-  float fadeMult;
+  float fadeMult, imageFadeMult, continueFadeMult;
+  bool doLimit = false;
   if (m_listener->IsConnected()) {
-    bool doLimit = (curTime - m_lastActivityTime) < 0.25
+    doLimit = (curTime - m_lastActivityTime) < 0.25
+                && m_stage != m_skipStage
                 && lastStage != STAGE_WAITING
-                && lastStage != STAGE_WHERE_TEXT
-                && lastStage != STAGE_HAND_TEXT
                 && lastStage != STAGE_BEGIN
-                && lastStage != STAGE_OUTRO
-                && lastStage != STAGE_DRAWING_TEXT;
-    if (!getDemoStage(doLimit, accumTime, m_stage, fadeMult)) {
+                && lastStage != STAGE_OUTRO;
+    if (!getDemoStage(doLimit, accumTime, m_stage, fadeMult, imageFadeMult, continueFadeMult)) {
       // EVENT orientation completed successfully (total amount of time spent was "curTime")
       std::stringstream extraData;
       extraData << "\"Elapsed Time\": " << ci::app::getElapsedSeconds();
@@ -963,9 +1042,18 @@ void ParticleDemoApp::runDemoScript() {
     }
     accumTime += deltaTime;
   } else {
+    if ( lastStage == -1 && connectCountDown > 0 )
+    {
+      connectCountDown--;
+    }
+    else
+    {
+      m_stage = STAGE_CONNECTING;
+    }
     accumTime = 0;
-    m_stage = STAGE_CONNECTING;
     fadeMult = 1.0f;
+    imageFadeMult = 1.0f;
+    continueFadeMult = 0.0f;
   }
 
   if (m_stage != lastStage) {
@@ -977,6 +1065,7 @@ void ParticleDemoApp::runDemoScript() {
       SendMixPanelEvent("Orientation - Stage Changed", m_listener->GetDeviceID(), extraData.str());
     }
     timeInStage = 0;
+    m_lastActivityTime = curTime;
   } else {
     timeInStage += deltaTime;
   }
@@ -994,30 +1083,40 @@ void ParticleDemoApp::runDemoScript() {
   float exponent = TARGET_FRAME_RATE / fps;
   m_blurMult = 1.0f - std::pow(1.0f - targetMult, exponent);
 
-  static Utils::TimedMean<float> fadeSmoother(0.33);
+  static Utils::TimedMean<float> fadeSmoother(0.33f);
   if (m_stage == STAGE_CONNECTING) {
     fadeSmoother.Update(0.0f, curTime);
     fadeMult = 1.0f;
     m_glowContrast = 0.0f;
+    imageFadeMult = 1.0f;
+    continueFadeMult = 0.0f;
   } else if (m_stage == STAGE_WAITING) {
     fadeSmoother.Update(0.0f, curTime);
     fadeMult = 0.0f;
     m_glowContrast = 0.0f;
+    imageFadeMult = 0.0f;
+    continueFadeMult = 0.0f;
   } else {
     fadeSmoother.Update(fadeMult, curTime);
     fadeMult = fadeSmoother.Mean();
     m_glowContrast = 1.2f;
   }
 
+  const float sinceActivityMult = static_cast<float>(Utils::smootherStep(ci::math<double>::clamp((curTime-1.5 - m_lastActivityTime)/5.0)));
+  continueFadeMult = timeInStage < ANY_KEY_DELAY ? 0.0f : std::max(continueFadeMult, std::min(1.0f-imageFadeMult, sinceActivityMult));
+
   m_draw3DScene = !(m_stage == STAGE_CONNECTING)
                && !(m_stage == STAGE_WAITING)
                && !(m_stage == STAGE_BEGIN)
-               && !(m_stage == STAGE_OUTRO)
-               && !(m_stage == STAGE_WHERE_TEXT)
-               && !(m_stage == STAGE_HAND_TEXT)
-               && !(m_stage == STAGE_DRAWING_TEXT);
+               && !(m_stage == STAGE_OUTRO);
   m_curFadeMult = fadeMult;
-  m_curImageAlpha = static_cast<float>(fadeMult);
+  m_curImageAlpha = static_cast<float>(imageFadeMult);
+  m_curContinueAlpha = static_cast<float>(continueFadeMult);
+
+  if (m_visualizerOnlyMode && m_stage > STAGE_CONNECTING) {
+    m_curImageAlpha = 0.0f;
+    m_curContinueAlpha = 0.0f;
+  }
 
   // decide what to draw based on what stage we're in
   if (m_stage >= STAGE_HANDS) {
@@ -1047,24 +1146,25 @@ void ParticleDemoApp::runDemoScript() {
   }
 
   // set image depending on stage
+  m_curContinueNum = -1;
   if (m_stage == STAGE_CONNECTING) {
     m_curImageNum = IMAGE_PLUG_IN;
   } else if (m_stage == STAGE_BEGIN) {
     m_curImageNum = IMAGE_LOGO;
-  } else if (m_stage == STAGE_WHERE_TEXT) {
+  } else if (m_stage == STAGE_INTRO) {
     m_curImageNum = IMAGE_WHERE;
-  } else if (m_stage == STAGE_INTRO || m_stage == STAGE_3D) {
-    m_curImageNum = IMAGE_NONE;
+    m_curContinueNum = IMAGE_CONTINUE;
+  } else if (m_stage == STAGE_3D) {
+    m_curImageNum = IMAGE_WHERE_3D;
+    m_curContinueNum = IMAGE_CONTINUE;
   } else if (m_stage == STAGE_HANDS) {
-    m_curImageNum = IMAGE_NONE;
+    m_curImageNum = IMAGE_WHAT;
+    m_curContinueNum = IMAGE_CONTINUE;
   } else if (m_stage == STAGE_DRAWING) {
-    m_curImageNum = IMAGE_NONE;
+    m_curImageNum = IMAGE_HOW;
+    m_curContinueNum = IMAGE_FINISH;
   } else if (m_stage == STAGE_OUTRO) {
     m_curImageNum = IMAGE_LOGO;
-  } else if (m_stage == STAGE_HAND_TEXT) {
-    m_curImageNum = IMAGE_WHAT;
-  } else if (m_stage == STAGE_DRAWING_TEXT) {
-    m_curImageNum = IMAGE_HOW;
   }
 
   // modify bass loop
@@ -1164,7 +1264,7 @@ void ParticleDemoApp::drawDemoImage() {
       scale = 0.75f;
       tex = &m_plugInTex;
     } else {
-      scale = 0.85f;
+      scale = 0.7f;
       tex = &m_logoTex;
     }
 
@@ -1181,9 +1281,10 @@ void ParticleDemoApp::drawDemoImage() {
     glDisable(GL_TEXTURE_2D);
   } else {
     // draw a text string
-    int highlightStart, numHighlightChars;
     if (m_curImageNum == IMAGE_WHERE) {
       m_textStrings.drawWhereStrings(m_curImageAlpha, width, (float)getWindowHeight());
+    } else if (m_curImageNum == IMAGE_WHERE_3D) {
+      m_textStrings.drawWhere3DStrings(m_curImageAlpha, width, (float)getWindowHeight());
     } else if (m_curImageNum == IMAGE_WHAT) {
       m_textStrings.drawWhatStrings(m_curImageAlpha, width, (float)getWindowHeight());
     } else if (m_curImageNum == IMAGE_HOW) {
@@ -1194,7 +1295,19 @@ void ParticleDemoApp::drawDemoImage() {
   }
 }
 
-bool ParticleDemoApp::getDemoStage(bool limitStage, double& curTime, int& stage, float& fadeMult) {
+void ParticleDemoApp::drawContinueImage() {
+  const ci::Vec2f center = getWindowCenter();
+  const float width = (const float)getWindowWidth();
+  if (m_curContinueNum == IMAGE_CONTINUE) {
+    m_textStrings.drawContinueString(m_curContinueAlpha, width, (float)getWindowHeight());
+  } else if (m_curContinueNum == IMAGE_FINISH) {
+    m_textStrings.drawFinishString(m_curContinueAlpha, width, (float)getWindowHeight());
+  } else {
+    return;
+  }
+}
+
+bool ParticleDemoApp::getDemoStage(bool limitStage, double& curTime, int& stage, float& fadeMult, float& imageFadeMult, float& continueFadeMult) {
   static bool loaded = false;
   static double stageTimes[NUM_STAGES];
 
@@ -1204,10 +1317,8 @@ bool ParticleDemoApp::getDemoStage(bool limitStage, double& curTime, int& stage,
       stageTimes[STAGE_CONNECTING] = 0.001;
       stageTimes[STAGE_WAITING] = 0;
       stageTimes[STAGE_BEGIN] = 0;
-      stageTimes[STAGE_WHERE_TEXT] = 0;
       stageTimes[STAGE_INTRO] = 0;
       stageTimes[STAGE_3D] = 0;
-      stageTimes[STAGE_HAND_TEXT] = 0;
       stageTimes[STAGE_HANDS] = 99999999999;
       stageTimes[STAGE_DRAWING] = 0;
       stageTimes[STAGE_OUTRO] = 0;
@@ -1215,13 +1326,10 @@ bool ParticleDemoApp::getDemoStage(bool limitStage, double& curTime, int& stage,
       stageTimes[STAGE_CONNECTING] = 0.001;
       stageTimes[STAGE_WAITING] = 2;
       stageTimes[STAGE_BEGIN] = 2*FADE_TIME;
-      stageTimes[STAGE_WHERE_TEXT] = 3*FADE_TIME;
-      stageTimes[STAGE_INTRO] = 15;
-      stageTimes[STAGE_3D] = 15;
-      stageTimes[STAGE_HAND_TEXT] = 3*FADE_TIME;
-      stageTimes[STAGE_HANDS] = 15;
-      stageTimes[STAGE_DRAWING_TEXT] = 3*FADE_TIME;
-      stageTimes[STAGE_DRAWING] = 15;
+      stageTimes[STAGE_INTRO] = 99999999999;
+      stageTimes[STAGE_3D] = 99999999999;
+      stageTimes[STAGE_HANDS] = 99999999999;
+      stageTimes[STAGE_DRAWING] = 99999999999;
       stageTimes[STAGE_OUTRO] = 2*FADE_TIME;
     }
     loaded = true;
@@ -1234,6 +1342,14 @@ bool ParticleDemoApp::getDemoStage(bool limitStage, double& curTime, int& stage,
     if (totalTime > curTime) {
       stage = i;
       double curStageTime = curTime - (totalTime - stageTimes[i]);
+      imageFadeMult = 1.0f - static_cast<float>(Utils::smootherStep(ci::math<double>::clamp(fabs(curStageTime - 1.5*FADE_TIME)/FADE_TIME)));
+      continueFadeMult = 1.0f - static_cast<float>(Utils::smootherStep(ci::math<double>::clamp(fabs((curStageTime-ANY_KEY_DELAY) - 1.5*FADE_TIME)/FADE_TIME)));
+
+      if (m_skipQueued) {
+        curTime = totalTime - FADE_TIME;
+        m_skipQueued = false;
+      }
+
       if (curStageTime < FADE_TIME) {
         fadeMult = static_cast<float>(Utils::smootherStep(curStageTime/FADE_TIME));
       } else if (stageTimes[i] - curStageTime < FADE_TIME) {
@@ -1309,19 +1425,27 @@ void ParticleDemoApp::updateCamera(double timeInStage) {
   } else if (m_cameraMode == CAMERA_PERSP_ROTATING) {
     m_cameraCenter = Vec3f::zero();
     m_camera.setPerspective(50.0f, aspect, 5.0f, 3000.0f);
-    static const double ORBIT_TIME_X = 4.2;
-    static const double ORBIT_TIME_Z = 5.5;
-    static const double CAM_DIST_TIME = 3.1;
-    static const double CAM_HEIGHT_TIME = 2.5;
-    static const double AVG_CAM_DIST = 650;
-    static const double CAM_DIST_RANGE = 50;
-    static const double AVG_CAM_HEIGHT = 175;
-    static const double CAM_HEIGHT_RANGE = 75;
 
-    float camDist = static_cast<float>(AVG_CAM_DIST + (CAM_DIST_RANGE/2.0)*std::sin(timeInStage / CAM_DIST_TIME));
-    m_cameraPos.x = camDist*0.5f*static_cast<float>(std::sin(timeInStage / ORBIT_TIME_X));
-    m_cameraPos.y = static_cast<float>(AVG_CAM_HEIGHT + (CAM_HEIGHT_RANGE/2.0)*std::sin(timeInStage / CAM_HEIGHT_TIME));
-    m_cameraPos.z = camDist*(0.2f*static_cast<float>(std::sin(timeInStage / ORBIT_TIME_Z) + 0.8));
+    static const double CAM_DIST_TIME = 7.0;
+    static const double START_DIST = 700.0;
+    static const double END_DIST = 1000.0;
+
+    static const double ORBIT_TIME_X = 4.1;
+    static const double ORBIT_TIME_Y = 5.3;
+    static const double ORBIT_TIME_Z = 6.5;
+    static const double MOVEMENT_RANGE_X = 150;
+    static const double MOVEMENT_RANGE_Y = 50;
+    static const double MOVEMENT_RANGE_Z = 50;
+
+    static const Vector3 MOVEMENT_DIRECTION = Vector3(0.15f, 0.0f, 1.0f).normalized();
+    double progress = ci::math<double>::clamp(timeInStage / CAM_DIST_TIME);
+    progress = Utils::smootherStep(1.0 - progress*progress);
+
+    float camDist = static_cast<float>(progress*(END_DIST - START_DIST) + START_DIST);
+    m_cameraPos.x = camDist*MOVEMENT_DIRECTION.x() + static_cast<float>(MOVEMENT_RANGE_X*std::sin(timeInStage / ORBIT_TIME_X));
+    m_cameraPos.y = camDist*MOVEMENT_DIRECTION.y() + static_cast<float>(MOVEMENT_RANGE_Y*std::sin(timeInStage / ORBIT_TIME_Y));
+    m_cameraPos.z = camDist*MOVEMENT_DIRECTION.z() + static_cast<float>(MOVEMENT_RANGE_Z*std::sin(timeInStage / ORBIT_TIME_Z));
+
     m_camera.lookAt(m_cameraPos, m_cameraCenter, up);
   }
 }
@@ -1366,31 +1490,38 @@ bool ParticleDemoApp::isHOPS() {
 #endif
 }
 
+void HandleCrash() {
+  SendMixPanelEvent("Orientation - Crashed", "");
+#if _WIN32
+  ::MessageBox(0, L"Orientation has crashed. Please make sure you have the latest graphics drivers installed.", L"Error", MB_OK );
+#endif
+}
+
 #if _WIN32
   //#pragma comment( linker, "/subsystem:\"console\" /entry:\"mainCRTStartup\"" )
+  int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int nCmdShow) {
+    CrashReport cr( HandleCrash );
 
-  void sandboxed_main() {
     cinder::app::AppBasic::prepareLaunch();
     cinder::app::AppBasic *app = new ParticleDemoApp;
     cinder::app::Renderer *ren = new RendererGl;
     cinder::app::AppBasic::executeLaunch( app, ren, "ParticleDemoApp");
+    cinder::app::AppBasic::cleanupLaunch();    return 0;
+  }
+#else     
+  //CINDER_APP_BASIC( ParticleDemoApp, RendererGl )
+
+  int main( int argc, char * const argv[] ) {
+    CrashReport cr( HandleCrash );
+
+    cinder::app::AppBasic::prepareLaunch();
+    cinder::app::AppBasic *app = new ParticleDemoApp;
+    cinder::app::Renderer *ren = new RendererGl;
+    cinder::app::AppBasic::executeLaunch( app, ren, "ParticleDemoApp", argc, argv );
     cinder::app::AppBasic::cleanupLaunch();
-  }
 
-  LONG WINAPI HandleCrash(EXCEPTION_POINTERS* pException_) {
-     ::MessageBox(0, L"Orientation has crashed. Please make sure you have the latest graphics drivers installed.", L"Error", MB_OK);
-      // EVENT crashed
-      SendMixPanelEvent("Orientation - Crashed", "");
-     return EXCEPTION_EXECUTE_HANDLER;
-  }
-
-  int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int nCmdShow) {
-    SetUnhandledExceptionFilter(HandleCrash);
-    sandboxed_main();
     return 0;
   }
-#else
-  CINDER_APP_BASIC( ParticleDemoApp, RendererGl )
 #endif
 
   /*

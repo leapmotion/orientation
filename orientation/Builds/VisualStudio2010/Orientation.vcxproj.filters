@@ -43,6 +43,9 @@
     <ClCompile Include="..\..\src\I18N.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\CrashReport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\ParticleDemoApp.h">
@@ -105,6 +108,9 @@
     <ClInclude Include="..\..\include\I18N.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\CrashReport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\leap-icon.ico">
@@ -164,7 +170,10 @@
     <None Include="..\..\resources\plug-in-device.png">
       <Filter>Resource Files\Images</Filter>
     </None>
-    <None Include="..\..\resources\plug-in-device-embedded.png">
+    <None Include="..\..\resources\plug-in-device-hops.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="..\..\resources\plug-in-device-pongo.png">
       <Filter>Resource Files\Images</Filter>
     </None>
   </ItemGroup>

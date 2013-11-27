@@ -71,7 +71,8 @@ private:
   void runDemoScript();
   void setDemoCamera();
   void drawDemoImage();
-  bool getDemoStage(bool limitStage, double& curTime, int& stage, float& fadeMult);
+  void drawContinueImage();
+  bool getDemoStage(bool limitStage, double& curTime, int& stage, float& fadeMult, float& imageFadeMult, float& continueFadeMult);
   void setResolution(int width, int height);
   void getResolution(int& width, int& height);
   void updateCamera(double timeInStage);
@@ -85,8 +86,8 @@ private:
   static const double MAX_STROKE_TIME_LENGTH;
 
   enum { CAMERA_ORTHO, CAMERA_PERSP_FIXED, CAMERA_PERSP_ROTATING };
-  enum { IMAGE_PLUG_IN, IMAGE_LOGO, IMAGE_WHERE, IMAGE_WHAT, IMAGE_HOW, IMAGE_NONE };
-  enum { STAGE_CONNECTING, STAGE_WAITING, STAGE_BEGIN, STAGE_WHERE_TEXT, STAGE_INTRO, STAGE_3D, STAGE_HAND_TEXT, STAGE_HANDS, STAGE_DRAWING_TEXT, STAGE_DRAWING, STAGE_OUTRO, NUM_STAGES };
+  enum { IMAGE_PLUG_IN, IMAGE_LOGO, IMAGE_WHERE, IMAGE_WHERE_3D, IMAGE_WHAT, IMAGE_HOW, IMAGE_CONTINUE, IMAGE_FINISH, IMAGE_NONE };
+  enum { STAGE_CONNECTING, STAGE_WAITING, STAGE_BEGIN, STAGE_INTRO, STAGE_3D, STAGE_HANDS, STAGE_DRAWING, STAGE_OUTRO, NUM_STAGES };
 
   // stuff for glow
   gl::Fbo			            m_fboGlow1;
@@ -134,6 +135,8 @@ private:
   int                     m_stage;
   int                     m_curImageNum;
   float                   m_curImageAlpha;
+  float                   m_curContinueAlpha;
+  int                     m_curContinueNum;
   float                   m_curFadeMult;
   double                  m_lastActivityTime;
   float                   m_frustumLinesAlpha;
@@ -147,6 +150,8 @@ private:
   bool                    m_useNativeRes;
   bool                    m_useFX;
   std::string             m_renderString;
+  bool                    m_skipQueued;
+  int                     m_skipStage;
 
   // Leap
   LeapListener*           m_listener;

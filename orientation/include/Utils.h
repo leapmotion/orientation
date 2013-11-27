@@ -38,7 +38,7 @@ static void drawFrustum(const Leap::Device& device, float edgesAlpha, bool withP
 
   float range = 1.0f*device.range();
   double faceRange = 1.5*device.range();
-  double shortRange = 0.01*device.range();
+  float shortRange = static_cast<float>(0.015*device.range());
   float x = std::tan(device.horizontalViewAngle() * 0.5f);
   float y = std::tan(device.verticalViewAngle() * 0.5f);
 
@@ -115,13 +115,15 @@ static void drawFrustum(const Leap::Device& device, float edgesAlpha, bool withP
   glEnd();
 
   if (edgesAlpha > 0.01f) {
+    Vector3 start;
     glLineWidth(5);
     ci::gl::color(centerColor * edgesAlpha);
 
     // draw top edge
     blend = 0;
     glBegin(GL_LINE_STRIP);
-    glVertex3d(viewPoint[0], viewPoint[1], viewPoint[2]);
+    start = shortRange*upperLeft.normalized();
+    glVertex3d(viewPoint[0] + start[0], viewPoint[1] + start[1], viewPoint[2] + start[2]);
     for (int i=0; i<=NUM_LINE_POINTS; i++) {
       Vector3 pos = blend*upperLeft + (1.0f-blend)*upperRight;
       pos = range * pos.normalized();
@@ -133,7 +135,8 @@ static void drawFrustum(const Leap::Device& device, float edgesAlpha, bool withP
     // draw left edge
     blend = 0;
     glBegin(GL_LINE_STRIP);
-    glVertex3d(viewPoint[0], viewPoint[1], viewPoint[2]);
+    start = shortRange*lowerLeft.normalized();
+    glVertex3d(viewPoint[0] + start[0], viewPoint[1] + start[1], viewPoint[2] + start[2]);
     for (int i=0; i<=NUM_LINE_POINTS; i++) {
       Vector3 pos = blend*lowerLeft + (1.0f-blend)*upperLeft;
       pos = range * pos.normalized();
@@ -145,7 +148,8 @@ static void drawFrustum(const Leap::Device& device, float edgesAlpha, bool withP
     // draw bottom edge
     blend = 0;
     glBegin(GL_LINE_STRIP);
-    glVertex3d(viewPoint[0], viewPoint[1], viewPoint[2]);
+    start = shortRange*lowerRight.normalized();
+    glVertex3d(viewPoint[0] + start[0], viewPoint[1] + start[1], viewPoint[2] + start[2]);
     for (int i=0; i<=NUM_LINE_POINTS; i++) {
       Vector3 pos = blend*lowerRight + (1.0f-blend)*lowerLeft;
       pos = range * pos.normalized();
@@ -157,7 +161,8 @@ static void drawFrustum(const Leap::Device& device, float edgesAlpha, bool withP
     // draw right edge
     blend = 0;
     glBegin(GL_LINE_STRIP);
-    glVertex3d(viewPoint[0], viewPoint[1], viewPoint[2]);
+    start = shortRange*upperRight.normalized();
+    glVertex3d(viewPoint[0] + start[0], viewPoint[1] + start[1], viewPoint[2] + start[2]);
     for (int i=0; i<=NUM_LINE_POINTS; i++) {
       Vector3 pos = blend*upperRight + (1.0f-blend)*lowerRight;
       pos = range * pos.normalized();
@@ -363,6 +368,43 @@ static void drawDevice() {
   glPopMatrix();
 }
 
+static void drawDeviceSurface(bool withPulsing) {
+  static const float POSITION = 6.0f; // should be half of the device height
+  static const float RADIUS = 750.0f;
+  double curTime = ci::app::getElapsedSeconds();
+  static const double PI = 3.14159;
+  float mult = 1.0f;
+  if (withPulsing) {
+    mult = static_cast<float>(0.2*std::sin(curTime*PI/(0.5*TIME_BETWEEN_PEAKS)) + 0.8);
+  }
+  ci::ColorA centerColor(0.25f, 0.45f, 0.65f, 0.4f);
+  centerColor *= mult;
+  ci::ColorA outsideColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+  static const int NUM_CIRCLE_POINTS = 30;
+  static Vector2 points[NUM_CIRCLE_POINTS];
+  static bool circlePointsCreated = false;
+  if (!circlePointsCreated) {
+    const double inc = 2.0*M_PI / static_cast<double>(NUM_CIRCLE_POINTS);
+    double cur = 0.0;
+    for (int i=0; i<NUM_CIRCLE_POINTS; i++) {
+      points[i] << static_cast<float>(std::sin(cur)), static_cast<float>(std::cos(cur));
+      cur += inc;
+    }
+    circlePointsCreated = true;
+  }
+
+  glBegin(GL_TRIANGLE_FAN);
+  ci::gl::color(centerColor);
+  glVertex3f(0.0f, 0.0f, POSITION);
+  ci::gl::color(outsideColor);
+  for (int i=0; i<=NUM_CIRCLE_POINTS; i++) {
+    const Vector2 curPoint = RADIUS*points[i%NUM_CIRCLE_POINTS];
+    glVertex3f(curPoint.x(), curPoint.y(), POSITION);
+  }
+  glEnd();
+}
+
 static inline double smootherStep(double x) {
   // x is blending parameter between 0 and 1
   return x*x*x*(x*(x*6 - 15) + 10);
@@ -387,7 +429,7 @@ static void drawPointable(const Leap::Pointable& pointable, ci::Camera* cam, ci:
   static const float RADIUS = 4.0f;
   static const int SIDES = 20;
   static const float APPEAR_TIME = 0.75f;
-  Leap::Vector tip = pointable.stabilizedTipPosition();
+  Leap::Vector tip = pointable.tipPosition();
   Leap::Vector dir = pointable.direction();
   Leap::Vector vel = pointable.tipVelocity();
   float touchDist = pointable.touchDistance();
