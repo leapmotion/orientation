@@ -14,12 +14,14 @@ public:
   bool WaitForFrame(Leap::Frame& curFrame, int millisecondsTimeout);
   bool IsConnected() const;
   const std::string& GetDeviceID() const;
+  const Leap::Device::Type GetDeviceType() const { return m_deviceType; }
 private:
   bool m_isConnected;
   Leap::Frame m_frame;
   std::mutex m_mutex;
   std::condition_variable m_condition;
   std::string m_deviceID;
+  Leap::Device::Type m_deviceType;
 };
 
 #endif

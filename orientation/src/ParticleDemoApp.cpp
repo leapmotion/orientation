@@ -1451,43 +1451,11 @@ void ParticleDemoApp::updateCamera(double timeInStage) {
 }
 
 bool ParticleDemoApp::isPongo() {
-#if _WIN32
-  std::string programDataPath = getenv("PROGRAMDATA");
-  programDataPath.append("\\Leap Motion\\installtype");
-
-  std::ifstream installTypeFile(programDataPath, std::ios_base::in);
-  if( !installTypeFile )
-    return false;
-
-  std::string installtype;
-  installTypeFile >> installtype;
-  if( installtype.find("pongo") == std::string::npos )
-    return false;
-  else
-    return true;
-#else
-  return false;
-#endif
+  return m_listener->GetDeviceType() == Leap::Device::HP_LAPTOP_EMBEDDED;
 }
 
 bool ParticleDemoApp::isHOPS() {
-#if _WIN32
-  std::string programDataPath = getenv("PROGRAMDATA");
-  programDataPath.append("\\Leap Motion\\installtype");
-
-  std::ifstream installTypeFile(programDataPath, std::ios_base::in);
-  if( !installTypeFile )
-    return false;
-
-  std::string installtype;
-  installTypeFile >> installtype;
-  if( installtype.find("hops") == std::string::npos )
-    return false;
-  else
-    return true;
-#else
-  return false;
-#endif
+  return m_listener->GetDeviceType() == Leap::Device::HP_KEYBOARD_EMBEDDED;
 }
 
 void HandleCrash() {
