@@ -17,7 +17,23 @@
 
 #include "CrashReport.h"
 
-static bool DISABLE_MIXPANEL = false;
+static bool METRICS_ENABLED = true;
+
+static bool checkMetricsEnabled( Leap::Controller *pLeap=NULL )
+{
+  static const char*  METRICS_ENABLED_CONFIG_KEY  = "metrics_enabled";
+
+  if (  METRICS_ENABLED && 
+        METRICS_ENABLED_CONFIG_KEY && 
+        pLeap && 
+        (pLeap->config().type(METRICS_ENABLED_CONFIG_KEY) == Leap::Config::TYPE_BOOLEAN) ) 
+  {
+    METRICS_ENABLED = pLeap->config().getBool( METRICS_ENABLED_CONFIG_KEY );
+    METRICS_ENABLED_CONFIG_KEY = NULL;
+  }
+
+  return METRICS_ENABLED;
+}
 
 static bool HasInternetConnection()
 {
@@ -82,7 +98,7 @@ static void SendMixPanelJSON(const std::string &jsonData)
 
 static void SendMixPanelEvent(const std::string &eventName, const std::string &deviceID, const std::string &data = "")
 {
-  if (DISABLE_MIXPANEL) {
+  if (!checkMetricsEnabled()) {
     return;
   }
 
@@ -359,7 +375,8 @@ void ParticleDemoApp::setup() {
 
   m_renderString = parseRenderString(std::string((char*)glGetString(GL_RENDERER)));
 
-  DISABLE_MIXPANEL = m_visualizerOnlyMode;
+  METRICS_ENABLED = !m_visualizerOnlyMode;
+  checkMetricsEnabled(&m_leap);
 }
 
 void ParticleDemoApp::resize(ResizeEvent event) {
@@ -552,6 +569,8 @@ bool ParticleDemoApp::shouldUseFX(const std::string& version_string) {
 
 void ParticleDemoApp::update() {
   static bool firstUpdate = true;
+
+  checkMetricsEnabled(&m_leap);
 
   if (m_visualizerOnlyMode && firstUpdate) {
     setAlwaysOnTop(false);
