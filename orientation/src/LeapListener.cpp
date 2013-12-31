@@ -16,14 +16,14 @@ void LeapListener::onConnect(const Leap::Controller& controller) {
   
   std::lock_guard<std::mutex> lock(m_mutex);
   if( !controller.devices().isEmpty() ) {
-    m_deviceType = controller.devices()[0].type();
+    m_deviceType = controller.devices()[0].deviceType();
   }
 }
 
 void LeapListener::onDisconnect(const Leap::Controller& controller) {
   std::cout << "Disconnected" << std::endl;
   std::lock_guard<std::mutex> lock(m_mutex);
-  m_deviceType = Leap::Device::TYPE_INVALID;
+  m_deviceType = Leap::DEVICE_INVALID;
 }
 
 void LeapListener::onFrame(const Leap::Controller& controller) {
