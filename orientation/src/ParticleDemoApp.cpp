@@ -1451,11 +1451,11 @@ void ParticleDemoApp::updateCamera(double timeInStage) {
 }
 
 bool ParticleDemoApp::isPongo() {
-  return m_listener->GetDeviceType() == Leap::Device::HP_LAPTOP_EMBEDDED;
+  return m_listener->GetDeviceType() == Leap::HP_LAPTOP_EMBEDDED;
 }
 
 bool ParticleDemoApp::isHOPS() {
-  return m_listener->GetDeviceType() == Leap::Device::HP_KEYBOARD_EMBEDDED;
+  return m_listener->GetDeviceType() == Leap::HP_KEYBOARD_EMBEDDED;
 }
 
 void HandleCrash() {
