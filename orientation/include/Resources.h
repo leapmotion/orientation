@@ -3,6 +3,8 @@
 
 #include <cinder/CinderResources.h>
 
+#define ICON_IDX 1
+
 #define RES_APP_ICON          CINDER_RESOURCE( ../resources/, leap-icon.ico, 150, ICON )
 #define RES_GLOW_PNG		  CINDER_RESOURCE( ../resources/, glow.png,			151, IMAGE )
 #define RES_FINGER_FRAG	  CINDER_RESOURCE( ../resources/, finger_frag.glsl,		153, GLSL )

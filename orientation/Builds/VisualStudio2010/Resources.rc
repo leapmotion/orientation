@@ -1,6 +1,7 @@
 #include "..\..\include\Resources.h"
 
-RES_APP_ICON
+ICON_IDX ICON "../resources/leap-icon.ico"
+
 RES_GLOW_PNG
 RES_FINGER_FRAG
 RES_FINGER_VERT

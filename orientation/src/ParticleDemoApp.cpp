@@ -243,6 +243,11 @@ void ParticleDemoApp::setup() {
   }
 #endif
 
+#if _WIN32
+  HMODULE instance = ::GetModuleHandle(0);
+  SetClassLongPtr(getRenderer()->getHwnd(), GCLP_HICON, (LONG)::LoadImage(instance, MAKEINTRESOURCE(ICON_IDX), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE));
+#endif
+
   // initial values for some variables
   m_draw3DScene = true;
   m_drawFluid = true;
@@ -361,12 +366,6 @@ void ParticleDemoApp::setup() {
   if ( m_drawingLoop ) m_drawingLoop->setVolume(0.0f);
 
   gl::disableVerticalSync();
-
-#if _WIN32
-  HANDLE img = LoadImage(GetModuleHandle(0), MAKEINTRESOURCE(RES_APP_ICON), IMAGE_ICON, 16, 16, LR_SHARED);
-  SetClassLongPtr(getRenderer()->getHwnd(), GCLP_HICONSM, (LONG)img);
-  SetClassLongPtr(getRenderer()->getHwnd(), GCLP_HICON, (LONG)img);
-#endif
 
   std::cout << glGetString(GL_VENDOR) << std::endl;
   std::cout << glGetString(GL_RENDERER) << std::endl;
