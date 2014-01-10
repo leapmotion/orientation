@@ -245,6 +245,18 @@ private:
       m_continueString.push_back(L"계속하시려면 아무 키나 누르세요");
       m_finishString.push_back(L"멈추시려면 아무 키나 누르세요");
     }
+    else if (m_locale == "it") {
+      m_whereStrings.push_back(L"Questa è l'area di visione");
+      m_whereStrings.push_back(L"Muovere le mani sul controller");
+      m_where3DStrings.push_back(L"Esplorare lo spazio");
+      m_whatStrings.push_back(L"Questo è l'oggetto visto");
+      m_whatStrings.push_back(L"Spostare la mano sul dispositivo");
+      m_howStrings.push_back(L"Questo è il modo in cui disegnare");
+      m_howStrings.push_back(L"Per disegnare: spostare il dito in avanti");
+      m_howStrings.push_back(L"Per interrompere: spostare il dito indietro");
+      m_continueString.push_back(L"Premere un tasto qualsiasi per continuare");
+      m_finishString.push_back(L"Premere un tasto qualsiasi per terminare");
+    }
     else { //default to English
       m_whereStrings.push_back(L"This is where it sees");
       m_whereStrings.push_back(L"Wave your hands above the device");
