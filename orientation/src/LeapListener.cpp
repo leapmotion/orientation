@@ -9,6 +9,10 @@ LeapListener::LeapListener() : m_isConnected(false) { }
 
 void LeapListener::onInit(const Leap::Controller& controller) {
   std::cout << "Initialized" << std::endl;
+  std::lock_guard<std::mutex> lock(m_mutex);
+  if( !controller.devices().isEmpty() ) {
+    setupDeviceID( controller );
+  }
 }
 
 void LeapListener::onConnect(const Leap::Controller& controller) {
@@ -16,30 +20,19 @@ void LeapListener::onConnect(const Leap::Controller& controller) {
   
   std::lock_guard<std::mutex> lock(m_mutex);
   if( !controller.devices().isEmpty() ) {
-    m_deviceType = controller.devices()[0].deviceType();
+    setupDeviceID( controller );
   }
 }
 
 void LeapListener::onDisconnect(const Leap::Controller& controller) {
   std::cout << "Disconnected" << std::endl;
   std::lock_guard<std::mutex> lock(m_mutex);
-  m_deviceType = Leap::DEVICE_INVALID;
 }
 
 void LeapListener::onFrame(const Leap::Controller& controller) {
   std::lock_guard<std::mutex> lock(m_mutex);
   if (m_deviceID.empty()) {
-    if (!controller.devices().isEmpty()) {
-      std::string fullString = controller.devices()[0].toString();
-      // the string from the API also has some extra text on it, so just retrieve the actual ID
-      // keep this in sync with whatever DeviceImplementation::toString() does
-      size_t pos = fullString.find(": ");
-      if (pos == std::string::npos) {
-        m_deviceID = fullString;
-      } else {
-        m_deviceID = fullString.substr(pos + 2);
-      }
-    }
+    setupDeviceID( controller );
   }
   m_isConnected = true;
   m_frame = controller.frame();
@@ -62,4 +55,30 @@ bool LeapListener::IsConnected() const {
 
 const std::string& LeapListener::GetDeviceID() const {
   return m_deviceID;
+}
+
+bool LeapListener::IsEmbedded() const {
+  return (m_deviceID.size() == 20) && (m_deviceID.at(1) == 'E');
+}
+
+bool LeapListener::IsHOPS() const {
+  return IsEmbedded() && (m_deviceID.at(2) == '1');
+}
+
+bool LeapListener::IsPongo() const {
+  return IsEmbedded() && (m_deviceID.at(2) == '0');
+}
+
+void LeapListener::setupDeviceID( const Leap::Controller& controller ) {
+    if (!controller.devices().isEmpty()) {
+      std::string fullString = controller.devices()[0].toString();
+      // the string from the API also has some extra text on it, so just retrieve the actual ID
+      // keep this in sync with whatever DeviceImplementation::toString() does
+      size_t pos = fullString.find(": ");
+      if (pos == std::string::npos) {
+        m_deviceID = fullString;
+      } else {
+        m_deviceID = fullString.substr(pos + 2);
+      }
+    }
 }

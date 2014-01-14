@@ -14,14 +14,17 @@ public:
   bool WaitForFrame(Leap::Frame& curFrame, int millisecondsTimeout);
   bool IsConnected() const;
   const std::string& GetDeviceID() const;
-  const Leap::DeviceType GetDeviceType() const { return m_deviceType; }
+  bool IsPongo() const;
+  bool IsHOPS() const;
+  bool IsEmbedded() const;
+private:
+  void setupDeviceID( const Leap::Controller& );
 private:
   bool m_isConnected;
   Leap::Frame m_frame;
   std::mutex m_mutex;
   std::condition_variable m_condition;
   std::string m_deviceID;
-  Leap::DeviceType m_deviceType;
 };
 
 #endif
