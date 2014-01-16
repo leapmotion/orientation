@@ -82,7 +82,7 @@ static std::string getMixPanelToken()
   return transformBytes("\x9A\x88\xEE\xAF\xCD\xBB\x86\xDF\x97\xFD\xA2\xD8\xFF\xFA\xCF\xD1\xA6\xB6\x95\xEF\xBF\xD3\x95\xE6\xF6\x84\x8C\xAB\x96\x9E\xA7\xE8");
 #else
   //77d363605f0470115eb82352f14b2981
-  return transformBytes("\x9B\x8B\xEB\xAA\xC9\xBC\xD5\xDF\xC4\xAE\xF4\x88\xFD\xAC\x9B\x83\xA0\xE6\x93\xB1\xEB\xD6\xC2\xE4\xA8\x87\x80\xF8\x92\x91\xAB\xBC");
+  return transformBytes("\x9B\x8B\xE B\xAA\xC9\xBC\xD5\xDF\xC4\xAE\xF4\x88\xFD\xAC\x9B\x83\xA0\xE6\x93\xB1\xEB\xD6\xC2\xE4\xA8\x87\x80\xF8\x92\x91\xAB\xBC");
 #endif
 }
 
@@ -91,6 +91,7 @@ static void SendMixPanelJSON(const std::string &jsonData)
   const std::string mpBaseURL("http://api.mixpanel.com/track/?data=");
   std::string encodedData = cinder::toBase64(jsonData);
   std::string requestString = mpBaseURL + encodedData;
+
   try {
     cinder::IStreamUrl::create(cinder::Url(requestString));
   } catch(...) { }
@@ -1470,11 +1471,13 @@ void ParticleDemoApp::updateCamera(double timeInStage) {
 }
 
 bool ParticleDemoApp::isPongo() {
-  return m_listener ? m_listener->IsPongo() : false;
+  const auto &devices = m_leap.devices();
+  return devices.count() > 0 && devices[0].deviceType() == Leap::DEVICE_LAPTOP;
 }
 
 bool ParticleDemoApp::isHOPS() {
-  return m_listener ? m_listener->IsHOPS() : false;
+  const auto &devices = m_leap.devices();
+  return devices.count() > 0 && devices[0].deviceType() == Leap::DEVICE_KEYBOARD;
 }
 
 void HandleCrash() {

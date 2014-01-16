@@ -14,9 +14,6 @@ public:
   bool WaitForFrame(Leap::Frame& curFrame, int millisecondsTimeout);
   bool IsConnected() const;
   const std::string& GetDeviceID() const;
-  bool IsPongo() const;
-  bool IsHOPS() const;
-  bool IsEmbedded() const;
 private:
   void setupDeviceID( const Leap::Controller& );
 private:

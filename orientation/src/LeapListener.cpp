@@ -26,7 +26,7 @@ void LeapListener::onConnect(const Leap::Controller& controller) {
 
 void LeapListener::onDisconnect(const Leap::Controller& controller) {
   std::cout << "Disconnected" << std::endl;
-  std::lock_guard<std::mutex> lock(m_mutex);
+
 }
 
 void LeapListener::onFrame(const Leap::Controller& controller) {
@@ -55,18 +55,6 @@ bool LeapListener::IsConnected() const {
 
 const std::string& LeapListener::GetDeviceID() const {
   return m_deviceID;
-}
-
-bool LeapListener::IsEmbedded() const {
-  return (m_deviceID.size() == 20) && (m_deviceID.at(1) == 'E');
-}
-
-bool LeapListener::IsHOPS() const {
-  return IsEmbedded() && (m_deviceID.at(2) == '1');
-}
-
-bool LeapListener::IsPongo() const {
-  return IsEmbedded() && (m_deviceID.at(2) == '0');
 }
 
 void LeapListener::setupDeviceID( const Leap::Controller& controller ) {
