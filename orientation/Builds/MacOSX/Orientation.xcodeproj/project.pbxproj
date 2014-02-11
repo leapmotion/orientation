@@ -58,6 +58,8 @@
 		4E43A7F917C6E83F003BD14D /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E43A7F417C6E83F003BD14D /* .keep */; };
 		4E4B579317FB447E00D4EF39 /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E4B578E17FB447E00D4EF39 /* .keep */; };
 		4E4B579417FB447E00D4EF39 /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E4B579117FB447E00D4EF39 /* .keep */; };
+		4E8FD65F18A9ADB10008DEEF /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E8FD65A18A9ADB10008DEEF /* .keep */; };
+		4E8FD66018A9ADB10008DEEF /* .keep in Resources */ = {isa = PBXBuildFile; fileRef = 4E8FD65D18A9ADB10008DEEF /* .keep */; };
 		4ED3AF8A17C6D88D006DE51A /* I18N.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ED3AF8917C6D88D006DE51A /* I18N.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		5323E6B60EAFCA7E003A9687 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B50EAFCA7E003A9687 /* QTKit.framework */; };
@@ -165,6 +167,8 @@
 		4E43A7F517C6E83F003BD14D /* zh */ = {isa = PBXFileReference; lastKnownFileType = text; name = zh; path = .keep; sourceTree = "<group>"; };
 		4E4B578F17FB447E00D4EF39 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text; name = zh_CN; path = .keep; sourceTree = "<group>"; };
 		4E4B579217FB447E00D4EF39 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text; name = zh_TW; path = .keep; sourceTree = "<group>"; };
+		4E8FD65B18A9ADB10008DEEF /* it */ = {isa = PBXFileReference; lastKnownFileType = text; name = it; path = .keep; sourceTree = "<group>"; };
+		4E8FD65E18A9ADB10008DEEF /* ko */ = {isa = PBXFileReference; lastKnownFileType = text; name = ko; path = .keep; sourceTree = "<group>"; };
 		4ED3AF8817C6D87E006DE51A /* I18N.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = I18N.h; sourceTree = "<group>"; };
 		4ED3AF8917C6D88D006DE51A /* I18N.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = I18N.cpp; sourceTree = "<group>"; };
 		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
@@ -202,6 +206,8 @@
 		049BE84A176FEF7800B35B88 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				4E8FD65918A9ADB10008DEEF /* it.lproj */,
+				4E8FD65C18A9ADB10008DEEF /* ko.lproj */,
 				4E4B578D17FB447E00D4EF39 /* zh_CN.lproj */,
 				4E4B579017FB447E00D4EF39 /* zh_TW.lproj */,
 				4E43A7ED17C6E83F003BD14D /* pt.lproj */,
@@ -432,6 +438,22 @@
 			path = zh_TW.lproj;
 			sourceTree = "<group>";
 		};
+		4E8FD65918A9ADB10008DEEF /* it.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				4E8FD65A18A9ADB10008DEEF /* .keep */,
+			);
+			path = it.lproj;
+			sourceTree = "<group>";
+		};
+		4E8FD65C18A9ADB10008DEEF /* ko.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				4E8FD65D18A9ADB10008DEEF /* .keep */,
+			);
+			path = ko.lproj;
+			sourceTree = "<group>";
+		};
 		E1AA716515797E5700D7BC83 /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -494,6 +516,8 @@
 				zh_CN,
 				zh,
 				zh_TW,
+				it,
+				ko,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* GpuPhysics */;
 			projectDirPath = "";
@@ -518,6 +542,7 @@
 				049BE86E176FF4A100B35B88 /* finger_vert.glsl in Resources */,
 				049BE85C176FEF7800B35B88 /* blur_frag.glsl in Resources */,
 				049BE85D176FEF7800B35B88 /* blur_vert.glsl in Resources */,
+				4E8FD65F18A9ADB10008DEEF /* .keep in Resources */,
 				049BE862176FEF7800B35B88 /* glow.png in Resources */,
 				049BE864176FEF7800B35B88 /* leap_motion_logo.png in Resources */,
 				049BE865176FEF7800B35B88 /* motion_frag.glsl in Resources */,
@@ -528,6 +553,7 @@
 				043B5CD8178CB8480048A3E1 /* glow.ogg in Resources */,
 				4E43A7E117C6E831003BD14D /* .keep in Resources */,
 				4E43A7E317C6E831003BD14D /* .keep in Resources */,
+				4E8FD66018A9ADB10008DEEF /* .keep in Resources */,
 				4E43A7E517C6E831003BD14D /* .keep in Resources */,
 				4E43A7E717C6E831003BD14D /* .keep in Resources */,
 				4E43A7E917C6E831003BD14D /* .keep in Resources */,
@@ -656,6 +682,22 @@
 			name = .keep;
 			sourceTree = "<group>";
 		};
+		4E8FD65A18A9ADB10008DEEF /* .keep */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4E8FD65B18A9ADB10008DEEF /* it */,
+			);
+			name = .keep;
+			sourceTree = "<group>";
+		};
+		4E8FD65D18A9ADB10008DEEF /* .keep */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4E8FD65E18A9ADB10008DEEF /* ko */,
+			);
+			name = .keep;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -671,9 +713,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				EIGEN_PATH = "${LIBRARIES_PATH}/eigen-3.1.2";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(LIBRARIES_PATH)/breakpad-0.1/lib"
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(LIBRARIES_PATH)/breakpad-0.1/lib";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_MODEL_TUNING = G5;
@@ -724,9 +764,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EIGEN_PATH = "${LIBRARIES_PATH}/eigen-3.1.2";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(LIBRARIES_PATH)/breakpad-0.1/lib"
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(LIBRARIES_PATH)/breakpad-0.1/lib";
 				GCC_FAST_MATH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
