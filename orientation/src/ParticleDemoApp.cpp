@@ -193,6 +193,7 @@ ParticleDemoApp::ParticleDemoApp() :
 #endif
   m_stage = STAGE_WAITING;
   m_skipStage = -1;
+  m_useFX = false;
 }
 
 void ParticleDemoApp::setup() {
@@ -313,7 +314,6 @@ void ParticleDemoApp::setup() {
   m_motionFormat.enableDepthBuffer(false);
   m_motionFormat.setMinFilter(GL_NEAREST);
   m_motionFormat.setMagFilter(GL_NEAREST);
-  m_motionFormat.setSamples(4);
 
   // load shaders
   m_useFX = shouldUseFX(std::string((char*)glGetString(GL_VERSION)));
@@ -332,6 +332,10 @@ void ParticleDemoApp::setup() {
       std::cout << e.what() << std::endl;
       m_useFX = false;
     }
+  }
+
+  if (m_useFX) {
+    m_motionFormat.setSamples(4);
   }
 
   // set up hands and fluid
@@ -398,13 +402,7 @@ void ParticleDemoApp::resize(ResizeEvent event) {
   if (m_useFX) {
     // setup our blur Fbo's, smaller ones will generate a bigger blur
     m_fboGlow1 = gl::Fbo(width/DOWNSCALE_FACTOR, height/DOWNSCALE_FACTOR, m_glowFormat);
-    m_fboGlow1.bindFramebuffer();
-    gl::clear(Color::black());
-    m_fboGlow1.unbindFramebuffer();
     m_fboGlow2 = gl::Fbo(width/DOWNSCALE_FACTOR, height/DOWNSCALE_FACTOR, m_glowFormat);
-    m_fboGlow2.bindFramebuffer();
-    gl::clear(Color::black());
-    m_fboGlow2.unbindFramebuffer();
 
     for (int i=0; i<MOTION_BLUR_LENGTH; i++) {
       m_fboMotion[i] = gl::Fbo(width, height, m_motionFormat);
@@ -412,9 +410,8 @@ void ParticleDemoApp::resize(ResizeEvent event) {
       gl::clear(Color::black());
       m_fboMotion[i].unbindFramebuffer();
     }
+    Utils::genNoiseTexture(m_noiseTex, width, height);
   }
-
-  Utils::genNoiseTexture(m_noiseTex, width, height);
 }
 
 void ParticleDemoApp::keyDown(KeyEvent event) {
@@ -731,6 +728,10 @@ void ParticleDemoApp::draw() {
   int height = getWindowHeight();
   // clear our window
   gl::clear( Color::black() );
+
+  if (m_stage <= STAGE_CONNECTING) {
+    return;
+  }
 
   Area viewport = gl::getViewport();
 
@@ -1493,7 +1494,7 @@ void HandleCrash() {
 
     cinder::app::AppBasic::prepareLaunch();
     cinder::app::AppBasic *app = new ParticleDemoApp;
-    cinder::app::Renderer *ren = new RendererGl;
+    cinder::app::Renderer *ren = new RendererGl(RendererGl::AA_NONE);
     cinder::app::AppBasic::executeLaunch( app, ren, "ParticleDemoApp");
     cinder::app::AppBasic::cleanupLaunch();    return 0;
   }
@@ -1505,25 +1506,10 @@ void HandleCrash() {
 
     cinder::app::AppBasic::prepareLaunch();
     cinder::app::AppBasic *app = new ParticleDemoApp;
-    cinder::app::Renderer *ren = new RendererGl;
+    cinder::app::Renderer *ren = new RendererGl(RendererGl::AA_NONE);
     cinder::app::AppBasic::executeLaunch( app, ren, "ParticleDemoApp", argc, argv );
     cinder::app::AppBasic::cleanupLaunch();
 
     return 0;
   }
 #endif
-
-  /*
-#else
-
-#pragma comment( linker, "/subsystem:\"console\" /entry:\"mainCRTStartup\"" )
-
-int main( int argc, char * const argv[] ) {
-  cinder::app::AppBasic::prepareLaunch();
-  cinder::app::AppBasic *app = new ParticleDemoApp;
-  cinder::app::Renderer *ren = new RendererGl;
-  cinder::app::AppBasic::executeLaunch( app, ren, "ParticleDemoApp");
-  cinder::app::AppBasic::cleanupLaunch();
-  return 0;
-}
-*/
