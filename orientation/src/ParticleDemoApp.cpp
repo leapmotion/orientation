@@ -1472,12 +1472,12 @@ void ParticleDemoApp::updateCamera(double timeInStage) {
 
 bool ParticleDemoApp::isPongo() {
   const auto &devices = m_leap.devices();
-  return devices.count() > 0 && devices[0].deviceType() == Leap::DEVICE_LAPTOP;
+  return devices.count() > 0 && devices[0].type() == Leap::Device::TYPE_LAPTOP;
 }
 
 bool ParticleDemoApp::isHOPS() {
   const auto &devices = m_leap.devices();
-  return devices.count() > 0 && devices[0].deviceType() == Leap::DEVICE_KEYBOARD;
+  return devices.count() > 0 && devices[0].type() == Leap::Device::TYPE_KEYBOARD;
 }
 
 void HandleCrash() {
