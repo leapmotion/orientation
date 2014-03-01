@@ -22,11 +22,13 @@ void LeapListener::onConnect(const Leap::Controller& controller) {
   if( !controller.devices().isEmpty() ) {
     setupDeviceID( controller );
   }
+
+  m_isConnected = true;
 }
 
 void LeapListener::onDisconnect(const Leap::Controller& controller) {
   std::cout << "Disconnected" << std::endl;
-
+  m_isConnected = false;
 }
 
 void LeapListener::onFrame(const Leap::Controller& controller) {
@@ -34,7 +36,6 @@ void LeapListener::onFrame(const Leap::Controller& controller) {
   if (m_deviceID.empty()) {
     setupDeviceID( controller );
   }
-  m_isConnected = true;
   m_frame = controller.frame();
   m_condition.notify_all();
 }
