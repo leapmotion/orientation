@@ -176,6 +176,7 @@ irrklang::ISound* ParticleDemoApp::createSoundResource(DataSourceRef ref, const 
 };
 
 ParticleDemoApp::ParticleDemoApp() :
+  m_skipQueued(false),
   m_soundEngine(NULL)
 {
 #ifdef _WIN32
