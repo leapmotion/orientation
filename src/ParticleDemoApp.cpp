@@ -1348,6 +1348,8 @@ bool ParticleDemoApp::getDemoStage(bool limitStage, double& curTime, int& stage,
   // find the current stage
   double totalTime = 0;
   for (int i=0; i<NUM_STAGES; i++) {
+    if (i >= STAGE_INTRO && i <= STAGE_3D) // without fluids, skip these empty stages
+      continue;
     totalTime += stageTimes[i];
     if (totalTime > curTime) {
       stage = i;
