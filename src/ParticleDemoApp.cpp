@@ -23,10 +23,10 @@ static bool checkMetricsEnabled( Leap::Controller *pLeap=NULL )
 {
   static const char*  METRICS_ENABLED_CONFIG_KEY  = "metrics_enabled";
 
-  if (  METRICS_ENABLED && 
-        METRICS_ENABLED_CONFIG_KEY && 
-        pLeap && 
-        (pLeap->config().type(METRICS_ENABLED_CONFIG_KEY) == Leap::Config::TYPE_BOOLEAN) ) 
+  if (  METRICS_ENABLED &&
+        METRICS_ENABLED_CONFIG_KEY &&
+        pLeap &&
+        (pLeap->config().type(METRICS_ENABLED_CONFIG_KEY) == Leap::Config::TYPE_BOOLEAN) )
   {
     METRICS_ENABLED = pLeap->config().getBool( METRICS_ENABLED_CONFIG_KEY );
     METRICS_ENABLED_CONFIG_KEY = NULL;
@@ -110,7 +110,7 @@ static void SendMixPanelEvent(const std::string &eventName, const std::string &d
   }
 
   std::string json = "{ \"event\": \"" + eventName + "\", \"properties\": {";
-  
+
   static std::string distinct_id;
 
 #ifdef _WIN32
@@ -137,7 +137,7 @@ static void SendMixPanelEvent(const std::string &eventName, const std::string &d
     json.append("\"distinct_id\": \"" + distinct_id + "\",");
   }
 #endif
-  
+
   json.append("\"token\": \""+ getMixPanelToken() + "\",");
 
   json.append("\"Device ID\": \"" + deviceID + "\"");
@@ -1488,7 +1488,7 @@ void HandleCrash() {
     cinder::app::AppBasic::executeLaunch( app, ren, "ParticleDemoApp");
     cinder::app::AppBasic::cleanupLaunch();    return 0;
   }
-#else     
+#else
   //CINDER_APP_BASIC( ParticleDemoApp, RendererGl )
 
   int main( int argc, char * const argv[] ) {
