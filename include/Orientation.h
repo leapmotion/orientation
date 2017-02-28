@@ -20,7 +20,6 @@
 
 #include "Resources.h"
 #include "HandController.h"
-#include "ParticleController.h"
 #include "LeapListener.h"
 #include "Globals.h"
 #include "Utils.h"
@@ -129,7 +128,6 @@ private:
   // stuff for scene drawing
   gl::GlslProg            m_fingerShader;
   HandController*         m_handController;
-  ParticleController*     m_particleController;
   CameraPersp             m_camera;
   CameraOrtho             m_orthoCamera;
   int                     m_cameraMode;
