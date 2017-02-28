@@ -16,9 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\CrashReport.h" />
-    <ClInclude Include="..\..\include\CurlNoiseField.h" />
     <ClInclude Include="..\..\include\DataTypes.h" />
-    <ClInclude Include="..\..\include\FieldGenerator.h" />
     <ClInclude Include="..\..\include\Finger.h" />
     <ClInclude Include="..\..\include\Globals.h" />
     <ClInclude Include="..\..\include\Hand.h" />
@@ -26,20 +24,15 @@
     <ClInclude Include="..\..\include\LeapListener.h" />
     <ClInclude Include="..\..\include\I18N.h" />
     <ClInclude Include="..\..\include\MersenneTwister.h" />
-    <ClInclude Include="..\..\include\MSAFluidSolver3D.h" />
-    <ClInclude Include="..\..\include\ParticleController.h" />
     <ClInclude Include="..\..\include\ParticleDemoApp.h" />
-    <ClInclude Include="..\..\include\ParticleSystem.h" />
     <ClInclude Include="..\..\include\Resources.h" />
     <ClInclude Include="..\..\include\SOP.hpp" />
     <ClInclude Include="..\..\include\Stroke.h" />
     <ClInclude Include="..\..\include\TextStrings.h" />
     <ClInclude Include="..\..\include\Utils.h" />
-    <ClInclude Include="..\..\include\VectorField.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\CrashReport.cpp" />
-    <ClCompile Include="..\..\src\CurlNoiseField.cpp" />
     <ClCompile Include="..\..\src\Finger.cpp" />
     <ClCompile Include="..\..\src\Globals.cpp" />
     <ClCompile Include="..\..\src\Hand.cpp" />
@@ -49,7 +42,6 @@
     <ClCompile Include="..\..\src\MersenneTwister.cpp" />
     <ClCompile Include="..\..\src\ParticleDemoApp.cpp" />
     <ClCompile Include="..\..\src\Stroke.cpp" />
-    <ClCompile Include="..\..\src\VectorField.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc" />
