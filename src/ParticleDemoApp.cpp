@@ -152,6 +152,11 @@ static void SendMixPanelEvent(const std::string &eventName, const std::string &d
 const double ParticleDemoApp::FADE_TIME = Utils::TIME_BETWEEN_PEAKS;
 const double ParticleDemoApp::MAX_STROKE_TIME_LENGTH = 7.0;
 
+// originally from ParticleController.cpp
+const int ParticleDemoApp::FLUID_DIM = 24;
+const double ParticleDemoApp::VELFIELD_SCALE = 40;
+const Vector3 ParticleDemoApp::LEAP_OFFSET(0, -200, 0);
+
 irrklang::ISound* ParticleDemoApp::createSoundResource(DataSourceRef ref, const char* name) {
   // Obtain the buffer backing the loaded resource:
   if ( m_soundEngine ) {
@@ -342,7 +347,6 @@ void ParticleDemoApp::setup() {
   // set up hands and fluid
   m_handController = new HandController(&m_camera);
   m_handController->setShader( m_useFX ? &m_fingerShader : NULL );
-  m_particleController = new ParticleController();
 
   // set up sounds
 #ifndef _DEBUG
@@ -624,7 +628,7 @@ void ParticleDemoApp::update() {
 
   m_haveNewFrame = m_listener->WaitForFrame(m_frame, 1);
 
-  if (!m_frame.hands().isEmpty() && m_particleController->GetSpeedRatio() > 0.2f && m_stage != STAGE_HANDS) {
+  if (!m_frame.hands().isEmpty() && m_stage != STAGE_HANDS) {
     m_lastActivityTime = ci::app::getElapsedSeconds();
   }
   if ((!m_frame.pointables().isEmpty() || !m_frame.hands().isEmpty()) && (m_stage == STAGE_HANDS || m_stage == STAGE_DRAWING)) {
@@ -633,12 +637,8 @@ void ParticleDemoApp::update() {
 
   runDemoScript();
   if (m_listener->IsConnected()) {
-    const Vector3& offset = ParticleController::LEAP_OFFSET;
+    const Vector3& offset = ParticleDemoApp::LEAP_OFFSET;
     m_handController->update(m_frame.hands());
-    //if (m_haveNewFrame) {
-      m_particleController->Update(m_frame, m_leap.devices(), m_stage == STAGE_DRAWING);
-    //}
-    m_particleController->PerformThrottling();
     m_curNumHands = m_frame.hands().count();
     m_totalHandPos = Vec3f::zero();
     for (int i=0; i<m_curNumHands; i++) {
@@ -684,7 +684,7 @@ void ParticleDemoApp::drawScene() {
 
   setDemoCamera();
 
-  const Vector3& offset = ParticleController::LEAP_OFFSET;
+  const Vector3& offset = ParticleDemoApp::LEAP_OFFSET;
   if (m_draw3DScene && m_drawDrawing) {
     glPushMatrix();
     glTranslated(offset.x(), offset.y(), offset.z());
@@ -717,10 +717,6 @@ void ParticleDemoApp::drawScene() {
   gl::enableAdditiveBlending();
   gl::disableDepthRead();
   gl::disableDepthWrite();
-
-  if (m_draw3DScene && m_drawFluid) {
-    m_particleController->Draw();
-  }
 }
 
 void ParticleDemoApp::draw() {
@@ -1140,13 +1136,6 @@ void ParticleDemoApp::runDemoScript() {
   }
 
   // decide what to draw based on what stage we're in
-  if (m_stage >= STAGE_HANDS) {
-    if (m_visualizerOnlyMode) {
-      m_particleController->SetMaxSpawnRateRatio(0.1, 0.1);
-    } else {
-      m_particleController->SetMaxSpawnRateRatio(0, 1.0);
-    }
-  }
   m_drawHand = (m_stage == STAGE_HANDS);
   m_drawDrawing = (m_stage == STAGE_DRAWING);
   m_drawFingerGlowsOnly = (m_stage == STAGE_DRAWING);
@@ -1244,7 +1233,7 @@ void ParticleDemoApp::runDemoScript() {
   // modify 3D rotation loop
   if ( m_rotationLoop ) {
     if (m_stage == STAGE_3D) {
-      float speedRatio = m_particleController->GetSpeedRatio();
+      float speedRatio = 0.5; // FIXME: Calculate if we had a particle system
       m_rotationLoop->setVolume(std::min(1.0f, fadeMult*(0.5f * speedRatio + 0.2f)));
     } else {
       m_rotationLoop->setVolume(0);
@@ -1254,7 +1243,7 @@ void ParticleDemoApp::runDemoScript() {
   if ( m_fluidLoop ) {
     // modify fluid loop
     if (m_stage == STAGE_INTRO) {
-      float speedRatio = m_particleController->GetSpeedRatio();
+      float speedRatio = 0.5; // FIXME
       m_fluidLoop->setVolume(std::min(1.0f, fadeMult*(0.5f * speedRatio + 0.2f)));
     } else {
       m_fluidLoop->setVolume(0);
@@ -1409,7 +1398,7 @@ void ParticleDemoApp::updateCamera(double timeInStage) {
   if (m_cameraMode == CAMERA_ORTHO) {
     if (m_stage == STAGE_DRAWING) {
       Leap::InteractionBox box = m_frame.interactionBox();
-      float boxCenterY = box.center().y + ParticleController::LEAP_OFFSET.y();
+      float boxCenterY = box.center().y + ParticleDemoApp::LEAP_OFFSET.y();
       float halfWidth = box.width()/2.0f;
       float left = -halfWidth;
       float right = halfWidth;
@@ -1417,7 +1406,7 @@ void ParticleDemoApp::updateCamera(double timeInStage) {
       float top = boxCenterY + halfWidth/aspect;
       m_orthoCamera.setOrtho(left, right, bottom, top, -3000.0f, 3000.0f);
     } else {
-      static const float ORTHO_WIDTH = static_cast<float>(ParticleController::VELFIELD_SCALE*ParticleController::FLUID_DIM/2.0);
+      static const float ORTHO_WIDTH = static_cast<float>(ParticleDemoApp::VELFIELD_SCALE*ParticleDemoApp::FLUID_DIM/2.0);
       static const float ORTHO_OFFSET = 30;
       float left = -ORTHO_WIDTH;
       float right = ORTHO_WIDTH;
