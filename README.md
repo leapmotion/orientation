@@ -14,3 +14,8 @@ The introduction app that comes with the Leap Motion V1 software.
 
 After unpacking the above libraries, set your **LIBRARIES_PATH** environment
 variable to point to that directory.
+
+## Notes
+
+For intellectual property protection, fluid and particle effects have been
+removed from the source code.
