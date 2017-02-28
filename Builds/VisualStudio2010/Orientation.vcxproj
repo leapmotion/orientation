@@ -24,7 +24,7 @@
     <ClInclude Include="..\..\include\LeapListener.h" />
     <ClInclude Include="..\..\include\I18N.h" />
     <ClInclude Include="..\..\include\MersenneTwister.h" />
-    <ClInclude Include="..\..\include\ParticleDemoApp.h" />
+    <ClInclude Include="..\..\include\Orientation.h" />
     <ClInclude Include="..\..\include\Resources.h" />
     <ClInclude Include="..\..\include\SOP.hpp" />
     <ClInclude Include="..\..\include\Stroke.h" />
@@ -40,7 +40,7 @@
     <ClCompile Include="..\..\src\LeapListener.cpp" />
     <ClCompile Include="..\..\src\I18N.cpp" />
     <ClCompile Include="..\..\src\MersenneTwister.cpp" />
-    <ClCompile Include="..\..\src\ParticleDemoApp.cpp" />
+    <ClCompile Include="..\..\src\Orientation.cpp" />
     <ClCompile Include="..\..\src\Stroke.cpp" />
   </ItemGroup>
   <ItemGroup>

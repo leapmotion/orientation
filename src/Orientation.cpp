@@ -1,4 +1,4 @@
-#include "ParticleDemoApp.h"
+#include "Orientation.h"
 #if __APPLE__
 // for fullscreen resolution modification
 #include <CoreGraphics/CGDirectDisplay.h>
@@ -149,15 +149,15 @@ static void SendMixPanelEvent(const std::string &eventName, const std::string &d
   SendMixPanelJSON( json + "} }");
 }
 
-const double ParticleDemoApp::FADE_TIME = Utils::TIME_BETWEEN_PEAKS;
-const double ParticleDemoApp::MAX_STROKE_TIME_LENGTH = 7.0;
+const double Orientation::FADE_TIME = Utils::TIME_BETWEEN_PEAKS;
+const double Orientation::MAX_STROKE_TIME_LENGTH = 7.0;
 
 // originally from ParticleController.cpp
-const int ParticleDemoApp::FLUID_DIM = 24;
-const double ParticleDemoApp::VELFIELD_SCALE = 40;
-const Vector3 ParticleDemoApp::LEAP_OFFSET(0, -200, 0);
+const int Orientation::FLUID_DIM = 24;
+const double Orientation::VELFIELD_SCALE = 40;
+const Vector3 Orientation::LEAP_OFFSET(0, -200, 0);
 
-irrklang::ISound* ParticleDemoApp::createSoundResource(DataSourceRef ref, const char* name) {
+irrklang::ISound* Orientation::createSoundResource(DataSourceRef ref, const char* name) {
   // Obtain the buffer backing the loaded resource:
   if ( m_soundEngine ) {
     auto& buf = ref->getBuffer();
@@ -180,7 +180,7 @@ irrklang::ISound* ParticleDemoApp::createSoundResource(DataSourceRef ref, const 
   return NULL;
 };
 
-ParticleDemoApp::ParticleDemoApp() :
+Orientation::Orientation() :
   m_skipQueued(false),
   m_soundEngine(NULL)
 {
@@ -202,7 +202,7 @@ ParticleDemoApp::ParticleDemoApp() :
   m_useFX = false;
 }
 
-void ParticleDemoApp::setup() {
+void Orientation::setup() {
   // osx path stuff
 #ifdef __APPLE__
 
@@ -388,7 +388,7 @@ void ParticleDemoApp::setup() {
   checkMetricsEnabled(&m_leap);
 }
 
-void ParticleDemoApp::resize(ResizeEvent event) {
+void Orientation::resize(ResizeEvent event) {
   int width = event.getWidth();
   int height = event.getHeight();
 
@@ -419,7 +419,7 @@ void ParticleDemoApp::resize(ResizeEvent event) {
   }
 }
 
-void ParticleDemoApp::keyDown(KeyEvent event) {
+void Orientation::keyDown(KeyEvent event) {
   char key = event.getChar();
   if (key == 27) {
     // EVENT user exited manually with ESC key
@@ -444,11 +444,11 @@ void ParticleDemoApp::keyDown(KeyEvent event) {
   }
 }
 
-void ParticleDemoApp::mouseDown(MouseEvent event) {
+void Orientation::mouseDown(MouseEvent event) {
   m_currentMousePos = m_previousMousePos = m_initialMousePos = event.getPos();
 }
 
-void ParticleDemoApp::mouseDrag(MouseEvent event) {
+void Orientation::mouseDrag(MouseEvent event) {
   static const float CAMERA_SPEED = 0.0035f;
 
   if (!m_visualizerOnlyMode) {
@@ -477,13 +477,13 @@ void ParticleDemoApp::mouseDrag(MouseEvent event) {
   }
 }
 
-void ParticleDemoApp::mouseWheel(MouseEvent event) {
+void Orientation::mouseWheel(MouseEvent event) {
   float off = event.getWheelIncrement();
   m_cameraZoom -= 0.1f*event.getWheelIncrement();
   m_cameraZoom = std::min(1.9f, std::max(0.1f, m_cameraZoom));
 }
 
-std::string ParticleDemoApp::parseRenderString(const std::string& render_string) {
+std::string Orientation::parseRenderString(const std::string& render_string) {
   // would be cleaner if I used Boost.Spirit
   std::string::const_iterator it = render_string.begin();
   for (; it != render_string.end(); it++) {
@@ -558,7 +558,7 @@ std::string ParticleDemoApp::parseRenderString(const std::string& render_string)
   // pass = full resolution
 }
 
-bool ParticleDemoApp::shouldUseFX(const std::string& version_string) {
+bool Orientation::shouldUseFX(const std::string& version_string) {
   if (version_string.empty()) {
     return false;
   }
@@ -569,7 +569,7 @@ bool ParticleDemoApp::shouldUseFX(const std::string& version_string) {
   return true;
 }
 
-void ParticleDemoApp::update() {
+void Orientation::update() {
   static bool firstUpdate = true;
 
   checkMetricsEnabled(&m_leap);
@@ -637,7 +637,7 @@ void ParticleDemoApp::update() {
 
   runDemoScript();
   if (m_listener->IsConnected()) {
-    const Vector3& offset = ParticleDemoApp::LEAP_OFFSET;
+    const Vector3& offset = Orientation::LEAP_OFFSET;
     m_handController->update(m_frame.hands());
     m_curNumHands = m_frame.hands().count();
     m_totalHandPos = Vec3f::zero();
@@ -655,7 +655,7 @@ void ParticleDemoApp::update() {
   }
 }
 
-void ParticleDemoApp::drawScene() {
+void Orientation::drawScene() {
 
   gl::clear(Color(0, 0, 0));
 
@@ -684,7 +684,7 @@ void ParticleDemoApp::drawScene() {
 
   setDemoCamera();
 
-  const Vector3& offset = ParticleDemoApp::LEAP_OFFSET;
+  const Vector3& offset = Orientation::LEAP_OFFSET;
   if (m_draw3DScene && m_drawDrawing) {
     glPushMatrix();
     glTranslated(offset.x(), offset.y(), offset.z());
@@ -719,7 +719,7 @@ void ParticleDemoApp::drawScene() {
   gl::disableDepthWrite();
 }
 
-void ParticleDemoApp::draw() {
+void Orientation::draw() {
   double curTime = ci::app::getElapsedSeconds();
   int width = getWindowWidth();
   int height = getWindowHeight();
@@ -836,7 +836,7 @@ void ParticleDemoApp::draw() {
   }
 }
 
-void ParticleDemoApp::shutdown() {
+void Orientation::shutdown() {
   if ( m_soundEngine ) {
     m_soundEngine->stopAllSounds();
   }
@@ -851,11 +851,11 @@ void ParticleDemoApp::shutdown() {
   SendMixPanelEvent("Orientation - Quit", m_listener->GetDeviceID(), extraData.str());
 }
 
-Renderer* ParticleDemoApp::prepareRenderer() {
+Renderer* Orientation::prepareRenderer() {
   return new ci::app::RendererGl(ci::app::RendererGl::AA_NONE);
 }
 
-void ParticleDemoApp::getResolution(int& width, int& height) {
+void Orientation::getResolution(int& width, int& height) {
 #if __APPLE__
   CGRect rect = CGDisplayBounds(CGMainDisplayID());
   width = rect.size.width;
@@ -876,7 +876,7 @@ void ParticleDemoApp::getResolution(int& width, int& height) {
 #endif
 }
 
-void ParticleDemoApp::setResolution(int width, int height) {
+void Orientation::setResolution(int width, int height) {
 #if __APPLE__
   CFArrayRef displays = CGDisplayCopyAllDisplayModes(CGMainDisplayID(), NULL);
   CGDisplayModeRef mode;
@@ -917,7 +917,7 @@ void ParticleDemoApp::setResolution(int width, int height) {
 #endif
 }
 
-void ParticleDemoApp::prepareSettings(cinder::app::AppBasic::Settings* settings) {
+void Orientation::prepareSettings(cinder::app::AppBasic::Settings* settings) {
   const std::vector<std::string>& args = getArgs();
   m_visualizerOnlyMode = false;
 
@@ -942,7 +942,7 @@ void ParticleDemoApp::prepareSettings(cinder::app::AppBasic::Settings* settings)
   }
 }
 
-void ParticleDemoApp::updateDrawing(const Leap::Frame& frame) {
+void Orientation::updateDrawing(const Leap::Frame& frame) {
   Leap::PointableList fingers = frame.pointables();
   Leap::HandList hands = frame.hands();
 
@@ -1001,7 +1001,7 @@ void ParticleDemoApp::updateDrawing(const Leap::Frame& frame) {
   }
 }
 
-void ParticleDemoApp::drawDrawing() const {
+void Orientation::drawDrawing() const {
   // draw saved and active strokes
   float r, g, b;
   double curTime = ci::app::getElapsedSeconds();
@@ -1031,7 +1031,7 @@ void ParticleDemoApp::drawDrawing() const {
 
 #define ANY_KEY_DELAY 6.0f
 
-void ParticleDemoApp::runDemoScript() {
+void Orientation::runDemoScript() {
   static int connectCountDown = 10;
   static double accumTime = ci::app::getElapsedSeconds();
   static double lastTime = ci::app::getElapsedSeconds();
@@ -1253,7 +1253,7 @@ void ParticleDemoApp::runDemoScript() {
   updateCamera(timeInStage);
 }
 
-void ParticleDemoApp::setDemoCamera() {
+void Orientation::setDemoCamera() {
   if (m_cameraMode == CAMERA_ORTHO) {
     gl::setMatrices(m_orthoCamera);
   } else if (m_cameraMode == CAMERA_PERSP_FIXED) {
@@ -1263,7 +1263,7 @@ void ParticleDemoApp::setDemoCamera() {
   }
 }
 
-void ParticleDemoApp::drawDemoImage() {
+void Orientation::drawDemoImage() {
   const ci::Vec2f center = getWindowCenter();
   const float width = (const float)getWindowWidth();
   if (m_curImageNum == IMAGE_PLUG_IN || m_curImageNum == IMAGE_LOGO) {
@@ -1305,7 +1305,7 @@ void ParticleDemoApp::drawDemoImage() {
   }
 }
 
-void ParticleDemoApp::drawContinueImage() {
+void Orientation::drawContinueImage() {
   const ci::Vec2f center = getWindowCenter();
   const float width = (const float)getWindowWidth();
   if (m_curContinueNum == IMAGE_CONTINUE) {
@@ -1317,7 +1317,7 @@ void ParticleDemoApp::drawContinueImage() {
   }
 }
 
-bool ParticleDemoApp::getDemoStage(bool limitStage, double& curTime, int& stage, float& fadeMult, float& imageFadeMult, float& continueFadeMult) {
+bool Orientation::getDemoStage(bool limitStage, double& curTime, int& stage, float& fadeMult, float& imageFadeMult, float& continueFadeMult) {
   static bool loaded = false;
   static double stageTimes[NUM_STAGES];
 
@@ -1380,7 +1380,7 @@ bool ParticleDemoApp::getDemoStage(bool limitStage, double& curTime, int& stage,
   return false; // shouldn't get here
 }
 
-void ParticleDemoApp::updateCamera(double timeInStage) {
+void Orientation::updateCamera(double timeInStage) {
   static const ci::Vec3f up = Vec3f::yAxis();
   static Utils::TimedMean<Vec3f> avgHandPosSmoother(2.0);
   static Utils::RollingMean<30, Vec3f> expHandPosSmoother;
@@ -1400,7 +1400,7 @@ void ParticleDemoApp::updateCamera(double timeInStage) {
   if (m_cameraMode == CAMERA_ORTHO) {
     if (m_stage == STAGE_DRAWING) {
       Leap::InteractionBox box = m_frame.interactionBox();
-      float boxCenterY = box.center().y + ParticleDemoApp::LEAP_OFFSET.y();
+      float boxCenterY = box.center().y + Orientation::LEAP_OFFSET.y();
       float halfWidth = box.width()/2.0f;
       float left = -halfWidth;
       float right = halfWidth;
@@ -1408,7 +1408,7 @@ void ParticleDemoApp::updateCamera(double timeInStage) {
       float top = boxCenterY + halfWidth/aspect;
       m_orthoCamera.setOrtho(left, right, bottom, top, -3000.0f, 3000.0f);
     } else {
-      static const float ORTHO_WIDTH = static_cast<float>(ParticleDemoApp::VELFIELD_SCALE*ParticleDemoApp::FLUID_DIM/2.0);
+      static const float ORTHO_WIDTH = static_cast<float>(Orientation::VELFIELD_SCALE*Orientation::FLUID_DIM/2.0);
       static const float ORTHO_OFFSET = 30;
       float left = -ORTHO_WIDTH;
       float right = ORTHO_WIDTH;
@@ -1462,12 +1462,12 @@ void ParticleDemoApp::updateCamera(double timeInStage) {
   }
 }
 
-bool ParticleDemoApp::isPongo() {
+bool Orientation::isPongo() {
   const auto &devices = m_leap.devices();
   return devices.count() > 0 && devices[0].type() == Leap::Device::TYPE_LAPTOP;
 }
 
-bool ParticleDemoApp::isHOPS() {
+bool Orientation::isHOPS() {
   const auto &devices = m_leap.devices();
   return devices.count() > 0 && devices[0].type() == Leap::Device::TYPE_KEYBOARD;
 }
@@ -1485,21 +1485,21 @@ void HandleCrash() {
     CrashReport cr( HandleCrash );
 
     cinder::app::AppBasic::prepareLaunch();
-    cinder::app::AppBasic *app = new ParticleDemoApp;
+    cinder::app::AppBasic *app = new Orientation;
     cinder::app::Renderer *ren = new RendererGl(RendererGl::AA_NONE);
-    cinder::app::AppBasic::executeLaunch( app, ren, "ParticleDemoApp");
+    cinder::app::AppBasic::executeLaunch( app, ren, "Orientation");
     cinder::app::AppBasic::cleanupLaunch();    return 0;
   }
 #else
-  //CINDER_APP_BASIC( ParticleDemoApp, RendererGl )
+  //CINDER_APP_BASIC( Orientation, RendererGl )
 
   int main( int argc, char * const argv[] ) {
     CrashReport cr( HandleCrash );
 
     cinder::app::AppBasic::prepareLaunch();
-    cinder::app::AppBasic *app = new ParticleDemoApp;
+    cinder::app::AppBasic *app = new Orientation;
     cinder::app::Renderer *ren = new RendererGl(RendererGl::AA_NONE);
-    cinder::app::AppBasic::executeLaunch( app, ren, "ParticleDemoApp", argc, argv );
+    cinder::app::AppBasic::executeLaunch( app, ren, "Orientation", argc, argv );
     cinder::app::AppBasic::cleanupLaunch();
 
     return 0;

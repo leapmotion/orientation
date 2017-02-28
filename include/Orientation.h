@@ -1,5 +1,5 @@
-#ifndef __ParticleDemoApp_h__
-#define __ParticleDemoApp_h__
+#ifndef __Orientation_h__
+#define __Orientation_h__
 
 #include <cinder/app/AppBasic.h>
 #include <cinder/gl/gl.h>
@@ -39,10 +39,10 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-class ParticleDemoApp : public AppBasic {
+class Orientation : public AppBasic {
 
 public:
-  ParticleDemoApp();
+  Orientation();
 
   // cinder overloads
   virtual void setup();
