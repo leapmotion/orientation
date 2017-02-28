@@ -29,18 +29,13 @@
 		049BE86D176FF4A100B35B88 /* finger_frag.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 049BE84F176FEF7800B35B88 /* finger_frag.glsl */; };
 		049BE86E176FF4A100B35B88 /* finger_vert.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 049BE850176FEF7800B35B88 /* finger_vert.glsl */; };
 		04C00956176FD7D600559622 /* libirrklang.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C00953176FD7D600559622 /* libirrklang.dylib */; };
-		04C23E2E176FBE2F00D3FCEF /* CurlNoiseField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E1C176FBE2F00D3FCEF /* CurlNoiseField.cpp */; };
 		04C23E2F176FBE2F00D3FCEF /* Finger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E1D176FBE2F00D3FCEF /* Finger.cpp */; };
 		04C23E30176FBE2F00D3FCEF /* Globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E1E176FBE2F00D3FCEF /* Globals.cpp */; };
 		04C23E31176FBE2F00D3FCEF /* Hand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E1F176FBE2F00D3FCEF /* Hand.cpp */; };
 		04C23E32176FBE2F00D3FCEF /* HandController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E20176FBE2F00D3FCEF /* HandController.cpp */; };
 		04C23E33176FBE2F00D3FCEF /* LeapListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E21176FBE2F00D3FCEF /* LeapListener.cpp */; };
 		04C23E34176FBE2F00D3FCEF /* MersenneTwister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E22176FBE2F00D3FCEF /* MersenneTwister.cpp */; };
-		04C23E35176FBE2F00D3FCEF /* MSAFluidSolver3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E23176FBE2F00D3FCEF /* MSAFluidSolver3D.cpp */; };
-		04C23E36176FBE2F00D3FCEF /* ParticleController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E24176FBE2F00D3FCEF /* ParticleController.cpp */; };
 		04C23E37176FBE2F00D3FCEF /* ParticleDemoApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E25176FBE2F00D3FCEF /* ParticleDemoApp.cpp */; };
-		04C23E38176FBE2F00D3FCEF /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E26176FBE2F00D3FCEF /* ParticleSystem.cpp */; };
-		04C23E39176FBE2F00D3FCEF /* VectorField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C23E27176FBE2F00D3FCEF /* VectorField.cpp */; };
 		04F41A3F177257F0003EC24D /* bass.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 04A45D1A177254F100CFB646 /* bass.ogg */; };
 		04F41A41177257F0003EC24D /* fluid.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 04A45D1C177254F100CFB646 /* fluid.ogg */; };
 		04F41A42177257F0003EC24D /* hand.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 04A45D1D177254F100CFB646 /* hand.ogg */; };
@@ -121,34 +116,23 @@
 		04A45D1F177254F100CFB646 /* wait.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = wait.ogg; sourceTree = "<group>"; };
 		04C00950176FC44900559622 /* Leap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Leap.h; path = ../../../LeapSDK/include/Leap.h; sourceTree = "<group>"; };
 		04C00953176FD7D600559622 /* libirrklang.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libirrklang.dylib; path = "${LIBRARIES_PATH}/irrKlang-1.4.0/bin/macosx-gcc/libirrklang.dylib"; sourceTree = "<absolute>"; };
-		04C23E0A176FBE2F00D3FCEF /* CurlNoiseField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurlNoiseField.h; sourceTree = "<group>"; };
 		04C23E0B176FBE2F00D3FCEF /* DataTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTypes.h; sourceTree = "<group>"; };
-		04C23E0C176FBE2F00D3FCEF /* FieldGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldGenerator.h; sourceTree = "<group>"; };
 		04C23E0D176FBE2F00D3FCEF /* Finger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Finger.h; sourceTree = "<group>"; };
 		04C23E0E176FBE2F00D3FCEF /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
 		04C23E0F176FBE2F00D3FCEF /* Hand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hand.h; sourceTree = "<group>"; };
 		04C23E10176FBE2F00D3FCEF /* HandController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HandController.h; sourceTree = "<group>"; };
 		04C23E11176FBE2F00D3FCEF /* LeapListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeapListener.h; sourceTree = "<group>"; };
 		04C23E12176FBE2F00D3FCEF /* MersenneTwister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MersenneTwister.h; sourceTree = "<group>"; };
-		04C23E13176FBE2F00D3FCEF /* MSAFluidSolver3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAFluidSolver3D.h; sourceTree = "<group>"; };
-		04C23E14176FBE2F00D3FCEF /* ParticleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleController.h; sourceTree = "<group>"; };
 		04C23E15176FBE2F00D3FCEF /* ParticleDemoApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleDemoApp.h; sourceTree = "<group>"; };
-		04C23E16176FBE2F00D3FCEF /* ParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleSystem.h; sourceTree = "<group>"; };
 		04C23E18176FBE2F00D3FCEF /* Resources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Resources.h; sourceTree = "<group>"; };
 		04C23E19176FBE2F00D3FCEF /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
-		04C23E1A176FBE2F00D3FCEF /* VectorField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VectorField.h; sourceTree = "<group>"; };
-		04C23E1C176FBE2F00D3FCEF /* CurlNoiseField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CurlNoiseField.cpp; sourceTree = "<group>"; };
 		04C23E1D176FBE2F00D3FCEF /* Finger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Finger.cpp; sourceTree = "<group>"; };
 		04C23E1E176FBE2F00D3FCEF /* Globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Globals.cpp; sourceTree = "<group>"; };
 		04C23E1F176FBE2F00D3FCEF /* Hand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hand.cpp; sourceTree = "<group>"; };
 		04C23E20176FBE2F00D3FCEF /* HandController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HandController.cpp; sourceTree = "<group>"; };
 		04C23E21176FBE2F00D3FCEF /* LeapListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LeapListener.cpp; sourceTree = "<group>"; };
 		04C23E22176FBE2F00D3FCEF /* MersenneTwister.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MersenneTwister.cpp; sourceTree = "<group>"; };
-		04C23E23176FBE2F00D3FCEF /* MSAFluidSolver3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MSAFluidSolver3D.cpp; sourceTree = "<group>"; };
-		04C23E24176FBE2F00D3FCEF /* ParticleController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleController.cpp; sourceTree = "<group>"; };
 		04C23E25176FBE2F00D3FCEF /* ParticleDemoApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleDemoApp.cpp; sourceTree = "<group>"; };
-		04C23E26176FBE2F00D3FCEF /* ParticleSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleSystem.cpp; sourceTree = "<group>"; };
-		04C23E27176FBE2F00D3FCEF /* VectorField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VectorField.cpp; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		246476401835E4DC008B68DE /* Breakpad.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Breakpad.framework; path = "${LIBRARIES_PATH}/breakpad-0.1-libc++/lib/Breakpad.framework"; sourceTree = "<group>"; };
@@ -261,22 +245,16 @@
 				246476461835E60C008B68DE /* CrashReport.h */,
 				4ED3AF8817C6D87E006DE51A /* I18N.h */,
 				043B5CCC178CB73A0048A3E1 /* Stroke.h */,
-				04C23E0A176FBE2F00D3FCEF /* CurlNoiseField.h */,
 				04C23E0B176FBE2F00D3FCEF /* DataTypes.h */,
-				04C23E0C176FBE2F00D3FCEF /* FieldGenerator.h */,
 				04C23E0D176FBE2F00D3FCEF /* Finger.h */,
 				04C23E0E176FBE2F00D3FCEF /* Globals.h */,
 				04C23E0F176FBE2F00D3FCEF /* Hand.h */,
 				04C23E10176FBE2F00D3FCEF /* HandController.h */,
 				04C23E11176FBE2F00D3FCEF /* LeapListener.h */,
 				04C23E12176FBE2F00D3FCEF /* MersenneTwister.h */,
-				04C23E13176FBE2F00D3FCEF /* MSAFluidSolver3D.h */,
-				04C23E14176FBE2F00D3FCEF /* ParticleController.h */,
 				04C23E15176FBE2F00D3FCEF /* ParticleDemoApp.h */,
-				04C23E16176FBE2F00D3FCEF /* ParticleSystem.h */,
 				04C23E18176FBE2F00D3FCEF /* Resources.h */,
 				04C23E19176FBE2F00D3FCEF /* Utils.h */,
-				04C23E1A176FBE2F00D3FCEF /* VectorField.h */,
 			);
 			name = include;
 			path = ../../include;
@@ -288,18 +266,13 @@
 				246476441835E604008B68DE /* CrashReport.cpp */,
 				4ED3AF8917C6D88D006DE51A /* I18N.cpp */,
 				043B5CCD178CB7420048A3E1 /* Stroke.cpp */,
-				04C23E1C176FBE2F00D3FCEF /* CurlNoiseField.cpp */,
 				04C23E1D176FBE2F00D3FCEF /* Finger.cpp */,
 				04C23E1E176FBE2F00D3FCEF /* Globals.cpp */,
 				04C23E1F176FBE2F00D3FCEF /* Hand.cpp */,
 				04C23E20176FBE2F00D3FCEF /* HandController.cpp */,
 				04C23E21176FBE2F00D3FCEF /* LeapListener.cpp */,
 				04C23E22176FBE2F00D3FCEF /* MersenneTwister.cpp */,
-				04C23E23176FBE2F00D3FCEF /* MSAFluidSolver3D.cpp */,
-				04C23E24176FBE2F00D3FCEF /* ParticleController.cpp */,
 				04C23E25176FBE2F00D3FCEF /* ParticleDemoApp.cpp */,
-				04C23E26176FBE2F00D3FCEF /* ParticleSystem.cpp */,
-				04C23E27176FBE2F00D3FCEF /* VectorField.cpp */,
 			);
 			name = src;
 			path = ../../src;
@@ -587,7 +560,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04C23E2E176FBE2F00D3FCEF /* CurlNoiseField.cpp in Sources */,
 				04C23E2F176FBE2F00D3FCEF /* Finger.cpp in Sources */,
 				04C23E30176FBE2F00D3FCEF /* Globals.cpp in Sources */,
 				04C23E31176FBE2F00D3FCEF /* Hand.cpp in Sources */,
@@ -595,11 +567,7 @@
 				04C23E32176FBE2F00D3FCEF /* HandController.cpp in Sources */,
 				04C23E33176FBE2F00D3FCEF /* LeapListener.cpp in Sources */,
 				04C23E34176FBE2F00D3FCEF /* MersenneTwister.cpp in Sources */,
-				04C23E35176FBE2F00D3FCEF /* MSAFluidSolver3D.cpp in Sources */,
-				04C23E36176FBE2F00D3FCEF /* ParticleController.cpp in Sources */,
 				04C23E37176FBE2F00D3FCEF /* ParticleDemoApp.cpp in Sources */,
-				04C23E38176FBE2F00D3FCEF /* ParticleSystem.cpp in Sources */,
-				04C23E39176FBE2F00D3FCEF /* VectorField.cpp in Sources */,
 				049BE860176FEF7800B35B88 /* finger_frag.glsl in Sources */,
 				049BE861176FEF7800B35B88 /* finger_vert.glsl in Sources */,
 				043B5CCE178CB7420048A3E1 /* Stroke.cpp in Sources */,
