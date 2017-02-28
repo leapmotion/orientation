@@ -72,28 +72,28 @@ private:
     const float instructionsSize = textScale * DESIRED_INSTRUCTIONS_SIZE * resScale;
     const float lineSpacing = 2.0f * resScale;
     const float rectangleHeight = 3.0f * resScale;
-    const Font titleFont("Arial", titleSize);
-    const Font instructionsFont("Arial", instructionsSize);
+    const ci::Font titleFont("Arial", titleSize);
+    const ci::Font instructionsFont("Arial", instructionsSize);
     const ci::ColorA titleColor(0.9f, 0.9f, 0.9f, alpha);
     const ci::ColorA instructionsColor(0.9f, 0.9f, 0.9f, alpha);
     const ci::ColorA lineColor(0.9f, 0.9f, 0.9f, alpha);
-    const Vec2f instructionsOffset(0.0f, 0.0f);
+    const ci::Vec2f instructionsOffset(0.0f, 0.0f);
     const float height = titleSize + (numStrings-1)*instructionsSize + numStrings*lineSpacing;
 
     // iterate through the strings and draw them on separate lines
-    Vec2f curPos(centerX, drawY);
+    ci::Vec2f curPos(centerX, drawY);
     for (std::size_t i=0; i<numStrings; i++) {
 //    Cinder's ci::toUtf8() function doesn't work properly on Mac, use our own implementation:
       const std::string utf8str = convertWideStringToUTF8String(textStrings[i]);
       if (i == 0) {
         // draw the title string
         ci::gl::drawStringCentered(utf8str, curPos, titleColor, titleFont);
-        curPos += Vec2f(0, titleSize);
+        curPos += ci::Vec2f(0, titleSize);
       } else {
         // draw the instruction strings
         ci::gl::drawStringCentered(utf8str, curPos + instructionsOffset, instructionsColor, instructionsFont);
-        curPos += Vec2f(0, instructionsSize);
-        curPos += Vec2f(0, lineSpacing);
+        curPos += ci::Vec2f(0, instructionsSize);
+        curPos += ci::Vec2f(0, lineSpacing);
       }
     }
   }

@@ -15,10 +15,6 @@
 #include <vector>
 #include <set>
 
-#include "MSAFluidSolver3D.h"
-#include "ParticleSystem.h"
-#include "VectorField.h"
-#include "CurlNoiseField.h"
 #include "MersenneTwister.h"
 #include "TextStrings.h"
 
